@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>reconomiento-de-voz-con-python | Carlos Ganoza</title>
+  <meta name="description" content="drneox@root-karina:~$" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+
+  <meta name="generator" content="Carlos Ganoza">
+
+  
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <header class="post-header">
+      <a class="blog-logo" href="/">
+        
+        <span class="blog-title">Carlos Ganoza</span>
+        
+      </a>
+    </header>
+    <span class="post-meta">
+      <time datetime="2014-04-23T02:00:00.000Z" itemprop="datePublished">23 Apr, 2014</time>
+      
+    </span>
+    <h1 class="post-title">reconomiento-de-voz-con-python</h1>
+    <section class="post-content">
+      <p>Bueno , después de tanto tiempo sin escribir decidí migrar mi blog a este subdominio y cambiar blogger por hexo en github ( prometo hablar de hexo en otro post, si no aguantas la curiosidad, googlealo).</p>
+<p>Ahora a lo que toca; Hay algunas herramientas en python para reconocimiento de voz, como una implementación de CMU Sphinx que funciona muy bien para el inglés, u otras que utilizan el api de Dragon Naturally Speaking que por lo tanto solo funciona en Windows.<br>Hace algún tiempo programé una pequeña librería en python que usa la api de google para poder reconocer voz, su nombre es Pygsr y su uso es muy sencillo:<br>solo la instalamos:<br>pip install pygsr<br>instalamos sus dependencias</p>
+<ul>
+<li><strong>sox</strong> - apt-get install sox</li>
+<li><strong>pyaudio</strong> - apt-get install python-pyaudio</li>
+</ul>
+<p>aqui un ejemplo de como usarlo:<br><figure class="highlight python"><figcaption><span>example.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> pygsr <span class="keyword">import</span> Pygsr</span><br><span class="line">speech = Pygsr()</span><br><span class="line">speech.record(<span class="number">3</span>) <span class="comment"># duration in seconds (3)</span></span><br><span class="line">phrase, complete_response = speech.speech_to_text(<span class="string">'es_ES'</span>) <span class="comment"># select the language</span></span><br><span class="line"><span class="keyword">print</span> phrase</span><br></pre></td></tr></table></figure></p>
+<p>como verás su uso es muy fácil solo tienes que setear el tiempo que estará a la escucha, seleccionar el idioma y luego de procesar la voz te devolverá la cadena con el texto.</p>
+<ul>
+<li>PD: pygsr funciona muy bien en linux, pero no en mac, por que?, yo no sé, no e tenido la oportunidad de probarlo en una pero mucha gente me a reportado que hay un error con pyAudio, librería que uso para que funcione pygsr; prometo revisarlo pronto.</li>
+<li>PD2: al pygsr utilizar el api de google solo funcionará con conexión a internet, esta podría ser una limitante.<br>Link: <a href="https://bitbucket.org/drneox/pygsr" target="_blank" rel="external">https://bitbucket.org/drneox/pygsr</a></li>
+</ul>
+
+    </section>
+      <section id="comment">
+          <h1 class="title">Comments</h1>
+
+          
+          <div id="disqus_thread">
+              <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          </div>
+          
+      </section>
+    <footer class="post-footer">
+      <section class="author">
+        <h4>Carlos Ganoza</h4>
+        <p>A padawan software engineer. I like python, ruby, js, open hardware and the salchipapas</p>
+      </section>
+
+      <section class="share">
+        <h4>Share this post</h4>
+        <a class="icon-twitter" href="http://twitter.com/share?url=http://blog.carlosganoza.com/2014/04/23/reconomiento-de-voz-con-python/"
+          onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <span class="hidden">Twitter</span>
+        </a>
+        <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.carlosganoza.com/2014/04/23/reconomiento-de-voz-con-python/"
+          onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <span class="hidden">Facebook</span>
+        </a>
+        <a class="icon-google-plus" href="https://plus.google.com/share?url=http://blog.carlosganoza.com/2014/04/23/reconomiento-de-voz-con-python/"
+           onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <span class="hidden">Google+</span>
+        </a>
+      </section>
+    </footer>
+  </article>
+</main>
+
+
+  
+<footer class="site-footer">
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'carlosganoza';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+</body>
+</html>
