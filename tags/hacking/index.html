@@ -198,6 +198,18 @@ In this event, touch a simple topic but from which you can get a lot of profit..
    
 </ul>
 
+<script>
+  var userLang = navigator.language || navigator.userLanguage;
+  var path = window.location.pathname;
+  if (path == "/") {
+    if (userLang.split("-")[0] == "es") {
+      window.location.href = "/es";
+    } else {
+      window.location.href = "/en";
+    }
+  }
+</script>
+
 
                 <!-- 如果开启评论功能 -->
                 
@@ -224,13 +236,13 @@ In this event, touch a simple topic but from which you can get a lot of profit..
                         
                             <a href="/tags/data structure" title="data structure" rel="1">data structure</a>
                         
-                            <a href="/tags/data structures" title="data structures" rel="1">data structures</a>
-                        
                             <a href="/tags/facebook" title="facebook" rel="1">facebook</a>
                         
                             <a href="/tags/hacking" title="hacking" rel="1">hacking</a>
                         
                             <a href="/tags/lima-hack" title="lima-hack" rel="1">lima-hack</a>
+                        
+                            <a href="/tags/data structures" title="data structures" rel="1">data structures</a>
                         
                             <a href="/tags/python, speach" title="python, speach" rel="1">python, speach</a>
                         
