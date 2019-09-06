@@ -32,35 +32,22 @@
   <!-- hack iOS CSS :active style -->
   <body ontouchstart="">
     <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-  <div class="container-fluid">
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top d-flex justify-content-beetwen">
+  <div class="col-3 d-flex justify-content-start">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header page-scroll">
-      <button type="button" class="navbar-toggle">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
       <a
         class="navbar-brand"
         href="/en"
-        >Carlos Ganoza</a
+        >Home</a
       >
     </div>
-
-    <div id="navbar">
-      <div class="navbar-collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <!-- <li>
-            <a href="/">Home</a>
-          </li> -->
-          <li>
-            <a href="/2014/04/08/infeccion-de-routers-de-movistar/"
-              >Español</a
-            >
-          </li>
-
+    <div class="col-3 d-flex justify-content-end">
+        <a class="navbar-brand" href="/2014/04/08/infeccion-de-routers-de-movistar/"
+            >Español</a
+          >
+    </div>
+            
+         
           
         </ul>
       </div>
@@ -81,13 +68,13 @@
 </style>
 <header class="intro-header">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 d-flex justify-content-center">
         <div class="post-heading">
           <div class="tags">
             
           </div>
-          <h1>infección de routers de movistar</h1>
+          <h1 class="mt-3 mb-3">infección de routers de movistar</h1>
           <h2 class="subheading"></h2>
           <span class="meta">
             Posted by Carlos Ganoza on 08 Apr, 2014
@@ -101,7 +88,7 @@
 <!-- Post Content -->
 <article>
   <div class="container">
-    <div class="row">
+    <div class="row justify-content-center">
       <!-- Post Container -->
       <div
         class="
@@ -127,10 +114,10 @@
 
 
         <hr />
-        <div class="col-lg-12 post-about">
+        <div class="col-lg-12 d-flex justify-content-start align-items-center">
           
           <div
-            class="col-lg-3 post-avatar"
+            class="col-lg-2 post-avatar"
             style="background:url('/img/carlos_ganoza.jpg');background-size: cover;
             "
           ></div>
@@ -138,24 +125,27 @@
           <div class="col-lg-9">
             <h3>Carlos Ganoza</h3>
              
-            <p>Software engineer with more than 6 years of experience, I have been involved in different aspects of software development, InfoSec and open-source. I &lt;3 Python.</p>
+            <p class="mt-0">Software engineer with more than 6 years of experience, I have been involved in different aspects of software development, InfoSec and open-source. I &lt;3 Python.</p>
             
           </div>
         </div>
-        <ul class="pager">
+      <div class="row">
+
+        
+        <div class="col-12 d-flex justify-content-between">
            
-          <li class="next">
-            <a
+          <div class="next">
+            <a class="btn"
               href="/2014/03/23/reconomiento-de-voz-con-python/"
               data-toggle="tooltip"
               data-placement="top"
               title="reconomiento de voz con python"
               >Older Posts &rarr;</a
             >
-          </li>
+          </div>
           
-        </ul>
-
+        </div>
+      </div>
         
         <hr />
 
@@ -252,9 +242,11 @@
       </div>
     </div>
   </div>
-
 </footer>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.nav.js"></script>
 
+<script src="/js/bootstrap.min.js"></script>
 
 
 
