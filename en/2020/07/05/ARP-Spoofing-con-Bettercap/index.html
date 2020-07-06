@@ -126,12 +126,12 @@
       >
         <p><img src="/2020/07/05/arp-spoofing-con-bettercap/logo-bettercap.png" alt></p>
 <p>Hoy quiero hablar acerca de arp spoofing, de <strong>bettercap</strong>: una gran herramienta bastante completa para la auditoría de redes, y por su puesto la importancia de conectarnos a internet a través de un canal seguro (SSL/TLS).</p>
-<h3 id="Que-es-ARP"><a href="#Que-es-ARP" class="headerlink" title="Que es ARP?"></a>Que es ARP?</h3><p>ARP o Address Resolution Protocol, es un protocolo responsable de encontrar una MAC asociada a una determinada dirección IP dentro de una red.</p>
+<h3 id="¿Que-es-ARP"><a href="#¿Que-es-ARP" class="headerlink" title="¿Que es ARP?"></a>¿Que es ARP?</h3><p>ARP o Address Resolution Protocol, es un protocolo responsable de encontrar una MAC asociada a una determinada dirección IP dentro de una red.</p>
 <p>Es decir, en una red el dispositivo <strong>A</strong> hace un ARP request preguntando por la MAC de determinada IP (dispositivo <strong>B</strong>), con la finalidad de intercambiar información con este(enviar paquetes).</p>
-<h5 id="mas-o-menos-asi"><a href="#mas-o-menos-asi" class="headerlink" title="más o menos así:"></a>más o menos así:</h5><p>El dispositivo <strong>A</strong> con dirección MAC <strong>aa-aa-aa-aa-aa-aa</strong> y con dirección IP <strong>bb.bb.bb.bb</strong> quiere contactar con el dispositivo que tenga la dirección IP <strong>cc.cc.cc.cc</strong> y requiere de la dirección MAC.</p>
-<h5 id="Entonces-el-dispositivo-que-tenga-la-IP-bb-bb-bb-bb-respondera-algo-como"><a href="#Entonces-el-dispositivo-que-tenga-la-IP-bb-bb-bb-bb-respondera-algo-como" class="headerlink" title="Entonces el dispositivo que tenga la IP bb.bb.bb.bb responderá algo cómo:"></a>Entonces el dispositivo que tenga la IP bb.bb.bb.bb responderá algo cómo:</h5><p>Soy el dispositivo con IP <strong>bb.bb.bb.bb</strong> y mi MAC es <strong>dd-dd-dd-dd-dd-dd</strong>.</p>
+<h5 id="Mas-o-menos-asi"><a href="#Mas-o-menos-asi" class="headerlink" title="Más o menos así:"></a>Más o menos así:</h5><p>El dispositivo <strong>A</strong> con dirección MAC <strong>aa-aa-aa-aa-aa-aa</strong> y con dirección IP <strong>bb.bb.bb.bb</strong> quiere contactar con el dispositivo que tenga la dirección IP <strong>cc.cc.cc.cc</strong> y requiere de la dirección MAC.</p>
+<h5 id="Entonces-el-dispositivo-que-tenga-la-IP-bb-bb-bb-bb-respondera-algo-como"><a href="#Entonces-el-dispositivo-que-tenga-la-IP-bb-bb-bb-bb-respondera-algo-como" class="headerlink" title="Entonces el dispositivo que tenga la IP bb.bb.bb.bb responderá algo como:"></a>Entonces el dispositivo que tenga la IP bb.bb.bb.bb responderá algo como:</h5><p>Soy el dispositivo con IP <strong>bb.bb.bb.bb</strong> y mi MAC es <strong>dd-dd-dd-dd-dd-dd</strong>.</p>
 <p>Lógicamente para evitar que se pregunte cada vez que sea necesario por esta información, los dispositivos la guardan en su tabla ARP, que es un caché que almacena la relación que hay entre MAC e IP’s.</p>
-<h3 id="ARP-spoofing"><a href="#ARP-spoofing" class="headerlink" title="ARP spoofing:"></a>ARP spoofing:</h3><p>Pero que pasa si en lugar de que el equipo que responde a esa petición ARP con su dirección MAC, no es el dispositivo B, sino un equipo controlado por un atacante?.</p>
+<h3 id="ARP-spoofing"><a href="#ARP-spoofing" class="headerlink" title="ARP spoofing:"></a>ARP spoofing:</h3><p>Pero ¿qué pasa si en lugar de que el equipo que responde a esa petición ARP con su dirección MAC, no es el dispositivo B, sino un equipo controlado por un atacante?.</p>
 <p>Esto es exactamente lo que pasa con el ARP Spoofing. Un equipo suplanta a otro y recibe todos sus paquetes.</p>
 <p>Lo que hace el atacante es suplantar al router/switch e interceptar todos los paquetes que un usuario intercambia con este al navegar por internet (lo que se conoce cómo MITM), lógicamente luego los reenviará al equipo legitimo y el usuario podría nunca sospechar.</p>
 <p><img src="/2020/07/05/arp-spoofing-con-bettercap/mitm.png" alt></p>
@@ -142,11 +142,11 @@
 <li>Auditoria para dispositivos HID (teclados y mouses inalámbricos).</li>
 </ul>
 <p>Aunque su primera versión fue escrita en ruby, la actual (bettercap 2) está íntegramente escrita en Go y hasta cuenta con una UI web bastante amigable.</p>
-<h3 id="ARP-spoofing-con-bettercap"><a href="#ARP-spoofing-con-bettercap" class="headerlink" title="ARP spoofing con bettercap:"></a>ARP spoofing con bettercap:</h3><p>Para esta prueba utilice una maquina virtual en Kali.</p>
+<h3 id="ARP-spoofing-con-bettercap"><a href="#ARP-spoofing-con-bettercap" class="headerlink" title="ARP spoofing con bettercap:"></a>ARP spoofing con bettercap:</h3><p>Para esta prueba utilicé una maquina virtual en Kali.</p>
 <h4 id="Instalacion"><a href="#Instalacion" class="headerlink" title="Instalación:"></a>Instalación:</h4><p>Para tener la ultima versión de bettercap, lo instalaremos desde su repositorio en github.</p>
 <h5 id="1-Instalamos-go"><a href="#1-Instalamos-go" class="headerlink" title="1) Instalamos go:"></a>1) Instalamos go:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install golang</span><br></pre></td></tr></table></figure>
 
-<h5 id="2-Creamos-el-GOPATH"><a href="#2-Creamos-el-GOPATH" class="headerlink" title="2) Creamos el GOPATH:"></a>2) Creamos el GOPATH:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export GOPATH=$HOME/go </span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<h5 id="2-Creamos-el-GOPATH"><a href="#2-Creamos-el-GOPATH" class="headerlink" title="2) Creamos el GOPATH:"></a>2) Creamos el GOPATH:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export GOPATH=$HOME/go</span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
 
 <h5 id="3-Instalamos-algunas-dependencias-mas"><a href="#3-Instalamos-algunas-dependencias-mas" class="headerlink" title="3) Instalamos algunas dependencias más:"></a>3) Instalamos algunas dependencias más:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libusb-1.0-0-dev</span><br><span class="line">apt-get install libnetfilter-queue-dev</span><br></pre></td></tr></table></figure>
 
@@ -158,11 +158,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bettercap</span><br></pre></td></tr></table></figure>
 
 <p>esto nos abrirá su linea de comandos:<br><img src="/2020/07/05/arp-spoofing-con-bettercap/bettercap.png" alt></p>
-<p>ahora escribiremos el comando </p>
+<p>ahora escribiremos el comando</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.probe on</span><br></pre></td></tr></table></figure>
 
 <p>para que nos detecte todas los dispositivos conectados en red.</p>
-<p>y  ahora:</p>
+<p>y ahora:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.show</span><br></pre></td></tr></table></figure>
 
 <p>para ver los equipos<br><img src="/2020/07/05/arp-spoofing-con-bettercap/show.png" alt></p>
@@ -179,7 +179,7 @@
 <p><img src="/2020/07/05/arp-spoofing-con-bettercap/arp-a.png" alt></p>
 <p>y ahora <strong>net.sniff</strong> nos permitirá ver todo el trafico de la victima:</p>
 <p><img src="/2020/07/05/arp-spoofing-con-bettercap/trafico-web-sin-https.png" alt></p>
-<h3 id="Prevenir"><a href="#Prevenir" class="headerlink" title="Prevenir:"></a>Prevenir:</h3><p>Recordemos siempre navegar a través de <strong>HTTPS</strong>, pues de esta manera nuestro trafico viaja cifrado, tampoco debemos olvidar tener nuestro navegador siempre actualizado y por último siempre tener cuidado cuando nos conectamos a las redes de WIFI públicas, <strong>NUNCA</strong>  deberíamos utilizarlas para acceder a nuestras cuentas de banco o algunas otras con información sensible.</p>
+<h3 id="Prevenir"><a href="#Prevenir" class="headerlink" title="Prevenir:"></a>Prevenir:</h3><p>Recordemos siempre navegar a través de <strong>HTTPS</strong>, pues de esta manera nuestro trafico viaja cifrado, tampoco debemos olvidar tener nuestro navegador siempre actualizado y por último siempre tener cuidado cuando nos conectamos a las redes de WIFI públicas, <strong>NUNCA</strong> deberíamos utilizarlas para acceder a nuestras cuentas de banco o algunas otras con información sensible.</p>
 
 
         <hr />
