@@ -1,7 +1,6 @@
 @media (min-width: 1200px) {
   .post-container,
   .sidebar-container {
-    padding-right: 5%;
   }
 }
 @media (min-width: 768px) {
@@ -36,7 +35,7 @@
   border-color: #0085a1;
 }
 .sidebar-container .short-about img {
-  width: 80%;
+  width: 50%;
   display: block;
   border-radius: 5px;
   margin-bottom: 20px;
