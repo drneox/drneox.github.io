@@ -132,7 +132,7 @@
 <h5 id="Entonces-el-dispositivo-que-tenga-la-IP-bb-bb-bb-bb-respondera-algo-como"><a href="#Entonces-el-dispositivo-que-tenga-la-IP-bb-bb-bb-bb-respondera-algo-como" class="headerlink" title="Entonces el dispositivo que tenga la IP bb.bb.bb.bb responderá algo como:"></a>Entonces el dispositivo que tenga la IP bb.bb.bb.bb responderá algo como:</h5><p>Soy el dispositivo con IP <strong>bb.bb.bb.bb</strong> y mi MAC es <strong>dd-dd-dd-dd-dd-dd</strong>.</p>
 <p>Lógicamente para evitar que se pregunte cada vez que sea necesario por esta información, los dispositivos la guardan en su tabla ARP, que es un caché que almacena la relación que hay entre MAC e IP’s.</p>
 <h3 id="ARP-spoofing"><a href="#ARP-spoofing" class="headerlink" title="ARP spoofing:"></a>ARP spoofing:</h3><p>Pero ¿qué pasa si en lugar de que el equipo que responde a esa petición ARP con su dirección MAC, no es el dispositivo B, sino un equipo controlado por un atacante?.</p>
-<p>Esto es exactamente lo que pasa con el ARP Spoofing. Un equipo suplanta a otro y recibe todos sus paquetes.</p>
+<p>Esto es exactamente lo que pasa con el ARP Spoofing, un equipo suplanta a otro y recibe todos sus paquetes.</p>
 <p>Lo que hace el atacante es suplantar al router/switch e interceptar todos los paquetes que un usuario intercambia con este al navegar por internet (lo que se conoce cómo MITM), lógicamente luego los reenviará al equipo legitimo y el usuario podría nunca sospechar.</p>
 <p><img src="/2020/07/05/arp-spoofing-con-bettercap/mitm.png" alt></p>
 <h3 id="Bettercap"><a href="#Bettercap" class="headerlink" title="Bettercap:"></a>Bettercap:</h3><p>Bettercap es un software que facilita toda esta labor de ARP spoofing, y es una gran alternativa al viejo Ettercap que ya muchos deben conocer.</p>
