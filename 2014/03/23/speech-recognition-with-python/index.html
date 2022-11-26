@@ -6,12 +6,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="null">
+  <meta name="description" content="Well, after such a long time without writing I decided to migrate my blog to this subdomain and change blogger for hexo in github (I promise to talk about hexo in another post, if you can’t stand the curiosity, google it).
+Now what it touches; There are some tools in python for speech recognition, such as an implementation of CMU Sphinx that works very well for English, or others that use the Dragon Naturally Speaking api that therefore only works on Windows.Some time ago I programmed a small python library that uses google api to recognize speech, its name is Pygsr and its use is very simple:We only install it:
+
+sox - apt-get install sox
+pyaudio - apt-get install python-pyaudio
+
+how to use it:
+example.py123456from pygsr import Pygsrspeech = Pygsr()speech.record(3) # duration in seconds (3)phrase, complete_response = speech.speech_to_text(&#39;es_ES&#39;) # select the languageprint phrase
+
+As you will see its use is very easy you just have to set the time you will be listening, select the language and after processing the speech will return the string with the text.
+
+PD: pygsr works very well in linux, but not in mac, why ?, I do not know, I have not had the opportunity to try it in one but many people have reported to me that there is an error with pyAudio, library that I use to work pygsr; I promise to check it out soon.
+PD2: when using pygsr using google api will only work with an internet connection, this could be a limitation.Link: https://github.com/drneox/pygsr
+
+UPDATEApparently Google no longer allows the free use of your api, if you want to use it you must pay.For this reason I will no longer keep this library.If you want to integrate voice recognition into your project I recommend taking a look at the wit.ai project.https://wit.ai
+">
   <meta name="keyword" content="undefined">
   <link rel="shortcut icon" href="/img/favicon.ico">
 
   <title>
-     Speech recognition with python - Carlos Ganoza 
+     Speech recognition with python - El blog de Carlos Ganoza 
   </title>
 
   <link rel="canonical" href="http://blog.carlosganoza.com/2014/03/23/speech-recognition-with-python/">
@@ -260,7 +275,7 @@
           
         </ul>
         <p class="copyright text-muted">
-                <section class="copyright">All content copyright <a href="/">Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
+                <section class="copyright">All content copyright <a href="/">El blog de Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
                 <section class="copyright">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
         </p>
       </div>

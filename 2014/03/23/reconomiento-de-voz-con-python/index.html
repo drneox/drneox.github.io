@@ -6,12 +6,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="null">
+  <meta name="description" content="Bueno , después de tanto tiempo sin escribir decidí migrar mi blog a este subdominio y cambiar blogger por hexo en github ( prometo hablar de hexo en otro post, si no aguantas la curiosidad, googlealo).
+Ahora a lo que toca; Hay algunas herramientas en python para reconocimiento de voz, como una implementación de CMU Sphinx que funciona muy bien para el inglés, u otras que utilizan el api de Dragon Naturally Speaking que por lo tanto solo funciona en Windows.Hace algún tiempo programé una pequeña librería en python que usa la api de google para poder reconocer voz, su nombre es Pygsr y su uso es muy sencillo:solo la instalamos:pip install pygsrinstalamos sus dependencias
+
+sox - apt-get install sox
+pyaudio - apt-get install python-pyaudio
+
+aqui un ejemplo de como usarlo:
+example.py123456from pygsr import Pygsrspeech = Pygsr()speech.record(3) # duration in seconds (3)phrase, complete_response = speech.speech_to_text(&#39;es_ES&#39;) # select the languageprint phrase
+
+como verás su uso es muy fácil solo tienes que setear el tiempo que estará a la escucha, seleccionar el idioma y luego de procesar la voz te devolverá la cadena con el texto.
+
+PD: pygsr funciona muy bien en linux, pero no en mac, por que?, yo no sé, no e tenido la oportunidad de probarlo en una pero mucha gente me a reportado que hay un error con pyAudio, librería que uso para que funcione pygsr; prometo revisarlo pronto.
+PD2: al pygsr utilizar el api de google solo funcionará con conexión a internet, esta podría ser una limitante.Link: https://bitbucket.org/drneox/pygsr
+
+UPDATEAl parecer Google ya no permite el uso gratis de su api, si deseas usarla debes pagar.por tal motivo ya no mantendré esta libreria.Si deseas integrar el reconocimiento de voz a tu proyecto recomiendo darle un vistazo al proyecto wit.aihttps://wit.ai
+">
   <meta name="keyword" content="undefined">
   <link rel="shortcut icon" href="/img/favicon.ico">
 
   <title>
-     reconomiento de voz con python - Carlos Ganoza 
+     reconomiento de voz con python - El blog de Carlos Ganoza 
   </title>
 
   <link rel="canonical" href="http://blog.carlosganoza.com/2014/03/23/reconomiento-de-voz-con-python/">
@@ -246,7 +261,7 @@
           
         </ul>
         <p class="copyright text-muted">
-                <section class="copyright">All content copyright <a href="/">Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
+                <section class="copyright">All content copyright <a href="/">El blog de Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
                 <section class="copyright">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
         </p>
       </div>

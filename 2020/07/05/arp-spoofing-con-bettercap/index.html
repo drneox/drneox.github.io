@@ -6,12 +6,68 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="null">
+  <meta name="description" content="
+Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bastante completa para la auditoría de redes, y por supuesto la importancia de conectarnos a internet a través de un canal seguro (SSL/TLS).
+¿Qué es ARP?ARP o Address Resolution Protocol, es un protocolo responsable de encontrar una MAC asociada a una determinada dirección IP dentro de una red.
+Es decir, en una red el dispositivo A hace un ARP request preguntando por la MAC de determinada IP (dispositivo B), con la finalidad de intercambiar información con este (enviar paquetes).
+Más o menos así:El dispositivo A con dirección MAC aa-aa-aa-aa-aa-aa y con dirección IP bb.bb.bb.bb quiere contactar con el dispositivo que tenga la dirección IP cc.cc.cc.cc y requiere de la dirección MAC.
+Entonces el dispositivo que tenga la IP bb.bb.bb.bb responderá algo como:Soy el dispositivo con IP bb.bb.bb.bb y mi MAC es dd-dd-dd-dd-dd-dd.
+Lógicamente para evitar que se pregunte cada vez que sea necesario por esta información, los dispositivos la guardan en su tabla ARP, que es un caché que almacena la relación que hay entre MAC e IP’s.
+ARP spoofing:Pero ¿qué pasa si en lugar de que el equipo que responde a esa petición ARP con su dirección MAC, no es el dispositivo B, sino un equipo controlado por un atacante?.
+Esto es exactamente lo que pasa con el ARP spoofing, un equipo suplanta a otro y recibe todos sus paquetes.
+Lo que hace el atacante es suplantar al router/switch e interceptar todos los paquetes que un usuario intercambia con este al navegar por internet (lo que se conoce cómo MITM), lógicamente luego los reenviará al equipo legitimo y el usuario podría nunca sospechar.
+
+Bettercap:Bettercap es un software que facilita toda esta labor de ARP spoofing, y es una gran alternativa al viejo Ettercap que ya muchos deben conocer.
+Ademas de eso Bettercap entre otras cosas, incluye módulos para:
+
+Auditoria de dispositivos BLE.
+Auditoria para dispositivos HID (teclados y mouses inalámbricos).
+
+Aunque su primera versión fue escrita en ruby, la actual (bettercap 2) está íntegramente escrita en Go y hasta cuenta con una UI web bastante amigable.
+ARP spoofing con bettercap:Para esta prueba utilicé una maquina virtual en Kali.
+Instalación:Para tener la ultima versión de bettercap, lo instalaremos desde su repositorio en github.
+1) Instalamos go:1apt-get install golang
+
+2) Creamos el GOPATH:12export GOPATH=$HOME/gosource ~/.bashrc
+
+3) Instalamos algunas dependencias más:12apt-get install libusb-1.0-0-devapt-get install libnetfilter-queue-dev
+
+4) Descargamos bettercap desde su repo:1go get -v github.com/bettercap/bettercap
+
+5) Compilamos las fuentes:123cd $GOPATH/src/github.com/bettercap/bettercapmake buildsudo make install
+
+Si hemos seguido todos los pasos al escribir el comando:
+1bettercap
+
+esto nos abrirá su linea de comandos:
+ahora escribiremos el comando
+1net.probe on
+
+para que nos detecte todas los dispositivos conectados en red.
+y ahora:
+1net.show
+
+para ver los equipos
+ahora seleccionamos el objetivo:
+1set arp.spoof.target 192.xx.xx.xx
+
+y activamos el ataque:
+12arp.spoof onnet.sniff on
+
+a estas alturas en la maquina víctima ya debería tener las tablas ARP envenenadas. y si ejecutamos desde ahi el comando:
+1arp -a
+
+veremos que hay al menos 2 IP distintas asociadas a la misma MAC, de hecho esla IP de la puerta de enlace (router/switch):
+
+y ahora net.sniff nos permitirá ver todo el trafico de la victima:
+
+Prevenir:Recordemos siempre navegar a través de HTTPS, pues de esta manera nuestro trafico viaja cifrado, tampoco debemos olvidar tener nuestro navegador siempre actualizado y por último siempre tener cuidado cuando nos conectamos a las redes de WIFI públicas, NUNCA deberíamos utilizarlas para acceder a nuestras cuentas de banco o algunas otras con información sensible.
+">
   <meta name="keyword" content="undefined">
   <link rel="shortcut icon" href="/img/favicon.ico">
 
   <title>
-     ARP spoofing con bettercap - Carlos Ganoza 
+     ARP spoofing con bettercap - El blog de Carlos Ganoza 
   </title>
 
   <link rel="canonical" href="http://blog.carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/">
@@ -315,7 +371,7 @@
           
         </ul>
         <p class="copyright text-muted">
-                <section class="copyright">All content copyright <a href="/">Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
+                <section class="copyright">All content copyright <a href="/">El blog de Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
                 <section class="copyright">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
         </p>
       </div>
