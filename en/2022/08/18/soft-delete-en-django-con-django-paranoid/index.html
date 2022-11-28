@@ -6,30 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Hace ya 3 años que comencé a programar django-paranoid, una librería que permite agregar la funcionalidad de soft-delete a django framework, funcionalidad conocida por todos los que alguna vez hemos usado ruby on rails.
-Es decir, esta librería permite a tus proyectos tener la funcionalidad de un “falso borrado”, un borrado que se puede revertir en caso sea necesario.
-El año pasado le tomé más importancia al ver que había colegas que lo venían utilizando, y decidí terminar de programar los test y automatizar un par de cosas más en github que me permitan tener el proyecto más ordenado.
-Hoy, después de ver un pull request y algunos issues abiertos, recordé que nunca había escrito un post aquí, y como tengo la imperiosa necesidad de que todos sepan que lo hice yo, este es el post, si llegaste hasta aquí, gracias por alimentar mi ego…
-¿Cómo lo implementamos en nuestros proyectos?Instalamos:1pip install django-paranoid
-
-Agregamos django-paranoid al proyecto:1234567INSTALLED_APPS = [    &amp;apos;django.contrib.admin&amp;apos;,  &amp;apos;django.contrib.auth&amp;apos;,        ...  &amp;apos;django_paranoid&amp;apos;  ...]
-
-Extendemos ParanoidModel en el modelo a usar:1234from django_paranoid.models import ParanoidModelclass MyModel(ParanoidModel):    field = models.CharField(max_length=20)
-
-Lo agregamos a django-admin:1234from django_paranoid.models import ParanoidModelclass MyModel(ParanoidModel):    field = models.CharField(max_length=20)
-
-Borrar un objeto:se borra cómo normalmente se borra un objeto en django framework.
-12m = MyModel.objects.last()m.delete()
-
-Si queremos recuperar el objeto borrado o hacer consultar sobre este:12345m = MyModel.objects_with_deleted.last()&amp;gt;&amp;gt;&amp;gt; m&amp;lt;MyModel: name&amp;gt;&amp;gt;&amp;gt;&amp;gt; m.deleted_atdatetime.datetime(2019, 8, 10, 6, 16, 44, 633727, tzinfo=&amp;lt;UTC&amp;gt;)
-
-Restaurar objeto borrado:1m.restore()
-
-Y si queremos aplicar un hard delete:12m = MyModel.objects.last()m.delete(True)
-
-El repositorio del proyecto es el siguiente, por si quieren dejar algún pull request.https://github.com/drneox/django-paranoid
-Espero les sirva!.
-">
+  <meta name="description" content="Hace ya 3 años que comencé a programar django-paranoid, una librería que permite agregar la funcionalidad de soft-delete a django framework, funcionalidad conoc...">
   <meta name="keyword" content="undefined">
   <link rel="shortcut icon" href="/img/favicon.png">
 
