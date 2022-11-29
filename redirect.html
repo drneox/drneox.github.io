@@ -1,0 +1,5 @@
+<script>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^blog\.carlosganoza\.com  [NC]
+  RewriteRule ^(.*) https://carlosganoza.com/$1 [L,R=301]
+</script>
