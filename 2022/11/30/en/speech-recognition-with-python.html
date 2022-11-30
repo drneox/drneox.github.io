@@ -1,0 +1,26 @@
+<hr>
+<p>title: Speech recognition with python<br>date: 2014-03-23<br>lang: en<br>tags:</p>
+<ul>
+<li>python</li>
+<li>speach</li>
+</ul>
+<hr>
+<p>Well, after such a long time without writing I decided to migrate my blog to this subdomain and change blogger for hexo in github (I promise to talk about hexo in another post, if you can’t stand the curiosity, google it).</p>
+<p>Now what it touches; There are some tools in python for speech recognition, such as an implementation of CMU Sphinx that works very well for English, or others that use the Dragon Naturally Speaking api that therefore only works on Windows.<br>Some time ago I programmed a small python library that uses google api to recognize speech, its name is Pygsr and its use is very simple:<br>We only install it:</p>
+<ul>
+<li><strong>sox</strong> - apt-get install sox</li>
+<li><strong>pyaudio</strong> - apt-get install python-pyaudio</li>
+</ul>
+<p>how to use it:</p>
+<pre><code class="python">
+<span class="keyword">from</span> pygsr <span class="keyword">import</span> Pygsr
+speech = Pygsr()
+speech.record(<span class="number">3</span>) <span class="comment"># duration in seconds (3)</span>
+phrase, complete_response = speech.speech_to_text(<span class="string">'es_ES'</span>) <span class="comment"># select the language</span>
+<span class="keyword">print</span> phrase</code></pre>
+<p>As you will see its use is very easy you just have to set the time you will be listening, select the language and after processing the speech will return the string with the text.</p>
+<ul>
+<li>PD: pygsr works very well in linux, but not in mac, why ?, I do not know, I have not had the opportunity to try it in one but many people have reported to me that there is an error with pyAudio, library that I use to work pygsr; I promise to check it out soon.</li>
+<li>PD2: when using pygsr using google api will only work with an internet connection, this could be a limitation.<br>Link: <a href="https://github.com/drneox/pygsr">https://github.com/drneox/pygsr</a></li>
+</ul>
+<h3 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h3><p>Apparently Google no longer allows the free use of your api, if you want to use it you must pay.<br>For this reason I will no longer keep this library.<br>If you want to integrate voice recognition into your project I recommend taking a look at the wit.ai project.<br><a href="https://wit.ai">https://wit.ai</a></p>

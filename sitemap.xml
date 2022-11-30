@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://carlosganoza.com/2022/08/18/soft-delete-en-django-con-django-paranoid/</loc>
+    <loc>http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/</loc>
     
-    <lastmod>2022-08-19</lastmod>
+    <lastmod>2022-11-30</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -13,7 +13,16 @@
   <url>
     <loc>http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/</loc>
     
-    <lastmod>2020-07-06</lastmod>
+    <lastmod>2022-11-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/2022/08/18/soft-delete-en-django-con-django-paranoid/</loc>
+    
+    <lastmod>2022-08-19</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -130,7 +139,7 @@
 
   <url>
     <loc>http://carlosganoza.com/</loc>
-    <lastmod>2022-11-29</lastmod>
+    <lastmod>2022-11-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -138,77 +147,112 @@
   
   <url>
     <loc>http://carlosganoza.com/tags/python/</loc>
-    <lastmod>2022-11-29</lastmod>
+    <lastmod>2022-11-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/algorithms/</loc>
-    <lastmod>2022-11-29</lastmod>
+    <lastmod>2022-11-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/datastructure/</loc>
-    <lastmod>2022-11-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/tags/arp-spoofing/</loc>
-    <lastmod>2022-11-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/tags/hacking/</loc>
-    <lastmod>2022-11-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/tags/kali/</loc>
-    <lastmod>2022-11-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/tags/bettercap/</loc>
-    <lastmod>2022-11-29</lastmod>
+    <lastmod>2022-11-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/facebook/</loc>
-    <lastmod>2022-11-29</lastmod>
+    <lastmod>2022-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/hacking/</loc>
+    <lastmod>2022-11-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/lima-hack/</loc>
-    <lastmod>2022-11-29</lastmod>
+    <lastmod>2022-11-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/datastructures/</loc>
-    <lastmod>2022-11-29</lastmod>
+    <lastmod>2022-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/hardware/</loc>
+    <lastmod>2022-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/pixmob/</loc>
+    <lastmod>2022-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/badbunny/</loc>
+    <lastmod>2022-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/coldplay/</loc>
+    <lastmod>2022-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/esp8266/</loc>
+    <lastmod>2022-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/arp-spoofing/</loc>
+    <lastmod>2022-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/kali/</loc>
+    <lastmod>2022-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/bettercap/</loc>
+    <lastmod>2022-11-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/speach/</loc>
-    <lastmod>2022-11-29</lastmod>
+    <lastmod>2022-11-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

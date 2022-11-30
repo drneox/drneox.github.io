@@ -8,6 +8,11 @@
     padding-right: 5%;
   }
 }
+.image-caption{
+  font-size: 15px;
+  color: #615f5f;
+  font-weight: bold;
+}
 .sidebar-container {
   color: #9e9d9d;
   font-size: 14px;
