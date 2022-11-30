@@ -11,7 +11,7 @@ Este último año se han vuelto a realizar varios conciertos en mi país despué
   <meta name="keywords" content="hacking,programación,tecnología,python,electrónica,Carlos Ganoza,ciberseguridad,coding,tutoriales de hacking,tutoriales de programación,django,django python,django-paranoid,pixmob hacking,pixmob-music-rhythm">
   <link rel="shortcut icon" href="/img/favicon.png">
   <meta name="description" content="Este último año se han vuelto a realizar varios conciertos en mi país después de que se levantaran las restricciones sobre la celebración de eventos masivos, y una de las cosas que más llamó la atenc">
-<meta name="keywords" content="hacking,hardware,pixmob,badbunny,coldplay,esp8266">
+<meta name="keywords" content="hardware,hacking,pixmob,badbunny,coldplay,esp8266">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sincronizar la pulsera de los conciertos (PixMob) con música utilizando un ESP8266">
 <meta property="og:url" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/index.html">
@@ -30,7 +30,7 @@ Este último año se han vuelto a realizar varios conciertos en mi país despué
 <meta property="og:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/diagrama2.png">
 <meta property="og:image" content="https://media.tenor.com/e8O3ysG8kHMAAAAM/dance-dancing.gif">
 <meta property="og:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/diagrama3.png">
-<meta property="og:updated_time" content="2022-11-30T21:23:48.662Z">
+<meta property="og:updated_time" content="2022-11-30T21:39:02.876Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sincronizar la pulsera de los conciertos (PixMob) con música utilizando un ESP8266">
 <meta name="twitter:description" content="Este último año se han vuelto a realizar varios conciertos en mi país después de que se levantaran las restricciones sobre la celebración de eventos masivos, y una de las cosas que más llamó la atenc">
@@ -100,16 +100,16 @@ Este último año se han vuelto a realizar varios conciertos en mi país despué
             
             <a
               class="tag"
-              href="/tags/hacking"
-              title="hacking"
-              >hacking</a
+              href="/tags/hardware"
+              title="hardware"
+              >hardware</a
             >
             
             <a
               class="tag"
-              href="/tags/hardware"
-              title="hardware"
-              >hardware</a
+              href="/tags/hacking"
+              title="hacking"
+              >hacking</a
             >
             
             <a
@@ -226,7 +226,7 @@ Este último año se han vuelto a realizar varios conciertos en mi país despué
 <p>const int microAnalog = A0; // pin analogico del sensor de sonido</p>
 <p>const int microDigital = 16; // pin digital del sensor de sonido</p>
 <p><strong><em>8) cambiamos el modo a input dentro de la función setup() y nos quedarìa así:</em></strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">`  `irsend.begin();</span><br><span class="line"></span><br><span class="line">`  `pinMode(microAnalog, INPUT); <span class="comment">// podemos ignorar esta linea</span></span><br><span class="line"></span><br><span class="line">`  `pinMode(microDigital, INPUT);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    irsend.begin();</span><br><span class="line"></span><br><span class="line">    pinMode(microAnalog, INPUT); <span class="comment">// podemos ignorar esta linea</span></span><br><span class="line"></span><br><span class="line">    pinMode(microDigital, INPUT);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong><em>9) y en loop() vamos a poner lo siguiente:</em></strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (digitalRead(microDigital) == HIGH) &#123;</span><br><span class="line"></span><br><span class="line">irsend.sendRaw(yellow, 21, 38);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">delay(200)</span><br></pre></td></tr></table></figure>
