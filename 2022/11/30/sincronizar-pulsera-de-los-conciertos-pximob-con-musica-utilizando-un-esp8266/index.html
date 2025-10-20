@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+  <!-- Head tag -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="google-site-verification"
+    content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="
+Este último año se han vuelto a realizar varios conciertos en mi país después de que se levantaran las restricciones sobre la celebración de eventos masivos, y..." />
+  <meta name="keywords" content="hacking,programación,tecnología,python,electrónica,Carlos Ganoza,ciberseguridad,coding,tutoriales de hacking,tutoriales de programación,django,django python,django-paranoid,pixmob hacking,pixmob-music-rhythm" />
+  <link rel="shortcut icon" href="/img/favicon.png" />
+
+
+     <meta name="description" content="Este último año se han vuelto a realizar varios conciertos en mi país después de que se levantaran las restricciones sobre la celebración de eventos masivos, y una de las cosas que más llamó la atenc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sincronizar la pulsera de los conciertos (PixMob) con música utilizando un ESP8266">
+<meta property="og:url" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/index.html">
+<meta property="og:site_name" content="El blog de Carlos Ganoza">
+<meta property="og:description" content="Este último año se han vuelto a realizar varios conciertos en mi país después de que se levantaran las restricciones sobre la celebración de eventos masivos, y una de las cosas que más llamó la atenc">
+<meta property="og:locale" content="es_ES">
+<meta property="og:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/portada.jpg">
+<meta property="og:image" content="https://pa1.narvii.com/6744/83ba5c81c0eb13120581a648cfe4d0537099ca56_hq.gif">
+<meta property="og:image" content="https://media.tenor.com/1yCrY3ewMNEAAAAC/armybomb-army.gif">
+<meta property="og:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/pulsera1.png">
+<meta property="og:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/pulsera2.png">
+<meta property="og:image" content="https://media.tenor.com/csEWiqMIJT0AAAAM/llorar-nervios.gif">
+<meta property="og:image" content="https://media.tenor.com/AYQKr3UlxXEAAAAM/t%C3%B4muito-feliz-im-very-happy.gif">
+<meta property="og:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/diagrama1.png">
+<meta property="og:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/arduinoide.png">
+<meta property="og:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/diagrama2.png">
+<meta property="og:image" content="https://media.tenor.com/e8O3ysG8kHMAAAAM/dance-dancing.gif">
+<meta property="og:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/diagrama3.png">
+<meta property="article:published_time" content="2022-11-30T15:28:33.000Z">
+<meta property="article:modified_time" content="2022-11-30T21:39:02.000Z">
+<meta property="article:author" content="Carlos Ganoza">
+<meta property="article:tag" content="badbunny">
+<meta property="article:tag" content="coldplay">
+<meta property="article:tag" content="esp8266">
+<meta property="article:tag" content="hacking">
+<meta property="article:tag" content="hardware">
+<meta property="article:tag" content="pixmob">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/portada.jpg"> 
+
+  <title>
+     Sincronizar la pulsera de los conciertos (PixMob) con música utilizando un ESP8266 - El blog de Carlos Ganoza 
+  </title>
+  <link
+    rel="canonical"
+    href="http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/"
+  />
+
+  <!-- Bootstrap Core CSS -->
+  
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+  <!-- Custom CSS -->
+  
+<link rel="stylesheet" href="/css/blog.css">
+
+
+  <!-- Pygments Highlight CSS -->
+  
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+  <link
+    href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css"
+    rel="stylesheet"
+    type="text/css"
+  />
+
+
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+
+  <!-- hack iOS CSS :active style -->
+  <body ontouchstart="">
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top d-flex justify-content-beetwen">
+  <div class="col-3 d-flex justify-content-start">
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <a
+        class="navbar-brand"
+        href="/es"
+        >Home</a
+      >
+    </div>
+    <div class="col-3 d-flex justify-content-end">
+        <a class="navbar-brand mr-0" href="/en/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/"
+            >English</a
+          >
+    </div>
+            
+         
+          
+        </ul>
+      </div>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>
+
+
+    <!-- Main Content -->
+    
+<!-- Post Header -->
+<style type="text/css">
+  header.intro-header {
+    background-image: url('/img/header.jpg');
+  }
+</style>
+<header class="intro-header">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 d-flex justify-content-center">
+        <div class="post-heading">
+          <div class="tags">
+            
+            <a
+              class="tag"
+              href="/tags/hacking"
+              title="hacking"
+              >hacking</a
+            >
+            
+            <a
+              class="tag"
+              href="/tags/hardware"
+              title="hardware"
+              >hardware</a
+            >
+            
+            <a
+              class="tag"
+              href="/tags/pixmob"
+              title="pixmob"
+              >pixmob</a
+            >
+            
+            <a
+              class="tag"
+              href="/tags/badbunny"
+              title="badbunny"
+              >badbunny</a
+            >
+            
+            <a
+              class="tag"
+              href="/tags/coldplay"
+              title="coldplay"
+              >coldplay</a
+            >
+            
+            <a
+              class="tag"
+              href="/tags/esp8266"
+              title="esp8266"
+              >esp8266</a
+            >
+            
+          </div>
+          <h1 class="mt-3 mb-3">Sincronizar la pulsera de los conciertos (PixMob) con música utilizando un ESP8266</h1>
+          <h2 class="subheading"></h2>
+          <span class="meta">
+            Posted by Carlos Ganoza on 30 Nov, 2022
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Post Content -->
+<article>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <!-- Post Container -->
+      <div
+        class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container"
+      >
+        <p><img src="/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/portada.jpg" alt title="Jin BTS"></p>
+<p>Este último año se han vuelto a realizar varios conciertos en mi país después de que se levantaran las restricciones sobre la celebración de eventos masivos, y una de las cosas que más llamó la atención en estos conciertos fue el uso de las pulseras led entre los asistentes, estas pulseras las pudimos ver en conciertos como el de Bad Bunny o Coldplay. Aunque realmente no es nada nuevo, Pixmob, la empresa que los fabrica, viene comercializando sus productos desde el 2010.</p>
+<p>También bandas de kpop como <strong>BTS</strong> usan las denominadas “Army Bomb” en sus conciertos desde hace mucho:</p>
+<p><img src="https://pa1.narvii.com/6744/83ba5c81c0eb13120581a648cfe4d0537099ca56_hq.gif" alt title="Jin BTS"></p>
+<p><img src="https://media.tenor.com/1yCrY3ewMNEAAAAC/armybomb-army.gif" alt="¿Aún  levantas tu encendedor? el futuro es hoy, viejo!" title="concierto de BTS"><span class="image-caption">¿Aún  levantas tu encendedor? el futuro es hoy, viejo!</span></p>
+<p>En el caso de las pulseras, son repartidas “gratuitamente” a los asistentes, y una vez comenzado el show se sincronizan para emitir todas los mismos colores de manera armoniosa.</p>
+<h3 id="¿Pero-como-funcionan"><a href="#¿Pero-como-funcionan" class="headerlink" title="¿Pero cómo funcionan?"></a>¿Pero cómo funcionan?</h3><p>Tuve la oportunidad de asistir al concierto de BadBunny y al ingresar me dieron esta pulsera:</p>
+<p>una pulsera de la empresa PixMob:</p>
+<p><img src="/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/pulsera1.png" alt="Mi pulsera a punto de ser violentada" title="pulsera del concierto de badbunny"><span class="image-caption">Mi pulsera a punto de ser violentada</span></p>
+<p>Al terminar el concierto muchos nos quedamos con las ganas de seguir usándolas, así que me puse a investigar y esto fue lo que descubrí:</p>
+<p>Si desarmamos la pulsera podemos ver que cuenta con un receptor Infrarrojo, dos leds RGB y se alimentan con dos baterías CR1632 de 3v.</p>
+<p><img src="/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/pulsera2.png" alt="Mi pulsera violentada" title="pulsera del concierto de badbunny"><span class="image-caption">Mi pulsera violentada</span></p>
+<p>He visto algunos proyectos en github vinculados a esta pulsera, entre ellos encontré este repositorio de <a href="https://github.com/danielweidman/flipper-pixmob-ir-codes">Daniel Weidman</a> que a través de ingeniería inversa había conseguido los códigos de colores para el funcionamiento de la pulsera.</p>
+<p>Como verán en el repositorio, el proyecto está orientado para funcionar con <a href="https://flipperzero.one/">FliperZero</a>, y para mi mala suerte, a pesar de que me compré uno, nunca me llegó…</p>
+<p><img src="https://media.tenor.com/csEWiqMIJT0AAAAM/llorar-nervios.gif" alt></p>
+<p>La buena noticia es que si tenía varias placas de desarrollo, entre ellas un NodeMCU(ESP8266) y me dispuse a hacer un dispositivo que controle a estas pulseras (porque a mi no me va a ganar la pobreza), y que no solo nos permita controlar las luces, sinó que tambien estas se prendan al ritmo de la música.</p>
+<p><strong>NERD ALERT</strong></p>
+<p>Si no te quieres comer todo el cuento, puedes ir a mi repositorio y usar el código y diagrama para armar el controlador directamente:</p>
+<p><a href="https://github.com/drneox/pixmob-music-rhythm">https://github.com/drneox/pixmob-music-rhythm</a></p>
+<p>Gracias por seguir leyendo, nunca dudé de ti…</p>
+<p><img src="https://media.tenor.com/AYQKr3UlxXEAAAAM/t%C3%B4muito-feliz-im-very-happy.gif" alt></p>
+<h3 id="INSTRUCCIONES"><a href="#INSTRUCCIONES" class="headerlink" title="INSTRUCCIONES:"></a>INSTRUCCIONES:</h3><p>Para este proyecto usaremos lo siguiente:</p>
+<ul>
+<li>KY-038 Sensor.</li>
+<li>IR LED Emitter.</li>
+<li>BC547 Transistor.</li>
+<li>NodeMCU Board (ESP8266).</li>
+</ul>
+<p><strong><em>1) Montamos todo de la siguiente forma:</em></strong></p>
+<p><img src="/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/diagrama1.png" alt></p>
+<p>-Utilizamos el transistor como amplificador para nuestro emisor infrarrojo, en este caso estoy usando un <strong>BC547</strong> pero podría también ser un <strong>2n2222</strong> u otro NPN.</p>
+<p>A través de la base del transistor, conectado a el pin <strong>D1</strong>, controlaremos las señales IR que emitirá nuestro LED(si lo conectamos directamente la luz será muy tenue y no funcionará) y para esto también necesitamos utilizar la librería <strong>IRremoteESP8266.</strong></p>
+<p><strong><em>2) Abrimos Arduino IDE e instalamos la librería como se muestra en la imagen:</em></strong></p>
+<p><img src="/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/arduinoide.png" alt></p>
+<p>Herramientas &gt; Administrador de bibliotecas.</p>
+<p><strong><em>3)Creamos un nuevo sketch donde la vamos a importarla de la siguiente manera:</em></strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;IRremoteESP8266.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;IRsend.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>y continuamos configurando nuestros pines:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> IRLedPin = <span class="number">5</span>;  <span class="comment">// led GPIO pin</span></span><br><span class="line"></span><br><span class="line">IRsend <span class="title function_">irsend</span><span class="params">(IRLedPin)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>IRLedPin = 5 hace referencia al GPIO 5 que en NODEMCU está etiquetado como D1 como lo vemos en la siguiente imagen:</p>
+<p><img src="/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/diagrama2.png" alt></p>
+<p><strong><em>4) Definimos algunos colores basándonos en el repositorio compartido anteriormente:</em></strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">uint16\<span class="type">_t</span> yellow[<span class="number">21</span>] = &#123;<span class="number">1400</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">2800</span>, <span class="number">700</span>, <span class="number">2100</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">1400</span>, <span class="number">2800</span>, <span class="number">1400</span>, <span class="number">2800</span>, <span class="number">700</span>&#125;;</span><br><span class="line"></span><br><span class="line">uint16\<span class="type">_t</span> blue[<span class="number">27</span>] =   &#123;<span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">2100</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">2800</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">2100</span>, <span class="number">700</span>&#125;;</span><br><span class="line"></span><br><span class="line">uint16\<span class="type">_t</span> green[<span class="number">21</span>] = &#123;<span class="number">1400</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">2800</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">1400</span>, <span class="number">2800</span>, <span class="number">1400</span>, <span class="number">2800</span>, <span class="number">700</span>&#125;;</span><br><span class="line"></span><br><span class="line">uint16\<span class="type">_t</span> pink[<span class="number">23</span>] = &#123;<span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">2100</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">2800</span>, <span class="number">700</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">2800</span>, <span class="number">1400</span>, <span class="number">1400</span>, <span class="number">700</span>, <span class="number">2100</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">700</span>, <span class="number">2100</span>, <span class="number">700</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Yo elegí estos pero tú puedes usar tu color de la suerte.</p>
+<p><strong><em>5) Inicializamos irsend en setup:</em></strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">setup</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	irsend.begin();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>6) En loop vamos a poner lo siguiente:</em></strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">loop</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	irsend.sendRaw(yellow, <span class="number">21</span>, <span class="number">38</span>);</span><br><span class="line"></span><br><span class="line">	delay(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">	irsend.sendRaw(green, <span class="number">21</span>, <span class="number">38</span>);</span><br><span class="line"></span><br><span class="line">	delay(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">	irsend.sendRaw(pink, <span class="number">23</span>, <span class="number">38</span>);</span><br><span class="line"></span><br><span class="line">	delay(<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">	irsend.sendRaw(blue, <span class="number">27</span>, <span class="number">38</span>);</span><br><span class="line"></span><br><span class="line">	delay(<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Esto hará que la pulsera se ponga amarilla, espere 200 ms, luego verde, espere 200 ms, luego rosa, espere 200 ms y por último azul para esperar nuevamente 200 ms antes de volver a comenzar.</p>
+<p>Aquí lo importante es pasar por <strong>sendRaw</strong>, el nombre de la variable del color, el tamaño del valor, y la frecuencia a la que funciona, en este caso a <strong>38kHz</strong>.</p>
+<p>Bien ya podemos controlar la pulsera con los colores que hemos elegido, ahora pasaremos a sincronizarla con la música, y para esto haremos uso del sensor de sonido <strong>KY-038</strong>.</p>
+<p><img src="https://media.tenor.com/e8O3ysG8kHMAAAAM/dance-dancing.gif" alt></p>
+<p>Este sensor tiene un pin analógico y un pin digital, además de los pines de alimentación.</p>
+<p>Después de probarlo, honestamente no he podido darle uso a los datos entregados por el pin analógico y al parecer son meramente referenciales, y aunque en el diagrama de este proyecto el pin analógico está conectado al pin A0, realmente podemos dejarlo desconectado.</p>
+<p><strong><em>7) declaramos nuestros pines:</em></strong></p>
+<p>const int microAnalog = A0; // pin analogico del sensor de sonido</p>
+<p>const int microDigital = 16; // pin digital del sensor de sonido</p>
+<p><strong><em>8) cambiamos el modo a input dentro de la función setup() y nos quedarìa así:</em></strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">setup</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    irsend.begin();</span><br><span class="line"></span><br><span class="line">    pinMode(microAnalog, INPUT); <span class="comment">// podemos ignorar esta linea</span></span><br><span class="line"></span><br><span class="line">    pinMode(microDigital, INPUT);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>9) y en loop() vamos a poner lo siguiente:</em></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (digitalRead(microDigital) == HIGH) &#123;</span><br><span class="line"></span><br><span class="line">irsend.sendRaw(yellow, 21, 38);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">delay(200)</span><br></pre></td></tr></table></figure>
+
+<p>Para que cada vez que el sensor de sonido nos mande una señal HIGH (cuando detecta un sonido que excede el umbral configurado) se envíe la señal por IR para encender la pulsera.</p>
+<p><strong><em>10)Como tenemos varios colores haremos lo siguiente para que se ejecuten de manera aleatoria:</em></strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">loop</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> randomNumber = random(<span class="number">1</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (digitalRead(microDigital) == HIGH) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (randomNumber == <span class="number">1</span>) &#123;</span><br><span class="line"></span><br><span class="line">            Serial.println(<span class="string">&quot;send yellow code&quot;</span>);</span><br><span class="line"></span><br><span class="line">            irsend.sendRaw(yellow, <span class="number">21</span>, <span class="number">38</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (randomNumber == <span class="number">2</span>) &#123;</span><br><span class="line"></span><br><span class="line">            Serial.println(<span class="string">&quot;send green code&quot;</span>);</span><br><span class="line"></span><br><span class="line">            irsend.sendRaw(green, <span class="number">21</span>, <span class="number">38</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (randomNumber == <span class="number">3</span>) &#123;</span><br><span class="line"></span><br><span class="line">            Serial.println(<span class="string">&quot;send pink code&quot;</span>);</span><br><span class="line"></span><br><span class="line">            irsend.sendRaw(pink, <span class="number">23</span>, <span class="number">38</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">            Serial.println(<span class="string">&quot;send blue code&quot;</span>);</span><br><span class="line"></span><br><span class="line">            irsend.sendRaw(blue, <span class="number">27</span>, <span class="number">38</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    delay(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>11) Compilamos y cargamos el sketch en nuestro microcontrolador</em></strong></p>
+<p>Ahora cada vez que el sensor detecte un sonido y nos mande una señal HIGH al microcontrolador, se enviará una señal IR para encender la pulsera con un color aleatorio.</p>
+<video width="420" controls>
+  <source src="https://user-images.githubusercontent.com/1235287/204122329-c0079990-3263-4185-87a6-407cd7c081b8.mp4" type="video/mp4">
+</video>
+
+<p><strong>Notas:</strong></p>
+<ul>
+<li>Asegúrate de que el sensor <strong>KY-038</strong> esté calibrado, de lo contrario siempre mandará una señal HIGH.</li>
+</ul>
+<p>Esto lo haces girando la pequeña perilla (ver flecha amarilla) con un destornillador plano, hasta que la luz de la derecha se apague (ver flecha verde), esta luz solo se encenderá cuando detecte un sonido que pase el umbral.</p>
+<ul>
+<li>Así como muestro en el video, tendrás que acercar el micrófono del sensor a la bocina lo más cerca posible para que detecte mejor el sonido.</li>
+</ul>
+<p><img src="/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/diagrama3.png" alt></p>
+<p>Eso es todo, espero les haya gustado!</p>
+<p>Y si tienes alguna duda o sugerencia, estaré atento a los comentarios.</p>
+<p>Repositorio del proyecto: <a href="https://github.com/drneox/pixmob-music-rhythm">https://github.com/drneox/pixmob-music-rhythm</a></p>
+
+
+        <hr />
+        <div class="col-lg-12 d-flex justify-content-start align-items-center">
+          
+          <div
+            class="post-avatar"
+            style="background:url('/img/carlos_ganoza.jpg');background-size: cover;
+            "
+          ></div>
+           
+          <div class="col-lg-9">
+            <h3>Carlos Ganoza</h3>
+             
+            <p class="mt-0 about-color">I have more than 6 years of experience in the technology market, I have been involved in different aspects of software development, cybersecurity, and open-source. I ♥ python, the open-source, and I always enjoy learning new skills.</p>
+            
+          </div>
+        </div>
+      <div class="row">
+
+        
+        <div class="col-12 d-flex justify-content-between">
+           
+          <div class="next">
+            <a class="btn"
+              href="/2022/08/18/soft-delete-en-django-con-django-paranoid/"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Soft delete en django con django-paranoid"
+              >Anterior &rarr;</a
+            >
+          </div>
+          
+        </div>
+      </div>
+        
+        <hr />
+
+        
+        <div class="comment">
+          <div id="disqus_thread" class="disqus-thread"></div>
+        </div>
+
+        <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES * * */
+          var disqus_shortname = "carlosganoza";
+          var disqus_identifier = "http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/";
+          var disqus_url = "http://carlosganoza.com/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/";
+
+          (function() {
+            var dsq = document.createElement("script");
+            dsq.type = "text/javascript";
+            dsq.async = true;
+            dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+            (
+              document.getElementsByTagName("head")[0] ||
+              document.getElementsByTagName("body")[0]
+            ).appendChild(dsq);
+          })();
+        </script>
+         
+      </div>
+    </div>
+  </div>
+</article>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center">
+          
+          <li>
+            <a
+              target="_blank"
+              href="https://twitter.com/drneox"
+            >
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            <a
+              target="_blank"
+              href="https://github.com/drneox"
+            >
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+            <li>
+              <a
+                target="_blank"
+                href="https://stackoverflow.com/users/2383148"
+              >
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          
+          <li>
+            <a
+              target="_blank"
+              href="https://www.linkedin.com/in/carlosganoza"
+            >
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="copyright text-muted">
+                <section class="copyright">All content copyright <a href="/">El blog de Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
+                <section class="copyright">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.nav.js"></script>
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+<!-- Google Analytics -->
+
+
+  <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-77952548-1']);
+        _gaq.push(['_trackPageview']);
+    
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    
+
+
+  </body>
+</html>

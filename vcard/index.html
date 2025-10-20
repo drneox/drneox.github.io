@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carlos Ganoza | vCard</title>
+  <meta name="description" content="Perfil y contacto de Carlos Ganoza — vCard con QR para guardar datos o abrir perfil online." />
+  <meta property="og:title" content="Carlos Ganoza | vCard" />
+  <meta property="og:description" content="Perfil y contacto de Carlos Ganoza — vCard con QR para guardar datos o abrir perfil online." />
+  <meta property="og:type" content="profile" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E💼%3C/text%3E%3C/svg%3E">
+  
+  <style>
+    :root{--text:#0a0a0a;--muted:#6b7280;--border:#e5e7eb;--bg:#ffffff}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#fff;font-family:'Inter',ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--text)}
+    .card{max-width:440px;margin:0 auto;padding:24px}
+    .hero{display:grid;justify-items:center;gap:8px;margin-bottom:16px}
+    .avatar{width:112px;height:112px;border-radius:999px;overflow:hidden;border:1px solid var(--border);background:#fff;display:grid;place-items:center}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    h1{margin:6px 0 0;font-size:28px;line-height:1.1;color:var(--text)}
+    .subtitle{color:var(--muted);font-size:14px}
+    .meta{margin-top:4px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+
+    .social-list{display:grid;gap:12px;margin:18px 0}
+    .social-item,.social-item:link,.social-item:visited{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--border);border-radius:12px;background:#fff;text-decoration:none;color:var(--text)}
+    .si-left{display:flex;align-items:center;gap:12px}
+    .si-icon{width:36px;height:36px;border:1px solid var(--border);border-radius:999px;display:flex;align-items:center;justify-content:center;background:#fff}
+    .si-icon img{display:block;width:20px;height:20px;filter:none}
+    .si-icon svg{display:block;width:20px;height:20px;stroke:#000;fill:none;filter:none}
+    .si-text{display:flex;flex-direction:column;gap:4px;line-height:1.3}
+    .si-title{font-weight:600;color:var(--text)}
+    .si-sub{font-size:12px;color:#6b7280}
+
+    .primary-btn{margin-top:12px;width:100%;padding:14px 16px;border:1px solid var(--border);background:#fff;color:var(--text);border-radius:12px;font-weight:600}
+    .brand-pill{display:inline-block;margin-top:12px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:12px}
+  </style>
+</head>
+<body>
+  <main class="card" tabindex="0" aria-label="Tarjeta de presentación">
+    <span class="ring" aria-hidden="true"></span>
+
+    <section class="hero" aria-label="Encabezado">
+      <div class="avatar" id="avatar" aria-label="Foto o iniciales">
+        <img id="avatarImg" alt="Avatar" />
+      </div>
+      <h1 id="name">Carlos Ganoza</h1>
+      <div class="subtitle" id="role">Cybersecurity Specialist</div>
+      <div class="meta" id="meta"></div>
+    </section>
+
+    <section class="social-list" aria-label="Perfiles sociales">
+      <a class="social-item" id="lnkEmail" href="mailto:carlos.ganoza@owasp.org">
+        <span class="si-left">
+          <span class="si-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" fill="none"></path><path d="M22 6l-10 7L2 6"/></svg>
+          </span>
+          <span class="si-text"><span class="si-title">Email</span>
+            <span class="si-sub">carlos.ganoza@owasp.org</span></span>
+        </span>
+      </a>
+      <a class="social-item" id="lnkLinkedin" href="#" target="_blank" rel="noopener">
+        <span class="si-left">
+          <span class="si-icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" width="20" height="20" alt="LinkedIn"/></span>
+          <span class="si-text"><span class="si-title">LinkedIn</span></span>
+        </span>
+      </a>
+      <a class="social-item" id="lnkGithub" href="#" target="_blank" rel="noopener">
+        <span class="si-left">
+          <span class="si-icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" width="20" height="20" alt="GitHub"/></span>
+          <span class="si-text"><span class="si-title">GitHub</span></span>
+        </span>
+      </a>
+      <a class="social-item" id="lnkWebsite" href="#" target="_blank" rel="noopener">
+        <span class="si-left">
+          <span class="si-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15 15 0 0 1 0 20"></path><path d="M12 2a15 15 0 0 0 0 20"></path></svg></span>
+          <span class="si-text"><span class="si-title">Blog</span></span>
+        </span>
+      </a>
+    </section>
+    
+    
+  </main>
+
+  <script>
+// Simplified script: only set basic info and social links
+const profile = {
+  firstName: "Carlos",
+  lastName: "Ganoza",
+  role: "Cybersecurity Expert",
+  company: "",
+  city: "Lima",
+  country: "Perú",
+  email: "carlos.ganoza@owasp.org",
+  linkedin: "https://linkedin.com/in/carlosganoza",
+  github: "https://github.com/drneox",
+  website: "https://carlosganoza.com",
+  photoUrl: "https://media.licdn.com/dms/image/v2/D4E03AQEvl9jLDx8QCg/profile-displayphoto-shrink_400_400/B4EZa8FdM4HkAg-/0/1746912269899?e=1762387200&v=beta&t=VahIxvxs2GPhyEEzbZ5FLzc_cmy9qG5ZoUQwIZG5apM"
+};
+
+function initProfile() {
+  document.getElementById('name').textContent = `${profile.firstName} ${profile.lastName}`;
+  document.getElementById('role').textContent = profile.role;
+  document.getElementById('meta').innerHTML = `<span>📍 ${profile.city}, ${profile.country}</span><span>🏢 ${profile.company}</span>`;
+  document.getElementById('lnkLinkedin').href = profile.linkedin;
+  document.getElementById('lnkGithub').href = profile.github;
+  document.getElementById('lnkWebsite').href = profile.website;
+  document.getElementById('avatarImg').src = profile.photoUrl;  
+}
+
+document.addEventListener('DOMContentLoaded', initProfile);
+
+// Optional: keep email button in sync if present
+const lnkEmail = document.getElementById('lnkEmail');
+if (lnkEmail && profile.email) lnkEmail.href = `mailto:${profile.email}`;
+</script>
+</body>
+</html>
