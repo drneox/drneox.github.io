@@ -29,7 +29,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2014/03/23/speech-recognition-with-python/</loc>
+    <loc>http://carlosganoza.com/2014/03/22/speech-recognition-with-python/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -38,7 +38,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2011/08/23/data-structures-in-python/</loc>
+    <loc>http://carlosganoza.com/2011/08/22/data-structures-in-python/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -47,7 +47,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2011/08/23/estructura-de-datos-en-python/</loc>
+    <loc>http://carlosganoza.com/2011/08/22/estructura-de-datos-en-python/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -56,7 +56,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2011/11/23/Hacking-routers-with-a-facebook-applications/</loc>
+    <loc>http://carlosganoza.com/2011/11/22/Hacking-routers-with-a-facebook-applications/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -65,7 +65,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2011/11/23/hackeando-routers-con-aplicacio%CC%81n-de-facebook/</loc>
+    <loc>http://carlosganoza.com/2011/11/22/hackeando-routers-con-aplicacio%CC%81n-de-facebook/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -74,7 +74,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2014/04/08/infeccion-de-routers-de-movistar/</loc>
+    <loc>http://carlosganoza.com/2014/04/07/infeccion-de-routers-de-movistar/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -83,7 +83,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2014/03/23/reconomiento-de-voz-con-python/</loc>
+    <loc>http://carlosganoza.com/2014/03/22/reconomiento-de-voz-con-python/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -92,7 +92,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2010/05/17/sms-spoofing/</loc>
+    <loc>http://carlosganoza.com/2010/05/16/sms-spoofing/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -101,7 +101,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2011/02/23/vulnerabilidad-en-taipercom/</loc>
+    <loc>http://carlosganoza.com/2011/02/22/vulnerabilidad-en-taipercom/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -110,7 +110,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2009/09/17/y-ahora-que/</loc>
+    <loc>http://carlosganoza.com/2009/09/16/y-ahora-que/</loc>
     
     <lastmod>2019-09-04</lastmod>
     
@@ -119,7 +119,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2010/06/23/Anti-Fuck-Virus/</loc>
+    <loc>http://carlosganoza.com/2010/06/22/Anti-Fuck-Virus/</loc>
     
     <lastmod>2019-09-04</lastmod>
     
@@ -128,7 +128,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2011/01/27/Anti-FV-v20/</loc>
+    <loc>http://carlosganoza.com/2011/01/26/Anti-FV-v20/</loc>
     
     <lastmod>2019-09-02</lastmod>
     
@@ -139,7 +139,7 @@
 
   <url>
     <loc>http://carlosganoza.com/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -147,112 +147,112 @@
   
   <url>
     <loc>http://carlosganoza.com/tags/python/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/algorithms/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/datastructure/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/arp-spoofing/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/hacking/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/kali/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/bettercap/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/datastructures/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/hardware/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/pixmob/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/badbunny/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/coldplay/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/esp8266/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/speach/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/facebook/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/lima-hack/</loc>
-    <lastmod>2025-10-20</lastmod>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head tag -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="google-site-verification"
+    content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Hi Dear readers, here I bring to you, some implementations of the data structure’s course, but with python.In my University it’s used java for this course, but ..." />
+  <meta name="keywords" content="hacking,programación,tecnología,python,electrónica,Carlos Ganoza,ciberseguridad,coding,tutoriales de hacking,tutoriales de programación,django,django python,django-paranoid,pixmob hacking,pixmob-music-rhythm" />
+  <link rel="shortcut icon" href="/img/favicon.png" />
+
+
+     <meta name="description" content="Hi Dear readers, here I bring to you, some implementations of the data structure’s course, but with python.In my University it’s used java for this course, but I wanted to use pythonbecause right now">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Structures in Python">
+<meta property="og:url" content="http://carlosganoza.com/en/2011/08/22/data-structures-in-python/index.html">
+<meta property="og:site_name" content="El blog de Carlos Ganoza">
+<meta property="og:description" content="Hi Dear readers, here I bring to you, some implementations of the data structure’s course, but with python.In my University it’s used java for this course, but I wanted to use pythonbecause right now">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2011-08-23T03:00:00.000Z">
+<meta property="article:modified_time" content="2019-09-06T23:34:40.000Z">
+<meta property="article:author" content="Carlos Ganoza">
+<meta property="article:tag" content="algorithms">
+<meta property="article:tag" content="dataStructures">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary"> 
+
+  <title>
+     Data Structures in Python - El blog de Carlos Ganoza 
+  </title>
+  <link
+    rel="canonical"
+    href="http://carlosganoza.com/en/2011/08/22/data-structures-in-python/"
+  />
+
+  <!-- Bootstrap Core CSS -->
+  
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+  <!-- Custom CSS -->
+  
+<link rel="stylesheet" href="/css/blog.css">
+
+
+  <!-- Pygments Highlight CSS -->
+  
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+  <link
+    href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css"
+    rel="stylesheet"
+    type="text/css"
+  />
+
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <!-- hack iOS CSS :active style -->
+  <body ontouchstart="">
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top d-flex justify-content-beetwen">
+  <div class="col-3 d-flex justify-content-start">
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <a
+        class="navbar-brand"
+        href="/en"
+        >Home</a
+      >
+    </div>
+    <div class="col-3 d-flex justify-content-end">
+        <a class="navbar-brand mr-0" href="/2011/08/22/data-structures-in-python/"
+            >Español</a
+          >
+    </div>
+            
+         
+          
+        </ul>
+      </div>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>
+
+
+    <!-- Main Content -->
+    
+<!-- Post Header -->
+<style type="text/css">
+  header.intro-header {
+    background-image: url('/img/header.jpg');
+  }
+</style>
+<header class="intro-header">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 d-flex justify-content-center">
+        <div class="post-heading">
+          <div class="tags">
+            
+            <a
+              class="tag"
+              href="/tags/python"
+              title="python"
+              >python</a
+            >
+            
+            <a
+              class="tag"
+              href="/tags/algorithms"
+              title="algorithms"
+              >algorithms</a
+            >
+            
+            <a
+              class="tag"
+              href="/tags/dataStructures"
+              title="dataStructures"
+              >dataStructures</a
+            >
+            
+          </div>
+          <h1 class="mt-3 mb-3">Data Structures in Python</h1>
+          <h2 class="subheading"></h2>
+          <span class="meta">
+            Posted by Carlos Ganoza on 22 Aug, 2011
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Post Content -->
+<article>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <!-- Post Container -->
+      <div
+        class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container"
+      >
+        <p>Hi Dear readers, here I bring to you, some implementations of the data structure’s course, but with python.<br>In my University it’s used java for this course, but I wanted to use python<br>because right now is my prefeer language.</p>
+<p>So, lets go!</p>
+<figure class="highlight python"><figcaption><span>queue.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Queue</span>:</span><br><span class="line"></span><br><span class="line">     <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.queue = []</span><br><span class="line"></span><br><span class="line">     <span class="keyword">def</span> <span class="title function_">is_empty</span>(<span class="params">self</span>):</span><br><span class="line">	    <span class="keyword">if</span> <span class="variable language_">self</span>.queue==[]:</span><br><span class="line">		    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">	    <span class="keyword">else</span>:</span><br><span class="line">	        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">     <span class="keyword">def</span> <span class="title function_">peek</span>(<span class="params">self</span>):</span><br><span class="line">	    <span class="keyword">return</span> <span class="variable language_">self</span>.queue[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">     <span class="keyword">def</span> <span class="title function_">enqueue</span>(<span class="params">self, element</span>):</span><br><span class="line">	    <span class="variable language_">self</span>.queue.append(element)</span><br><span class="line"></span><br><span class="line">     <span class="keyword">def</span> <span class="title function_">dequeue</span>(<span class="params">self</span>):</span><br><span class="line">	    <span class="keyword">del</span> <span class="variable language_">self</span>.queue[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><figcaption><span>list.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">List</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="variable language_">self</span>.<span class="built_in">list</span>=[]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">last</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> <span class="variable language_">self</span>.<span class="built_in">list</span>[-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">first</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> <span class="variable language_">self</span>.<span class="built_in">list</span>[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">next</span>(<span class="params">self, position</span>):</span><br><span class="line">		<span class="keyword">return</span> <span class="variable language_">self</span>.<span class="built_in">list</span>[position+<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">previous</span>(<span class="params">self, position</span>):</span><br><span class="line">		<span class="keyword">return</span> <span class="variable language_">self</span>.<span class="built_in">list</span>[position-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">is_empty</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">if</span> <span class="variable language_">self</span>.<span class="built_in">list</span>==[]:</span><br><span class="line">			<span class="built_in">print</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self, position</span>):</span><br><span class="line">		e=<span class="variable language_">self</span>.<span class="built_in">list</span>[position]</span><br><span class="line">		<span class="keyword">return</span> e</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">lenght</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.<span class="built_in">list</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">push</span>(<span class="params">self, position, elemento </span>):</span><br><span class="line">		<span class="variable language_">self</span>.<span class="built_in">list</span>.insert(position, elemento)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">remove</span>(<span class="params">self, position</span>):</span><br><span class="line">		<span class="keyword">del</span> <span class="variable language_">self</span>.<span class="built_in">list</span>[position]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> <span class="variable language_">self</span>.<span class="built_in">list</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><figcaption><span>stack.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Stack</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="variable language_">self</span>.stack=[]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">is_empty</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">if</span> <span class="variable language_">self</span>.stack==[]:</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">		retrun <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">last</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> <span class="variable language_">self</span>.stack[-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">push</span>(<span class="params">self, element</span>):</span><br><span class="line">		<span class="variable language_">self</span>.stack.append(element)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">pop</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> <span class="variable language_">self</span>.stack.pop()</span><br></pre></td></tr></table></figure>
+
+<p>Also, here I leave an exercise using Binary Search Tree for to order words and search it.<br>Is posible search words from a web(if do you to enter the url) or some txt file, only do you shoud see the implementation tree_implementation.py</p>
+<figure class="highlight python"><figcaption><span>tree.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Tree</span>:</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    Tree constructor (create it empty)</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        constructor</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="variable language_">self</span>.left = <span class="literal">None</span></span><br><span class="line">        <span class="variable language_">self</span>.right = <span class="literal">None</span></span><br><span class="line">        <span class="variable language_">self</span>.data = data</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">create_node</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        we create node as a list according to the letters of the alphabet.</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> data &lt; <span class="variable language_">self</span>.data:</span><br><span class="line">            <span class="keyword">if</span> <span class="variable language_">self</span>.left <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                <span class="variable language_">self</span>.left = Tree(data)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="variable language_">self</span>.left.create_node(data)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="variable language_">self</span>.right <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                <span class="variable language_">self</span>.right = Tree(data)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="variable language_">self</span>.right.create_node(data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">insert</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        Go through the tree comparing the first letter with the nodes, and inserted into the corresponding node.</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br><span class="line">        data = <span class="built_in">list</span>(data)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> data[<span class="number">0</span>] &lt; <span class="variable language_">self</span>.data[<span class="number">0</span>]:</span><br><span class="line">                <span class="variable language_">self</span>.left.insert(data)</span><br><span class="line">            <span class="keyword">elif</span> data[<span class="number">0</span>] &gt; <span class="variable language_">self</span>.data[<span class="number">0</span>]:</span><br><span class="line">                <span class="variable language_">self</span>.right.insert(data)</span><br><span class="line">            <span class="keyword">elif</span> data[<span class="number">0</span>] == <span class="variable language_">self</span>.data[<span class="number">0</span>]:</span><br><span class="line">                <span class="variable language_">self</span>.data.append(data)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            a = -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">lookup</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        Go through the tree and find where the corresponding list.</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br><span class="line">        cont = <span class="number">0</span></span><br><span class="line">        data = <span class="built_in">list</span>(data)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> data[<span class="number">0</span>] &lt; <span class="variable language_">self</span>.data[<span class="number">0</span>]:</span><br><span class="line">                <span class="variable language_">self</span>.left.lookup(data)</span><br><span class="line">            <span class="keyword">elif</span> data[<span class="number">0</span>] &gt; <span class="variable language_">self</span>.data[<span class="number">0</span>]:</span><br><span class="line">                <span class="variable language_">self</span>.right.lookup(data)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                num = <span class="built_in">len</span>(data)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(<span class="variable language_">self</span>.data)):</span><br><span class="line">                <span class="keyword">if</span> data == <span class="variable language_">self</span>.data[i][<span class="number">0</span>:num]:</span><br><span class="line">                    <span class="built_in">print</span> i, <span class="string">&quot;&gt;&gt;&quot;</span>,</span><br><span class="line">                    cont = cont + <span class="number">1</span></span><br><span class="line">                    <span class="built_in">print</span> <span class="string">&quot;&quot;</span>.join(<span class="variable language_">self</span>.data[i])</span><br><span class="line">            <span class="built_in">print</span> <span class="string">&quot;total of coincidences: &quot;</span>, cont</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            a = -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        print the tree.</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.left:</span><br><span class="line">            <span class="variable language_">self</span>.left.show()</span><br><span class="line">            <span class="built_in">print</span> <span class="variable language_">self</span>.data</span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.right:</span><br><span class="line">            <span class="variable language_">self</span>.right.show()</span><br><span class="line">            <span class="built_in">print</span> <span class="variable language_">self</span>.data</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><figcaption><span>tree_implementation.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">THANKS GOD!!!</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib2, re</span><br><span class="line"></span><br><span class="line">list_uppercase = []</span><br><span class="line"></span><br><span class="line">list_lowercase = <span class="string">&#x27;a b c d e f g h i j k l m n o p q r s t u v w x y z&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># create the list of lowercase letters</span></span><br><span class="line"></span><br><span class="line">list_lowercase = list_lowercase.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the list of uppercase letters</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(list_lowercase)):</span><br><span class="line">    list_uppercase.append(list_lowercase[i].upper())</span><br><span class="line"><span class="comment"># search the root</span></span><br><span class="line">root = <span class="built_in">len</span>(list_lowercase) / <span class="number">2</span></span><br><span class="line">root = <span class="built_in">list</span>(list_lowercase[root])</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the root of tree</span></span><br><span class="line">tree = Tree(root)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create the list on the nodes</span></span><br><span class="line"><span class="keyword">for</span> letter <span class="keyword">in</span> list_lowercase:</span><br><span class="line">    <span class="keyword">if</span> letter != root[<span class="number">0</span>]:</span><br><span class="line">        tree.create_node(<span class="built_in">list</span>(letter))</span><br><span class="line"><span class="comment"># insert the nodes</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(list_uppercase)):</span><br><span class="line">    tree.create_node(<span class="built_in">list</span>(list_uppercase[i]))</span><br><span class="line"><span class="comment"># read the web</span></span><br><span class="line">web = raw_input(<span class="string">&quot;Enter the web page do you want to read (if you want to read a local file write local):&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> web == <span class="string">&quot;local&quot;</span>:</span><br><span class="line">    file = <span class="built_in">open</span>(<span class="string">&#x27;file.txt&#x27;</span>)</span><br><span class="line">    file = file.read()</span><br><span class="line">    a = file.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="keyword">elif</span> web.startswith(<span class="string">&#x27;www&#x27;</span>):</span><br><span class="line">    file = urllib2.urlopen(<span class="string">&#x27;http://&#x27;</span> + web)</span><br><span class="line">    file = file.read()</span><br><span class="line">    a = re.findall(<span class="string">r&#x27;\w+&#x27;</span>, file)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&quot;error D:&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(a) - <span class="number">1</span>):</span><br><span class="line">    <span class="built_in">print</span> a[i]</span><br><span class="line">    tree.insert(a[i])</span><br><span class="line">s = <span class="string">&quot;Y&quot;</span></span><br><span class="line"><span class="built_in">print</span> tree.show()</span><br><span class="line"><span class="keyword">while</span> s == <span class="string">&quot;Y&quot;</span>:</span><br><span class="line">    word = raw_input(<span class="string">&quot;enter the letter or word: &quot;</span>)</span><br><span class="line">    tree.lookup(word)</span><br><span class="line">    s = raw_input(<span class="string">&quot;do you want to follow?[Y/N]: &quot;</span>).upper()</span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;you left the program&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>As you will see in the last exercise thanks to the magic of python, as Ider would say (a friend who gave me the light to start) you can organize the words hierarchically as if they were numbers (from major to minor) and facilitating the task in The organization of the binary tree.</p>
+<p>Implementing ADT in python is relatively simple and it is only a matter of reading the theory, I hope this helps.</p>
+
+
+        <hr />
+        <div class="col-lg-12 d-flex justify-content-start align-items-center">
+          
+          <div
+            class="post-avatar"
+            style="background:url('/img/carlos_ganoza.jpg');background-size: cover;
+            "
+          ></div>
+           
+          <div class="col-lg-9">
+            <h3>Carlos Ganoza</h3>
+             
+            <p class="mt-0 about-color">I have more than 6 years of experience in the technology market, I have been involved in different aspects  of software development, cybersecurity, and open-source. I ♥ python, the open-source, and I always enjoy learning new skills.</p>
+            
+          </div>
+        </div>
+      <div class="row">
+
+        
+        <div class="col-12 d-flex justify-content-between">
+          
+          <div class="previous">
+            <a class="btn"
+              href="/2011/08/22/estructura-de-datos-en-python/"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Estructura de datos en python"
+              >&larr; Newer Posts</a
+            >
+          </div>
+           
+          <div class="next">
+            <a class="btn"
+              href="/2011/02/22/vulnerabilidad-en-taipercom/"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="vulnerabilidad en taiper.com"
+              >Older Posts &rarr;</a
+            >
+          </div>
+          
+        </div>
+      </div>
+        
+        <hr />
+
+        
+        <div class="comment">
+          <div id="disqus_thread" class="disqus-thread"></div>
+        </div>
+
+        <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES * * */
+          var disqus_shortname = "carlosganoza";
+          var disqus_identifier = "http://carlosganoza.com/2011/08/22/data-structures-in-python/";
+          var disqus_url = "http://carlosganoza.com/2011/08/22/data-structures-in-python/";
+
+          (function() {
+            var dsq = document.createElement("script");
+            dsq.type = "text/javascript";
+            dsq.async = true;
+            dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+            (
+              document.getElementsByTagName("head")[0] ||
+              document.getElementsByTagName("body")[0]
+            ).appendChild(dsq);
+          })();
+        </script>
+         
+      </div>
+    </div>
+  </div>
+</article>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center">
+          
+          <li>
+            <a
+              target="_blank"
+              href="https://twitter.com/drneox"
+            >
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            <a
+              target="_blank"
+              href="https://github.com/drneox"
+            >
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+            <li>
+              <a
+                target="_blank"
+                href="https://stackoverflow.com/users/2383148"
+              >
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          
+          <li>
+            <a
+              target="_blank"
+              href="https://www.linkedin.com/in/carlosganoza"
+            >
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="copyright text-muted">
+                <section class="copyright">All content copyright <a href="/">El blog de Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
+                <section class="copyright">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.nav.js"></script>
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+<!-- Google Analytics -->
+
+
+  <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-77952548-1']);
+        _gaq.push(['_trackPageview']);
+    
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    
+
+
+  </body>
+</html>
