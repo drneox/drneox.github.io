@@ -83,15 +83,6 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2014/03/23/reconomiento-de-voz-con-python/</loc>
-    
-    <lastmod>2019-09-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://carlosganoza.com/2010/05/17/sms-spoofing/</loc>
     
     <lastmod>2019-09-06</lastmod>
@@ -102,6 +93,15 @@
   
   <url>
     <loc>http://carlosganoza.com/2011/02/23/vulnerabilidad-en-taipercom/</loc>
+    
+    <lastmod>2019-09-06</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/2014/03/23/reconomiento-de-voz-con-python/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -167,6 +167,20 @@
   </url>
   
   <url>
+    <loc>http://carlosganoza.com/tags/datastructures/</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/speach/</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://carlosganoza.com/tags/facebook/</loc>
     <lastmod>2026-04-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -182,20 +196,6 @@
   
   <url>
     <loc>http://carlosganoza.com/tags/lima-hack/</loc>
-    <lastmod>2026-04-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/tags/datastructures/</loc>
-    <lastmod>2026-04-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/tags/speach/</loc>
     <lastmod>2026-04-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
