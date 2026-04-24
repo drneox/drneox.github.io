@@ -561,6 +561,16 @@ pre code {
     font-size: 18px;
   }
 }
+.post-preview-image {
+  margin: 10px 0 14px;
+  text-align: center;
+}
+.post-preview-image img {
+  max-height: 280px;
+  width: auto;
+  max-width: 100%;
+  border-radius: 4px;
+}
 .post-content-preview {
   font-size: 13px;
   font-style: italic;
