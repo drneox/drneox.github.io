@@ -2,7 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://carlosganoza.com/2011/11/23/hackeando-routers-con-aplicacion-de-facebook/</loc>
+    <loc>http://carlosganoza.com/2011/08/23/data-structures-in-python/</loc>
+    
+    <lastmod>2026-04-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/2014/03/23/speech-recognition-with-python/</loc>
+    
+    <lastmod>2026-04-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/2014/03/23/reconomiento-de-voz-con-python/</loc>
+    
+    <lastmod>2026-04-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/2011/08/23/estructura-de-datos-en-python/</loc>
     
     <lastmod>2026-04-24</lastmod>
     
@@ -12,6 +39,15 @@
   
   <url>
     <loc>http://carlosganoza.com/2011/11/23/Hacking-routers-with-a-facebook-applications/</loc>
+    
+    <lastmod>2026-04-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/2011/11/23/hackeando-routers-con-aplicacion-de-facebook/</loc>
     
     <lastmod>2026-04-24</lastmod>
     
@@ -47,43 +83,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2014/03/23/speech-recognition-with-python/</loc>
-    
-    <lastmod>2019-09-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/2011/08/23/data-structures-in-python/</loc>
-    
-    <lastmod>2019-09-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/2011/08/23/estructura-de-datos-en-python/</loc>
-    
-    <lastmod>2019-09-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://carlosganoza.com/2014/04/08/infeccion-de-routers-de-movistar/</loc>
-    
-    <lastmod>2019-09-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/2014/03/23/reconomiento-de-voz-con-python/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
