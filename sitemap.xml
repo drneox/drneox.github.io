@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://carlosganoza.com/2026/05/11/amplificando-vulnerabilidades-con-ia/</loc>
+    
+    <lastmod>2026-05-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/</loc>
+    
+    <lastmod>2026-05-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://carlosganoza.com/2026/04/24/nutcracker-mobile-security/</loc>
     
     <lastmod>2026-04-24</lastmod>
@@ -175,7 +193,7 @@
 
   <url>
     <loc>http://carlosganoza.com/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -183,154 +201,182 @@
   
   <url>
     <loc>http://carlosganoza.com/tags/python/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/algorithms/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/datastructure/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/facebook/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/hacking/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/lima-hack/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/datastructures/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/cybersecurity/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/open-source/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/speach/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/arp-spoofing/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/kali/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/bettercap/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/owasp/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/ekoparty/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/ai/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/ciberseguridad/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/hardware/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/pixmob/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/badbunny/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/coldplay/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://carlosganoza.com/tags/esp8266/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/vulnerabilities/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/opinions/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/vulnerabilidades/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/opiniones/</loc>
+    <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
