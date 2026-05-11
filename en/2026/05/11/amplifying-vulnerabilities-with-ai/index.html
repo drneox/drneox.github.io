@@ -20,7 +20,7 @@ Despite the title, this is not a post about a new exploitation technique, an exo
 <meta property="og:image" content="http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png">
 <meta property="og:image" content="http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/pipeline.png">
 <meta property="article:published_time" content="2026-05-11T05:00:00.000Z">
-<meta property="article:modified_time" content="2026-05-11T06:58:14.493Z">
+<meta property="article:modified_time" content="2026-05-11T12:58:25.384Z">
 <meta property="article:author" content="Carlos Ganoza">
 <meta property="article:tag" content="ai">
 <meta property="article:tag" content="hacking">
@@ -219,7 +219,7 @@ Despite the title, this is not a post about a new exploitation technique, an exo
   <article class="post-body">
     <p><img src="/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png" alt="amplifying vulnerabilities with AI" title="Amplifying Vulnerabilities with AI"><span class="image-caption">amplifying vulnerabilities with AI</span></p>
 <p>Despite the title, this is not a post about a new exploitation technique, an exotic zero-day, or a hacking method you can try at your next CTF. It’s an invitation to rethink how we manage risk in an era where attackers no longer need to exploit your zero-day — a well-crafted headline and an AI with good prose is enough.</p>
-<p>This happens more often than we’d like to admit. A company can have up-to-date patching, MFA everywhere, a 24/7 SOC, ISO 27001, SOC 2, whatever you want. And still lose hundreds of millions in brand value within 72 hours. The reason? The modern attacker no longer compromises servers. They compromise the narrative.</p>
+<p>A company can have up-to-date patching, MFA everywhere, a 24/7 SOC, ISO 27001, SOC 2, whatever you want. And still lose hundreds of millions in brand value within 72 hours. The reason? The modern attacker no longer compromises servers. They compromise the narrative.</p>
 <p>And the narrative, today, is scalable.</p>
 <h3 id="The-experiment-that-got-me-thinking"><a href="#The-experiment-that-got-me-thinking" class="headerlink" title="The experiment that got me thinking"></a>The experiment that got me thinking</h3><p>Last year, a team from Ludwig Maximilian University of Munich <a href="https://www.researchgate.net/publication/399667020_Left_Right_or_Center_Evaluating_LLM_Framing_in_News_Classification_and_Generation">published something</a> (Kennedy, Parker, Liu, and Schütze) that kept me thinking for weeks. They took the <strong>same news story</strong> and fed it into 9 LLM models with four different instructions: faithful to the original, centrist, left-leaning, and right-leaning.</p>
 <p>Result: with a single prompt, the models generate markedly biased versions of the same fact. The technique works.</p>
@@ -367,6 +367,26 @@ Despite the title, this is not a post about a new exploitation technique, an exo
   </div>
   
 </div>
+
+<!-- ── COMMENTS ── -->
+
+<section class="post-comments">
+  <h3 class="comments-title">Comments</h3>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_shortname  = "carlosganoza";
+    var disqus_identifier = "http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/";
+    var disqus_url        = "http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/";
+    (function() {
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
 
   </main>
 
