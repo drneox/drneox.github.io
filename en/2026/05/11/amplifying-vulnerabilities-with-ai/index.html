@@ -1,21 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- Head tag -->
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta
-    name="google-site-verification"
-    content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"
-  />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
   <meta name="description" content="amplifying vulnerabilities with AI
-Despite the title, this is not a post about a new exploitation technique, an exotic zero-day, or a hacking method you can try..." />
-  <meta name="keywords" content="hacking,programación,tecnología,python,electrónica,Carlos Ganoza,ciberseguridad,coding,tutoriales de hacking,tutoriales de programación,django,django python,django-paranoid,pixmob hacking,pixmob-music-rhythm" />
-  <link rel="shortcut icon" href="/img/favicon.png" />
+Despite the title, this is not a post about a new exploitation technique, an exotic zero-day, or a hacking method you can try">
+  <meta name="keywords" content="hacking, programación, tecnología, python, electrónica, Carlos Ganoza, ciberseguridad, coding, tutoriales de hacking, tutoriales de programación, django, django python, django-paranoid, pixmob hacking, pixmob-music-rhythm">
+  <link rel="shortcut icon" href="/img/favicon.png">
 
-
-     <meta name="description" content="amplifying vulnerabilities with AI Despite the title, this is not a post about a new exploitation technique, an exotic zero-day, or a hacking method you can try at your next CTF. It’s an invitation to">
+  
+    <meta name="description" content="amplifying vulnerabilities with AI Despite the title, this is not a post about a new exploitation technique, an exotic zero-day, or a hacking method you can try at your next CTF. It’s an invitation to">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Amplifying Vulnerabilities with AI">
 <meta property="og:url" content="http://carlosganoza.com/en/2026/05/11/amplifying-vulnerabilities-with-ai/index.html">
@@ -23,148 +18,204 @@ Despite the title, this is not a post about a new exploitation technique, an exo
 <meta property="og:description" content="amplifying vulnerabilities with AI Despite the title, this is not a post about a new exploitation technique, an exotic zero-day, or a hacking method you can try at your next CTF. It’s an invitation to">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png">
+<meta property="og:image" content="http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/pipeline.png">
 <meta property="article:published_time" content="2026-05-11T05:00:00.000Z">
-<meta property="article:modified_time" content="2026-05-11T06:30:26.686Z">
+<meta property="article:modified_time" content="2026-05-11T06:52:18.683Z">
 <meta property="article:author" content="Carlos Ganoza">
 <meta property="article:tag" content="ai">
 <meta property="article:tag" content="hacking">
 <meta property="article:tag" content="opinions">
 <meta property="article:tag" content="vulnerabilities">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png"> 
+<meta name="twitter:image" content="http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png">
+  
 
   <title>
-     Amplifying Vulnerabilities with AI - El blog de Carlos Ganoza 
+    Amplifying Vulnerabilities with AI — El blog de Carlos Ganoza
   </title>
-  <link
-    rel="canonical"
-    href="http://carlosganoza.com/en/2026/05/11/amplifying-vulnerabilities-with-ai/"
-  />
 
-  <!-- Bootstrap Core CSS -->
-  
-<link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="canonical" href="http://carlosganoza.com/en/2026/05/11/amplifying-vulnerabilities-with-ai/">
 
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Custom CSS -->
+  <!-- Theme CSS -->
   
 <link rel="stylesheet" href="/css/blog.css">
 
-
-  <!-- Pygments Highlight CSS -->
-  
-<link rel="stylesheet" href="/css/highlight.css">
-
-
-  <link
-    href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css"
-    rel="stylesheet"
-    type="text/css"
-  />
-
-
 <meta name="generator" content="Hexo 8.1.1"></head>
 
+<body>
+  
 
-  <!-- hack iOS CSS :active style -->
-  <body ontouchstart="">
-    <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top d-flex justify-content-beetwen">
-  <div class="col-3 d-flex justify-content-start">
-    <!-- Brand and toggle get grouped for better mobile display -->
-      <a
-        class="navbar-brand"
-        href="/en"
-        >Home</a
-      >
-    </div>
-    <div class="col-3 d-flex justify-content-end">
-        
-          
-            <a class="navbar-brand mr-0" href="/2026/05/11/amplificando-vulnerabilidades-con-ia/"
-                >Español</a>
-          
-        
-    </div>
-            
-         
-          
-        </ul>
-      </div>
-    </div>
-    <!-- /.navbar-collapse -->
-  </div>
-  <!-- /.container -->
-</nav>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
+<aside class="sidebar" id="sidebar">
+  <button class="sb-close" onclick="closeSidebar()" aria-label="Cerrar menú">✕</button>
 
-    <!-- Main Content -->
+  <div class="sb-profile">
+    <div class="sb-avatar">CG</div>
+    <div class="sb-name">Carlos Ganoza</div>
     
-<!-- Post Header -->
-<style type="text/css">
-  header.intro-header {
-    background-image: url('/img/header.jpg');
-  }
-</style>
-<header class="intro-header">
-  <div class="container-fluid">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 col-md-10 d-flex justify-content-center">
-        <div class="post-heading">
-          <div class="tags">
-            
-            <a
-              class="tag"
-              href="/tags/hacking"
-              title="hacking"
-              >hacking</a
-            >
-            
-            <a
-              class="tag"
-              href="/tags/ai"
-              title="ai"
-              >ai</a
-            >
-            
-            <a
-              class="tag"
-              href="/tags/vulnerabilities"
-              title="vulnerabilities"
-              >vulnerabilities</a
-            >
-            
-            <a
-              class="tag"
-              href="/tags/opinions"
-              title="opinions"
-              >opinions</a
-            >
-            
-          </div>
-          <h1 class="mt-3 mb-3">Amplifying Vulnerabilities with AI</h1>
-          <h2 class="subheading"></h2>
-          <span class="meta">
-            Posted by Carlos Ganoza on 11 May, 2026
-          </span>
-        </div>
-      </div>
+    <div class="sb-role">blog about cybersecurity, engineering, computer science and other boring things.</div>
+    
+    
+    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, appli...</p>
+    
+    <div class="sb-socials">
+      
+        <a href="https://twitter.com/drneox" class="sb-soc" target="_blank" rel="noopener noreferrer">Twitter</a>
+      
+      
+        <a href="https://github.com/drneox" class="sb-soc" target="_blank" rel="noopener noreferrer">GitHub</a>
+      
+      
+        <a href="https://www.linkedin.com/in/carlosganoza" class="sb-soc" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      
+      
+        <a href="https://stackoverflow.com/users/2383148" class="sb-soc" target="_blank" rel="noopener noreferrer">Stack</a>
+      
     </div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="sb-group">
+      <div class="sb-group-label">Navigation</div>
+      <a class="sb-item" href="/en" onclick="closeSidebar()">
+        <span class="sb-icon">⌂</span> Home
+      </a>
+      <a class="sb-item" href="/en/archives/" onclick="closeSidebar()">
+        <span class="sb-icon">☰</span> Archives
+      </a>
+    </div>
+
+    
+    
+    <div class="sb-group">
+      <div class="sb-group-label">Tags</div>
+      
+      <a class="sb-item" href="/tags/hacking/" onclick="closeSidebar()">
+        <span class="sb-icon">#</span> hacking
+      </a>
+      
+      <a class="sb-item" href="/tags/python/" onclick="closeSidebar()">
+        <span class="sb-icon">#</span> python
+      </a>
+      
+      <a class="sb-item" href="/tags/ai/" onclick="closeSidebar()">
+        <span class="sb-icon">#</span> ai
+      </a>
+      
+      <a class="sb-item" href="/tags/algorithms/" onclick="closeSidebar()">
+        <span class="sb-icon">#</span> algorithms
+      </a>
+      
+      <a class="sb-item" href="/tags/open-source/" onclick="closeSidebar()">
+        <span class="sb-icon">#</span> open-source
+      </a>
+      
+      <a class="sb-item" href="/tags/owasp/" onclick="closeSidebar()">
+        <span class="sb-icon">#</span> owasp
+      </a>
+      
+      <a class="sb-item" href="/tags/ekoparty/" onclick="closeSidebar()">
+        <span class="sb-icon">#</span> ekoparty
+      </a>
+      
+      <a class="sb-item" href="/tags/datastructure/" onclick="closeSidebar()">
+        <span class="sb-icon">#</span> dataStructure
+      </a>
+      
+    </div>
+    
+
+    <div class="sb-group">
+      <div class="sb-group-label">Links</div>
+      
+      
+      <a class="sb-item" href="https://github.com/drneox" target="_blank" rel="noopener noreferrer" onclick="closeSidebar()">
+        <span class="sb-icon">↗</span> GitHub
+      </a>
+      
+    </div>
+  </nav>
+
+  <div class="sb-foot">El blog de Carlos Ganoza</div>
+</aside>
+
+  
+
+<header class="masthead">
+  <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Abrir menú">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="brand">
+    <a href="/">
+      <span class="brand-name">carlosganoza<span class="dot">.com</span></span>
+      
+      <span class="brand-sub">blog about cybersecurity, engineering, computer science and other boring things.</span>
+      
+    </a>
+  </div>
+
+  <div class="mast-right">
+    <!-- Language switch -->
+    
+      
+        <a class="mast-link lang-link" href="/2026/05/11/amplificando-vulnerabilidades-con-ia/">Español</a>
+      
+    
+    <a href="/en/archives/" class="btn-arch">Archives</a>
   </div>
 </header>
 
-<!-- Post Content -->
-<article>
-  <div class="container-fluid">
-    <div class="row justify-content-center">
-      <!-- Post Container -->
-      <div
-        class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container"
-      >
-        <p><img src="/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png" alt="amplifying vulnerabilities with AI" title="Amplifying Vulnerabilities with AI"><span class="image-caption">amplifying vulnerabilities with AI</span></p>
+
+  <main>
+    
+
+<!-- ── POST HERO ── -->
+<div class="post-hero" style=&quot;background-image:url(&#39;/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png&#39;)&quot;>
+  
+  <div class="post-hero-badge">
+    hacking · ai
+  </div>
+  
+  <div class="post-hero-title-block">
+    <h1 class="post-hero-title">Amplifying Vulnerabilities with AI</h1>
+  </div>
+</div>
+
+<!-- ── META BAR ── -->
+<div class="post-meta-bar">
+  <div class="author">
+    <div class="author-avatar">CG</div>
+    Carlos Ganoza
+  </div>
+  <span class="meta-sep">·</span>
+  <span class="meta-chip">11 May, 2026</span>
+  <span class="meta-sep">·</span>
+  <span class="meta-chip">19 min read</span>
+  
+  <span class="meta-sep">·</span>
+  
+  <a href="/tags/hacking/" class="meta-tag">hacking</a>
+  
+  <a href="/tags/ai/" class="meta-tag">ai</a>
+  
+  <a href="/tags/vulnerabilities/" class="meta-tag">vulnerabilities</a>
+  
+  <a href="/tags/opinions/" class="meta-tag">opinions</a>
+  
+  
+</div>
+
+<!-- ── POST LAYOUT (body + TOC aside) ── -->
+<div class="post-layout">
+  <article class="post-body">
+    <p><img src="/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png" alt="amplifying vulnerabilities with AI" title="Amplifying Vulnerabilities with AI"><span class="image-caption">amplifying vulnerabilities with AI</span></p>
 <p>Despite the title, this is not a post about a new exploitation technique, an exotic zero-day, or a hacking method you can try at your next CTF. It’s an invitation to rethink how we manage risk in an era where attackers no longer need to exploit your zero-day — a well-crafted headline and an AI with good prose is enough.</p>
 <p>This happens more often than we’d like to admit. A company can have up-to-date patching, MFA everywhere, a 24/7 SOC, ISO 27001, SOC 2, whatever you want. And still lose hundreds of millions in brand value within 72 hours. The reason? The modern attacker no longer compromises servers. They compromise the narrative.</p>
 <p>And the narrative, today, is scalable.</p>
@@ -180,30 +231,7 @@ Despite the title, this is not a post about a new exploitation technique, an exo
 <h3 id="Medium-and-low-severity-findings-count-too"><a href="#Medium-and-low-severity-findings-count-too" class="headerlink" title="Medium and low severity findings count too"></a>Medium and low severity findings count too</h3><p>For years, security teams have prioritized by severity: critical first, high next, medium and low almost always end up in the backlog. That made sense when the attacker needed to <strong>exploit</strong> the vulnerability to cause damage.</p>
 <p>But the modern attacker doesn’t want to exploit. Sometimes they just want to <strong>show</strong>. And AI has radically changed what can be done with low-severity material.</p>
 <p>The pipeline looks like this:</p>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Input</th>
-<th>Cost</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1. Trivial raw material</td>
-<td>A CVSS 4.3, an old GitHub commit, an exposed subdomain.</td>
-<td>~0</td>
-</tr>
-<tr>
-<td>2. AI narrative packaging</td>
-<td>Headlines, threads, posts and “technical analyses” with credible jargon. 30 variants in minutes.</td>
-<td>Pennies</td>
-</tr>
-<tr>
-<td>3. Multichannel distribution</td>
-<td>Bots, forums, secondary media. Indexed on Google within hours.</td>
-<td>~0</td>
-</tr>
-</tbody></table>
+<p><img src="/2026/05/11/amplifying-vulnerabilities-with-ai/pipeline.png" alt="low technical severity + AI amplification = high perceived severity" title="low technical severity + AI amplification = high perceived severity"><span class="image-caption">low technical severity + AI amplification = high perceived severity</span></p>
 <p>The result is the formula that closes this entire argument: <strong>low technical severity + AI amplification = high perceived severity.</strong> And perceived severity is what moves clients, stock prices, and regulators.</p>
 <h3 id="Damage-without-failure-three-real-cases"><a href="#Damage-without-failure-three-real-cases" class="headerlink" title="Damage without failure: three real cases"></a>Damage without failure: three real cases</h3><p>To avoid staying abstract, three cases from recent years. In all three, the claim was public, massive, and verifiably false. And in all three, the targeted brand had to defend itself anyway.</p>
 <h4 id="Case-1-—-Europcar-January-2024-the-paradigmatic-case"><a href="#Case-1-—-Europcar-January-2024-the-paradigmatic-case" class="headerlink" title="Case 1 — Europcar (January 2024): the paradigmatic case"></a>Case 1 — Europcar (January 2024): the paradigmatic case</h4><p>An anonymous actor appeared in a hacking forum offering to sell the data of <strong>48.6 million people</strong> allegedly stolen from Europcar, the European car rental company. A breach of that size would have been one of the largest of the year.</p>
@@ -263,12 +291,12 @@ Despite the title, this is not a post about a new exploitation technique, an exo
 <h3 id="The-checklist-before-communicating"><a href="#The-checklist-before-communicating" class="headerlink" title="The checklist before communicating"></a>The checklist before communicating</h3><p>Before talking to the journalist, before drafting the statement, before notifying clients, there’s one question you need to be able to answer with a yes. Do you have the evidence to back what you’re about to say?</p>
 <p>And pay attention to the nuance: the checklist works for both types of damage. If it’s a Europcar-type case (you didn’t fail), the evidence lets you <strong>sustain your defense with verifiable data</strong> and prove the attacker’s “sample” is fake. If it’s a RIBridges-type case (you did fail), the evidence lets you <strong>show you know the scope, that you’re responding, and that you’re not improvising</strong>. In both cases, without evidence, any public response is an unsupported statement. And an unsupported statement is the best way to turn an incident into a crisis when the narrative starts contradicting the facts.</p>
 <ul>
-<li>✅ <strong>Logs of the affected system</strong>, preserved and accessible.</li>
-<li>✅ <strong>Management ticket</strong> with an assigned owner.</li>
-<li>✅ <strong>Decision and approver</strong> traceable (who, when, why).</li>
-<li>✅ <strong>Patch and control status</strong> at the time of the incident.</li>
-<li>✅ <strong>Internal communications</strong> documented during the response.</li>
-<li>✅ <strong>Independent validation</strong> (recent pentest, auditor, SOC).</li>
+<li><strong>Logs of the affected system</strong>, preserved and accessible.</li>
+<li><strong>Management ticket</strong> with an assigned owner.</li>
+<li><strong>Decision and approver</strong> traceable (who, when, why).</li>
+<li><strong>Patch and control status</strong> at the time of the incident.</li>
+<li><strong>Internal communications</strong> documented during the response.</li>
+<li><strong>Independent validation</strong> (recent pentest, auditor, SOC).</li>
 </ul>
 <p>If you can’t show evidence of how something was managed, for practical purposes it wasn’t managed. Good cybersecurity management isn’t declared: it’s evidenced.</p>
 <h3 id="Ignore-it-or-manage-it"><a href="#Ignore-it-or-manage-it" class="headerlink" title="Ignore it or manage it"></a>Ignore it or manage it</h3><p>AI-driven reputational risk is real, quantified, and growing. The question isn’t whether it affects us. It’s what we’re going to do about it. And there are only two possible answers.</p>
@@ -296,162 +324,66 @@ Despite the title, this is not a post about a new exploitation technique, an exo
 <p>The threats ahead are no longer only technical. They are technical, narrative, social, and perceptual — all at once. If we keep measuring risk with a ten-year-old ruler, we’ll be late to the next crisis. And the next headline doesn’t wait for next month’s sprint.</p>
 <p>How many times have you seen in your organizations the phrase *”if it’s not critical, we leave it in the backlog”* become the foundation of a public crisis months later?</p>
 
+  </article>
 
-        <hr />
-        <div class="col-lg-12 d-flex justify-content-start align-items-center">
-          
-          <div
-            class="post-avatar"
-            style="background:url('/img/carlos_ganoza.jpg');background-size: cover;
-            "
-          ></div>
-           
-          <div class="col-lg-9">
-            <h3>Carlos Ganoza</h3>
-             
-            <p class="mt-0 about-color">I have more than 13 years of experience in the technology market, I have been involved in different aspects  of software development, cybersecurity, and open-source. I ♥ python, the open-source, and I always enjoy learning new skills.</p>
-            
-          </div>
-        </div>
-      <div class="row">
+  <aside class="post-aside">
+    <div class="aside-label">Contents</div>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-experiment-that-got-me-thinking"><span class="toc-text">The experiment that got me thinking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Being-secure-and-appearing-secure-are-not-the-same-thing"><span class="toc-text">Being secure and appearing secure are not the same thing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium-and-low-severity-findings-count-too"><span class="toc-text">Medium and low severity findings count too</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Damage-without-failure-three-real-cases"><span class="toc-text">Damage without failure: three real cases</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#But-what-if-you-actually-failed"><span class="toc-text">But what if you actually failed?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Two-types-of-damage-two-three-scenarios"><span class="toc-text">Two types of damage, two three scenarios</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Why-it-works-the-human-brain"><span class="toc-text">Why it works: the human brain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-numbers-confirm-it"><span class="toc-text">The numbers confirm it</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#What-if-the-story-reaches-a-serious-outlet"><span class="toc-text">What if the story reaches a serious outlet?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-checklist-before-communicating"><span class="toc-text">The checklist before communicating</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ignore-it-or-manage-it"><span class="toc-text">Ignore it or manage it</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Three-fronts-for-Monday-morning"><span class="toc-text">Three fronts for Monday morning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#What-we-need-to-rethink"><span class="toc-text">What we need to rethink</span></a></li></ol>
 
-        
-        <div class="col-12 d-flex justify-content-between">
-           
-          <div class="next">
-            <a class="btn"
-              href="/2026/05/11/amplificando-vulnerabilidades-con-ia/"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Amplificando Vulnerabilidades con IA"
-              >Older Posts &rarr;</a
-            >
-          </div>
-          
-        </div>
-      </div>
-        
-        <hr />
-
-        
-        <div class="comment">
-          <div id="disqus_thread" class="disqus-thread"></div>
-        </div>
-
-        <script type="text/javascript">
-          /* * * CONFIGURATION VARIABLES * * */
-          var disqus_shortname = "carlosganoza";
-          var disqus_identifier = "http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/";
-          var disqus_url = "http://carlosganoza.com/2026/05/11/amplifying-vulnerabilities-with-ai/";
-
-          (function() {
-            var dsq = document.createElement("script");
-            dsq.type = "text/javascript";
-            dsq.async = true;
-            dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
-            (
-              document.getElementsByTagName("head")[0] ||
-              document.getElementsByTagName("body")[0]
-            ).appendChild(dsq);
-          })();
-        </script>
-         
-      </div>
-    </div>
-  </div>
-</article>
-
-
-    <!-- Footer -->
-    <!-- Footer -->
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center">
-          
-          <li>
-            <a
-              target="_blank"
-              href="https://twitter.com/drneox"
-            >
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            <a
-              target="_blank"
-              href="https://github.com/drneox"
-            >
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-            <li>
-              <a
-                target="_blank"
-                href="https://stackoverflow.com/users/2383148"
-              >
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-circle fa-stack-2x"></i>
-                  <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-            </li>
-          
-          <li>
-            <a
-              target="_blank"
-              href="https://www.linkedin.com/in/carlosganoza"
-            >
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-        <p class="copyright text-muted">
-                <section class="copyright">All content copyright <a href="/">El blog de Carlos Ganoza</a> &copy; 2014 &bull; All rights reserved.</section>
-                <section class="copyright">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-        </p>
-      </div>
-    </div>
-  </div>
-</footer>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery.nav.js"></script>
-
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/script.js"></script>
-
-
-
-
-<!-- Google Analytics -->
-
-
-  <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-77952548-1']);
-        _gaq.push(['_trackPageview']);
     
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
+    <div class="aside-label" style="margin-top: 28px;">Tags</div>
+    <div class="aside-tags">
+      
+      <a href="/tags/hacking/" class="aside-tag">hacking</a>
+      
+      <a href="/tags/ai/" class="aside-tag">ai</a>
+      
+      <a href="/tags/vulnerabilities/" class="aside-tag">vulnerabilities</a>
+      
+      <a href="/tags/opinions/" class="aside-tag">opinions</a>
+      
+    </div>
     
+  </aside>
+</div>
 
+<!-- ── POST NAVIGATION ── -->
+<div class="post-nav">
+  
+  <div class="pn-item"></div>
+  
 
-  </body>
+  
+  <div class="pn-item pn-item--right">
+    <a href="/2026/05/11/amplificando-vulnerabilidades-con-ia/">
+      <span class="pn-dir">Older Posts →</span>
+      <span class="pn-title">Amplificando Vulnerabilidades con IA</span>
+      
+      <span class="pn-cat">hacking</span>
+      
+    </a>
+  </div>
+  
+</div>
+
+  </main>
+
+  
+
+  <script>
+    function toggleSidebar() {
+      var sb = document.getElementById('sidebar');
+      var ov = document.getElementById('overlay');
+      var hb = document.getElementById('hamburger');
+      sb.classList.toggle('open');
+      ov.classList.toggle('open');
+      hb.classList.toggle('open');
+    }
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+  </script>
+</body>
 </html>
