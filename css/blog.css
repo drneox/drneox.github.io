@@ -647,6 +647,22 @@ img { max-width: 100%; height: auto; display: block; }
   border: 1px solid var(--border); border-top: none;
   text-align: center;
 }
+/* hexo-renderer-marked generates <p><img><span class="image-caption"> */
+.post-body p:has(.image-caption) {
+  margin: 28px 0 0; line-height: 0;
+}
+.post-body p:has(.image-caption) img {
+  margin: 0; display: block; width: 100%; line-height: 0;
+}
+.post-body .image-caption {
+  display: block; line-height: 1.4;
+  padding: 6px 10px; margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.04em;
+  color: var(--muted); background: var(--surface);
+  border: 1px solid var(--border); border-top: none;
+  text-align: center;
+}
 .post-body hr {
   border: none; border-top: 1px solid var(--border); margin: 40px 0;
 }
