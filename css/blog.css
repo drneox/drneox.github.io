@@ -424,6 +424,10 @@ img { max-width: 100%; height: auto; display: block; }
   font-family: 'JetBrains Mono', monospace; font-size: 9px;
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-style: normal;
 }
+.ab-quote .ab-bio {
+  font-size: 13px; line-height: 1.7; color: var(--muted);
+  margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);
+}
 .ab-avatar {
   width: 80px; height: 80px;
   border-radius: 50%;
@@ -440,7 +444,6 @@ img { max-width: 100%; height: auto; display: block; }
   font-family: 'JetBrains Mono', monospace; font-size: 9px;
   letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
 }
-.ab-info p { font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 22px; }
 .social-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .soc-link {
   font-family: 'JetBrains Mono', monospace; font-size: 9px;
