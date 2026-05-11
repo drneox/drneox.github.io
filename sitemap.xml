@@ -146,7 +146,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2010/05/17/sms-spoofing/</loc>
+    <loc>http://carlosganoza.com/2011/02/23/vulnerabilidad-en-taipercom/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -155,7 +155,7 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/2011/02/23/vulnerabilidad-en-taipercom/</loc>
+    <loc>http://carlosganoza.com/2010/05/17/sms-spoofing/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -263,6 +263,27 @@
   </url>
   
   <url>
+    <loc>http://carlosganoza.com/tags/ai/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/vulnerabilities/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://carlosganoza.com/tags/opinions/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://carlosganoza.com/tags/speach/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -270,21 +291,14 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/tags/arp-spoofing/</loc>
+    <loc>http://carlosganoza.com/tags/vulnerabilidades/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/tags/kali/</loc>
-    <lastmod>2026-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/tags/bettercap/</loc>
+    <loc>http://carlosganoza.com/tags/opiniones/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -299,13 +313,6 @@
   
   <url>
     <loc>http://carlosganoza.com/tags/ekoparty/</loc>
-    <lastmod>2026-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/tags/ai/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -354,28 +361,21 @@
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/tags/vulnerabilities/</loc>
+    <loc>http://carlosganoza.com/tags/arp-spoofing/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/tags/opinions/</loc>
+    <loc>http://carlosganoza.com/tags/kali/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://carlosganoza.com/tags/vulnerabilidades/</loc>
-    <lastmod>2026-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://carlosganoza.com/tags/opiniones/</loc>
+    <loc>http://carlosganoza.com/tags/bettercap/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

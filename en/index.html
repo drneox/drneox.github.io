@@ -61,13 +61,15 @@
   <button class="sb-close" onclick="closeSidebar()" aria-label="Cerrar menú">✕</button>
 
   <div class="sb-profile">
-    <div class="sb-avatar">CG</div>
+    
+    <div class="sb-avatar sb-avatar--photo" style="background-image:url('/img/carlos_ganoza.gif')"></div>
+  
     <div class="sb-name">Carlos Ganoza</div>
     
     <div class="sb-role">blog about cybersecurity, engineering, computer science and other boring things.</div>
     
     
-    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, appli...</p>
+    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, application security, risk management, offensive security, and ethical hacking. MSc in Cybersecurity,OWASP Chapter Leader, speaker, mentor, and open-source enthusiast focused on secure development, threat modeling, DevSecOps, and security culture.</p>
     
     <div class="sb-socials">
       
@@ -183,14 +185,14 @@
 
 
 <section class="featured-post">
-  <a href="/2026/05/11/amplifying-vulnerabilities-with-ai/" class="fp-image" style=&quot;background-image:url(&#39;/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png&#39;)&quot;>
+  <a href="/2026/05/11/amplifying-vulnerabilities-with-ai/" class="fp-image" style="background-image:url('/2026/05/11/amplifying-vulnerabilities-with-ai/amplifying-vulnerabilities-with-ai.png')">
     <span class="fp-badge">Featured</span>
   </a>
   <div class="fp-content">
     <div class="fp-kicker">
       hacking · ai · May 2026
     </div>
-    <h1 class="fp-title">Amplifying Vulnerabilities with AI</h1>
+    <a href="/2026/05/11/amplifying-vulnerabilities-with-ai/"><h1 class="fp-title">Amplifying Vulnerabilities with AI</h1></a>
     <p class="fp-excerpt">amplifying vulnerabilities with AI
 Despite the title, this is not a post about a new exploitation technique, an exotic zero-day, or a hacking method you can try at your next CTF. It’s an invitation...</p>
     <div class="fp-meta">
@@ -216,7 +218,7 @@ Despite the title, this is not a post about a new exploitation technique, an exo
   
   <article class="post-card">
     <a href="/2026/04/24/nutcracker-mobile-security/">
-      <div class="pc-image tone-1" style=&quot;background-image:url(&#39;/2026/04/24/nutcracker-mobile-security/nutcracker-banner.png&#39;)&quot;></div>
+      <div class="pc-image tone-1" style="background-image:url('/2026/04/24/nutcracker-mobile-security/nutcracker-banner.png')"></div>
       <div class="pc-body">
         <div class="pc-cat">python</div>
         <h3>Nutcracker - Mobile Security & Offensive Threat Intelligence</h3>
@@ -247,7 +249,7 @@ Attackers capitalize on one thing better than anyone else: the moment we start s
   
   <article class="post-card">
     <a href="/2011/11/23/Hacking-routers-with-a-facebook-applications/">
-      <div class="pc-image tone-3" style=&quot;background-image:url(&#39;/2011/11/23/Hacking-routers-with-a-facebook-applications/limahack.jpg&#39;)&quot;></div>
+      <div class="pc-image tone-3" style="background-image:url('/2011/11/23/Hacking-routers-with-a-facebook-applications/limahack.jpg')"></div>
       <div class="pc-body">
         <div class="pc-cat">facebook</div>
         <h3>Hacking routers with a facebook applications</h3>
@@ -290,12 +292,12 @@ Attackers capitalize on one thing better than anyone else: the moment we start s
     <cite>— Carlos Ganoza</cite>
   </div>
   <div class="ab-info">
+    
+    <div class="ab-avatar" style="background-image:url('/img/carlos_ganoza.png')"></div>
+    
     <h3>Carlos Ganoza</h3>
     
     <div class="ab-role">blog about cybersecurity, engineering, computer science and other boring things.</div>
-    
-    
-    <p>Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, application security, risk management, offensive security, and ethical hacking. MSc in Cybersecurity,OWASP Chapter Leader, speaker, mentor, and open-source enthusiast focused on secure development, threat modeling, DevSecOps, and security culture.</p>
     
     <div class="social-row">
       
@@ -417,14 +419,16 @@ Attackers capitalize on one thing better than anyone else: the moment we start s
       var sb = document.getElementById('sidebar');
       var ov = document.getElementById('overlay');
       var hb = document.getElementById('hamburger');
-      sb.classList.toggle('open');
+      var isOpen = sb.classList.toggle('open');
       ov.classList.toggle('open');
       hb.classList.toggle('open');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     }
     function closeSidebar() {
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('overlay').classList.remove('open');
       document.getElementById('hamburger').classList.remove('open');
+      document.body.style.overflow = '';
     }
   </script>
 </body>

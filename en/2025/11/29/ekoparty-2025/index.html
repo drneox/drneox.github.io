@@ -56,13 +56,15 @@ Fue un enorme placer reencontrarme co">
   <button class="sb-close" onclick="closeSidebar()" aria-label="Cerrar menú">✕</button>
 
   <div class="sb-profile">
-    <div class="sb-avatar">CG</div>
+    
+    <div class="sb-avatar sb-avatar--photo" style="background-image:url('/img/carlos_ganoza.gif')"></div>
+  
     <div class="sb-name">Carlos Ganoza</div>
     
     <div class="sb-role">blog about cybersecurity, engineering, computer science and other boring things.</div>
     
     
-    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, appli...</p>
+    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, application security, risk management, offensive security, and ethical hacking. MSc in Cybersecurity,OWASP Chapter Leader, speaker, mentor, and open-source enthusiast focused on secure development, threat modeling, DevSecOps, and security culture.</p>
     
     <div class="sb-socials">
       
@@ -175,10 +177,10 @@ Fue un enorme placer reencontrarme co">
     
 
 <!-- ── POST HERO ── -->
-<div class="post-hero" style=&quot;background-image:url(&#39;/2025/11/29/ekoparty-2025/ekoparty2025.jpg&#39;)&quot;>
+<div class="post-hero" style="background-image:url('/2025/11/29/ekoparty-2025/ekoparty2025.jpg')">
   
   <div class="post-hero-badge">
-    hacking · owasp
+    hacking · ai
   </div>
   
   <div class="post-hero-title-block">
@@ -201,11 +203,11 @@ Fue un enorme placer reencontrarme co">
   
   <a href="/tags/hacking/" class="meta-tag">hacking</a>
   
+  <a href="/tags/ai/" class="meta-tag">ai</a>
+  
   <a href="/tags/owasp/" class="meta-tag">owasp</a>
   
   <a href="/tags/ekoparty/" class="meta-tag">ekoparty</a>
-  
-  <a href="/tags/ai/" class="meta-tag">ai</a>
   
   
 </div>
@@ -233,11 +235,11 @@ Fue un enorme placer reencontrarme co">
       
       <a href="/tags/hacking/" class="aside-tag">hacking</a>
       
+      <a href="/tags/ai/" class="aside-tag">ai</a>
+      
       <a href="/tags/owasp/" class="aside-tag">owasp</a>
       
       <a href="/tags/ekoparty/" class="aside-tag">ekoparty</a>
-      
-      <a href="/tags/ai/" class="aside-tag">ai</a>
       
     </div>
     
@@ -280,14 +282,16 @@ Fue un enorme placer reencontrarme co">
       var sb = document.getElementById('sidebar');
       var ov = document.getElementById('overlay');
       var hb = document.getElementById('hamburger');
-      sb.classList.toggle('open');
+      var isOpen = sb.classList.toggle('open');
       ov.classList.toggle('open');
       hb.classList.toggle('open');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     }
     function closeSidebar() {
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('overlay').classList.remove('open');
       document.getElementById('hamburger').classList.remove('open');
+      document.body.style.overflow = '';
     }
   </script>
 </body>

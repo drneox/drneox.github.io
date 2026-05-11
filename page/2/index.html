@@ -61,13 +61,15 @@
   <button class="sb-close" onclick="closeSidebar()" aria-label="Cerrar menú">✕</button>
 
   <div class="sb-profile">
-    <div class="sb-avatar">CG</div>
+    
+    <div class="sb-avatar sb-avatar--photo" style="background-image:url('/img/carlos_ganoza.gif')"></div>
+  
     <div class="sb-name">Carlos Ganoza</div>
     
     <div class="sb-role">blog about cybersecurity, engineering, computer science and other boring things.</div>
     
     
-    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, appli...</p>
+    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, application security, risk management, offensive security, and ethical hacking. MSc in Cybersecurity,OWASP Chapter Leader, speaker, mentor, and open-source enthusiast focused on secure development, threat modeling, DevSecOps, and security culture.</p>
     
     <div class="sb-socials">
       
@@ -192,7 +194,7 @@
   
   <article class="post-card">
     <a href="/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/">
-      <div class="pc-image tone-1" style=&quot;background-image:url(&#39;/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/portada.jpg&#39;)&quot;></div>
+      <div class="pc-image tone-1" style="background-image:url('/2022/11/30/sincronizar-pulsera-de-los-conciertos-pximob-con-musica-utilizando-un-esp8266/portada.jpg')"></div>
       <div class="pc-body">
         <div class="pc-cat">hacking</div>
         <h3>Sincronizar la pulsera de los conciertos (PixMob) con música utilizando un ESP8266</h3>
@@ -223,7 +225,7 @@ Este último año se han vuelto a realizar varios conciertos en mi país despué
   
   <article class="post-card">
     <a href="/2020/07/05/arp-spoofing-con-bettercap/">
-      <div class="pc-image tone-3" style=&quot;background-image:url(&#39;/2020/07/05/arp-spoofing-con-bettercap/logo-bettercap.png&#39;)&quot;></div>
+      <div class="pc-image tone-3" style="background-image:url('/2020/07/05/arp-spoofing-con-bettercap/logo-bettercap.png')"></div>
       <div class="pc-body">
         <div class="pc-cat">hacking</div>
         <h3>ARP spoofing con bettercap</h3>
@@ -239,7 +241,7 @@ Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bas
   
   <article class="post-card">
     <a href="/2014/04/08/infeccion-de-routers-de-movistar/">
-      <div class="pc-image tone-1" style=&quot;background-image:url(&#39;//lh4.googleusercontent.com/-RZXhXg2x550/U0N-MUnt80I/AAAAAAAADjY/Mz17Fr9Igrs/w284-h504-no/Screenshot_2014-04-07-22-33-35.png&#39;)&quot;></div>
+      <div class="pc-image tone-1" style="background-image:url('//lh4.googleusercontent.com/-RZXhXg2x550/U0N-MUnt80I/AAAAAAAADjY/Mz17Fr9Igrs/w284-h504-no/Screenshot_2014-04-07-22-33-35.png')"></div>
       <div class="pc-body">
         <div class="pc-cat"></div>
         <h3>infección de routers de movistar</h3>
@@ -365,14 +367,16 @@ Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bas
       var sb = document.getElementById('sidebar');
       var ov = document.getElementById('overlay');
       var hb = document.getElementById('hamburger');
-      sb.classList.toggle('open');
+      var isOpen = sb.classList.toggle('open');
       ov.classList.toggle('open');
       hb.classList.toggle('open');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     }
     function closeSidebar() {
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('overlay').classList.remove('open');
       document.getElementById('hamburger').classList.remove('open');
+      document.body.style.overflow = '';
     }
   </script>
 </body>

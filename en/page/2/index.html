@@ -61,13 +61,15 @@
   <button class="sb-close" onclick="closeSidebar()" aria-label="Cerrar menú">✕</button>
 
   <div class="sb-profile">
-    <div class="sb-avatar">CG</div>
+    
+    <div class="sb-avatar sb-avatar--photo" style="background-image:url('/img/carlos_ganoza.gif')"></div>
+  
     <div class="sb-name">Carlos Ganoza</div>
     
     <div class="sb-role">blog about cybersecurity, engineering, computer science and other boring things.</div>
     
     
-    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, appli...</p>
+    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, application security, risk management, offensive security, and ethical hacking. MSc in Cybersecurity,OWASP Chapter Leader, speaker, mentor, and open-source enthusiast focused on secure development, threat modeling, DevSecOps, and security culture.</p>
     
     <div class="sb-socials">
       
@@ -316,14 +318,16 @@
       var sb = document.getElementById('sidebar');
       var ov = document.getElementById('overlay');
       var hb = document.getElementById('hamburger');
-      sb.classList.toggle('open');
+      var isOpen = sb.classList.toggle('open');
       ov.classList.toggle('open');
       hb.classList.toggle('open');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     }
     function closeSidebar() {
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('overlay').classList.remove('open');
       document.getElementById('hamburger').classList.remove('open');
+      document.body.style.overflow = '';
     }
   </script>
 </body>
