@@ -631,6 +631,22 @@ img { max-width: 100%; height: auto; display: block; }
 .post-body img {
   max-width: 100%; margin: 28px 0;
 }
+.post-body figure {
+  margin: 28px 0;
+}
+.post-body figure img {
+  margin: 0; display: block; width: 100%;
+}
+.post-body figcaption,
+.post-body figure p,
+.post-body figure .image-caption {
+  margin: 0; padding: 6px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.04em;
+  color: var(--muted); background: var(--surface);
+  border: 1px solid var(--border); border-top: none;
+  text-align: center;
+}
 .post-body hr {
   border: none; border-top: 1px solid var(--border); margin: 40px 0;
 }
