@@ -13,16 +13,16 @@ Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bas
     <meta name="description" content="Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bastante completa para la auditoría de redes, y por supuesto la importancia de conectarnos a internet a través de un canal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ARP spoofing con bettercap">
-<meta property="og:url" content="http://carlosganoza.com/en/2020/07/05/arp-spoofing-con-bettercap/index.html">
-<meta property="og:site_name" content="El blog de Carlos Ganoza">
+<meta property="og:url" content="https://carlosganoza.com/en/2020/07/05/arp-spoofing-con-bettercap/index.html">
+<meta property="og:site_name" content="Carlos Ganoza — Cybersecurity Manager &amp; Security Specialist">
 <meta property="og:description" content="Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bastante completa para la auditoría de redes, y por supuesto la importancia de conectarnos a internet a través de un canal">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/logo-bettercap.png">
-<meta property="og:image" content="http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/mitm.png">
-<meta property="og:image" content="http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/bettercap.png">
-<meta property="og:image" content="http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/show.png">
-<meta property="og:image" content="http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/arp-a.png">
-<meta property="og:image" content="http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/trafico-web-sin-https.png">
+<meta property="og:image" content="https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/logo-bettercap.png">
+<meta property="og:image" content="https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/mitm.png">
+<meta property="og:image" content="https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/bettercap.png">
+<meta property="og:image" content="https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/show.png">
+<meta property="og:image" content="https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/arp-a.png">
+<meta property="og:image" content="https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/trafico-web-sin-https.png">
 <meta property="article:published_time" content="2020-07-06T04:26:24.000Z">
 <meta property="article:modified_time" content="2022-11-30T19:48:21.000Z">
 <meta property="article:author" content="Carlos Ganoza">
@@ -31,14 +31,26 @@ Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bas
 <meta property="article:tag" content="hacking">
 <meta property="article:tag" content="kali">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/logo-bettercap.png">
+<meta name="twitter:image" content="https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/logo-bettercap.png">
   
 
   <title>
-    ARP spoofing con bettercap — El blog de Carlos Ganoza
+    ARP spoofing con bettercap — Carlos Ganoza — Cybersecurity Manager &amp; Security Specialist
   </title>
 
-  <link rel="canonical" href="http://carlosganoza.com/en/2020/07/05/arp-spoofing-con-bettercap/">
+  <link rel="canonical" href="https://carlosganoza.com/en/2020/07/05/arp-spoofing-con-bettercap/">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@drneox">
+  <meta name="twitter:creator" content="@drneox">
+
+  <!-- hreflang for bilingual posts -->
+  
+  <link rel="alternate" hreflang="en" href="https://carlosganoza.com/en/2020/07/05/arp-spoofing-con-bettercap/">
+  <link rel="alternate" hreflang="es" href="https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/">
+  <link rel="alternate" hreflang="x-default" href="https://carlosganoza.com/en/2020/07/05/arp-spoofing-con-bettercap/">
+  
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,6 +61,47 @@ Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bas
   
 <link rel="stylesheet" href="/css/blog.css">
 
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Carlos Ganoza",
+    "url": "https://carlosganoza.com",
+    "jobTitle": "Cybersecurity Manager",
+    "description": "Cybersecurity Manager, MSc. 15+ years in tech. Experienced in leading organizational cybersecurity strategy across Risk Management, AppSec, Offensive Security and Culture — and I still enjoy getting my hands dirty in the technical work. Open source contributor and OWASP Lima Chapter Leader. In chaos, I train.",
+    "sameAs": [
+      "https://github.com/drneox",
+      "https://www.linkedin.com/in/carlosganoza",
+      "https://twitter.com/drneox"
+    ]
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ARP spoofing con bettercap",
+    "description": "Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bastante completa para la auditoría de redes, y por supuesto la importancia de conectarnos a internet a través de un canal ",
+    "url": "https://carlosganoza.com/en/2020/07/05/arp-spoofing-con-bettercap/",
+    "datePublished": "2020-07-06T04:26:24.000Z",
+    "dateModified": "2022-11-30T19:48:21.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Carlos Ganoza",
+      "url": "https://carlosganoza.com"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Carlos Ganoza",
+      "url": "https://carlosganoza.com"
+    },
+    "image": "https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/logo-bettercap.png"
+  }
+  </script>
+  
 <meta name="generator" content="Hexo 8.1.1"></head>
 
 <body>
@@ -65,10 +118,10 @@ Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bas
   
     <div class="sb-name">Carlos Ganoza</div>
     
-    <div class="sb-role">blog about cybersecurity, engineering, computer science and other boring things.</div>
+    <div class="sb-role">In chaos, I train.</div>
     
     
-    <p class="sb-bio">Cybersecurity Manager and Security Specialist with 15+ years of experience in software engineering, cybersecurity, application security, risk management, offensive security, and ethical hacking. MSc in Cybersecurity,OWASP Chapter Leader, speaker, mentor, and open-source enthusiast focused on secure development, threat modeling, DevSecOps, and security culture.</p>
+    <p class="sb-bio">Cybersecurity Manager, MSc. 15+ years in tech. Experienced in leading organizational cybersecurity strategy across Risk Management, AppSec, Offensive Security and Culture — and I still enjoy getting my hands dirty in the technical work. Open source contributor and OWASP Lima Chapter Leader. In chaos, I train.</p>
     
     <div class="sb-socials">
       
@@ -148,7 +201,7 @@ Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bas
     </div>
   </nav>
 
-  <div class="sb-foot">El blog de Carlos Ganoza</div>
+  <div class="sb-foot">Carlos Ganoza — Cybersecurity Manager &amp; Security Specialist</div>
 </aside>
 
   
@@ -162,7 +215,7 @@ Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bas
     <a href="/">
       <span class="brand-name">carlosganoza<span class="dot">.com</span></span>
       
-      <span class="brand-sub">blog about cybersecurity, engineering, computer science and other boring things.</span>
+      <span class="brand-sub">In chaos, I train.</span>
       
     </a>
   </div>
@@ -329,8 +382,8 @@ Hoy quiero hablar acerca de arp spoofing, de bettercap: una gran herramienta bas
   <div id="disqus_thread"></div>
   <script>
     var disqus_shortname  = "carlosganoza";
-    var disqus_identifier = "http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/";
-    var disqus_url        = "http://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/";
+    var disqus_identifier = "https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/";
+    var disqus_url        = "https://carlosganoza.com/2020/07/05/arp-spoofing-con-bettercap/";
     (function() {
       var dsq = document.createElement('script');
       dsq.type = 'text/javascript'; dsq.async = true;
