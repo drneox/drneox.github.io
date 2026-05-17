@@ -146,7 +146,7 @@
   </url>
   
   <url>
-    <loc>https://carlosganoza.com/2011/02/23/vulnerabilidad-en-taipercom/</loc>
+    <loc>https://carlosganoza.com/2010/05/17/sms-spoofing/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -155,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://carlosganoza.com/2010/05/17/sms-spoofing/</loc>
+    <loc>https://carlosganoza.com/2011/02/23/vulnerabilidad-en-taipercom/</loc>
     
     <lastmod>2019-09-06</lastmod>
     
@@ -249,20 +249,6 @@
   </url>
   
   <url>
-    <loc>https://carlosganoza.com/tags/cybersecurity/</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://carlosganoza.com/tags/open-source/</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://carlosganoza.com/tags/ai/</loc>
     <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -291,14 +277,14 @@
   </url>
   
   <url>
-    <loc>https://carlosganoza.com/tags/owasp/</loc>
+    <loc>https://carlosganoza.com/tags/cybersecurity/</loc>
     <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://carlosganoza.com/tags/ekoparty/</loc>
+    <loc>https://carlosganoza.com/tags/open-source/</loc>
     <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -334,6 +320,20 @@
   
   <url>
     <loc>https://carlosganoza.com/tags/opiniones/</loc>
+    <lastmod>2026-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://carlosganoza.com/tags/owasp/</loc>
+    <lastmod>2026-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://carlosganoza.com/tags/ekoparty/</loc>
     <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
