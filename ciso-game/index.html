@@ -687,7 +687,7 @@ const ALL_SCENES = [
 
 // --- CRISIS ESPECIALES ---
 {id:'media_breach',cat:'crisis',icon:'📰',title:'CRISIS — PERIODISTA CON EVIDENCIA DE BRECHA',
- text:'Un periodista te llama: <em>"Tenemos evidencia de que CorpTech sufrió una brecha en marzo. ¿Comentan antes de publicar mañana?"</em>\n\nNo tienes constancia de ninguna brecha. Tienes 4 horas para investigar.',
+ text:'Un periodista te llama: <em>"Tenemos evidencia de que NutBank sufrió una brecha en marzo. ¿Comentan antes de publicar mañana?"</em>\n\nNo tienes constancia de ninguna brecha. Tienes 4 horas para investigar.',
  choices:[
   {text:'Investigar urgentemente los logs de marzo antes de responder',
    result:'María y Ana revisan 3 meses de logs. Encuentran un incidente menor contenido pero no comunicado formalmente. El periodista tenía razón.',
@@ -704,7 +704,7 @@ const ALL_SCENES = [
 ]},
 
 {id:'nation_state',cat:'crisis',icon:'🌏',title:'INTELIGENCIA — ACTOR ESTADO-NACIÓN',
- text:'El FBI te contacta: inteligencia indica que un actor estado-nación realiza reconocimiento activo contra CorpTech. Tus contratos con el gobierno los hacen objetivo.\n\nEl nivel de sofisticación supera la capacidad de tu equipo.',
+ text:'El FBI te contacta: inteligencia indica que un actor estado-nación realiza reconocimiento activo contra NutBank. Tus contratos con el gobierno los hacen objetivo.\n\nEl nivel de sofisticación supera la capacidad de tu equipo.',
  choices:[
   {text:'Coordinar con el FBI y seguir sus instrucciones operacionales',
    result:'El FBI comparte inteligencia en tiempo real. Detectan y contienen el reconocimiento. Caso de éxito público-privado.',
@@ -755,7 +755,7 @@ const ALL_SCENES = [
 ]},
 
 {id:'darkweb_intel',cat:'crisis',icon:'🕳️',title:'INTELIGENCIA — CREDENCIALES EN DARKWEB',
- text:'Threat intelligence alerta: credenciales de CorpTech están siendo vendidas en un foro darkweb. 450 combinaciones usuario/contraseña aparentemente válidas.\n\nNo sabes si son actuales o de una brecha antigua.',
+ text:'Threat intelligence alerta: credenciales de NutBank están siendo vendidas en un foro darkweb. 450 combinaciones usuario/contraseña aparentemente válidas.\n\nNo sabes si son actuales o de una brecha antigua.',
  choices:[
   {text:'Forzar reset de contraseñas en toda la empresa + auditoría de accesos',
    result:'3,200 resets en 4 horas. Helpdesk colapsa. Pero 12 credenciales del paquete eran válidas y ahora no lo son.',
@@ -1660,7 +1660,7 @@ function showRunInfo() {
 // =====================================================================
 const INTRO_SCENE = {
   id:'intro',icon:'🏢',title:'DÍA UNO — OFICINA CISO',
-  text:'Son las 08:47. Tu primer día como CISO en <strong>CorpTech S.A.</strong> — 3,200 empleados, 800,000 clientes, operaciones en 12 países.\n\nEl CEO: <em>"El board quiere resultados en 90 días. Suerte."</em>\n\nTu equipo te espera en la sala de crisis. Actividad inusual en el perímetro desde anoche.',
+  text:'Son las 08:47. Tu primer día como CISO en <strong>NutBank S.A.</strong> — 3,200 empleados, 800,000 clientes, operaciones en 12 países.\n\nEl CEO: <em>"El board quiere resultados en 90 días. Suerte."</em>\n\nTu equipo te espera en la sala de crisis. Actividad inusual en el perímetro desde anoche.',
   choices:[
     {text:'Reunirte con el equipo y revisar el estado completo de los sistemas',
      result:'Firewall desactualizado, 3 servidores sin parches críticos, intentos de fuerza bruta desde IPs rusas. Comienzas con información sólida.',
