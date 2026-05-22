@@ -788,6 +788,8 @@ const ALL_SCENES = [
    fx:{reputation:-15},log:'danger'},
 ]},
 
+,
+
 // --- NUEVOS ESCENARIOS ADICIONALES ---
 {id:'deepfake_ceo',cat:'crisis',icon:'🎭',title:'CRISIS — DEEPFAKE DEL CEO',isEvent:true,
  text:'Un video deepfake del CEO circula en LinkedIn ordenando a los empleados transferir $2M a una cuenta "de emergencia" para cerrar una adquisición secreta. El CFO ya procesó $400K antes de que alguien lo cuestionara.\n\nEl video es perfectamente convincente. Tres periodistas te llaman.',
@@ -1049,15 +1051,15 @@ function shuffle(arr) {
 }
 
 function buildQueue() {
-  // INFINITE MODE: return ALL scenes shuffled. When exhausted, refill.
-  return shuffle(ALL_SCENES);
-}
-
-// Refill the queue when running low
-function refillQueue() {
-  const refresh = shuffle(ALL_SCENES);
-  playQueue = playQueue.concat(refresh);
-  updateProgressBarInfinite();
+  let pool = shuffle(ALL_SCENES);
+  const chosen = [];
+  ['ataque','ejecutivo'].forEach(cat => {
+    const idx = pool.findIndex(s => s.cat === cat);
+    if (idx >= 0) { chosen.push(pool[idx]); pool.splice(idx,1); }
+  });
+  pool = shuffle(pool);
+  while (chosen.length < SCENES_PER_RUN && pool.length > 0) chosen.push(pool.shift());
+  return shuffle(chosen);
 }
 
 function returnToStartScreen() {
@@ -1078,7 +1080,7 @@ function startGame() {
   G = {
     budget: cfg.budget, maxBudget: cfg.budget,
     reputation: 100, threat: currentDiff==='crisis'?40:20,
-    day: 1, year: 1, cycle: 1,
+    day: 1,
     incidentsHandled: 0, incidentsFailed: 0, decisionsCount: 0,
     team: TEAM_ROSTER.map(m => ({...m})),
     tools: [], policies: [],
@@ -1092,7 +1094,7 @@ function startGame() {
     randEventsCount: 0,
   };
 
-  playQueue = [INTRO_SCENE, ...buildQueue()];
+  playQueue = [INTRO_SCENE, ...buildQueue(), FINAL_SCENE];
   queueIdx = 0;
 
   const ids = playQueue.filter(s=>s.id!=='intro'&&s.id!=='endgame')
@@ -1115,39 +1117,29 @@ function startGame() {
 }
 
 function buildProgressBar() {
-  updateProgressBarInfinite();
-}
-
-function updateProgressBarInfinite() {
   const bar = document.getElementById('progress-bar');
   bar.innerHTML = '';
-  // Show "infinity" indicator with current year/cycle
-  const wrapper = document.createElement('div');
-  wrapper.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;font-size:11px;';
-  wrapper.innerHTML = `
-    <span style="color:var(--cyan);font-family:'Orbitron',monospace;letter-spacing:2px;">AÑO ${G.year||1}</span>
-    <span style="color:var(--muted);">·</span>
-    <span style="color:var(--green);font-family:'Orbitron',monospace;">DECISIONES: ${G.decisionsCount||0}</span>
-    <span style="color:var(--muted);">·</span>
-    <span style="color:var(--yellow);font-family:'Orbitron',monospace;">CICLO ${G.cycle||1}</span>
-    <span style="color:var(--muted);margin-left:auto;letter-spacing:2px;">MODO INFINITO ∞</span>
-    <button onclick="retireCISO()" style="background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;cursor:pointer;letter-spacing:1px;" onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)';">⚑ RETIRARSE</button>
-  `;
-  bar.appendChild(wrapper);
-}
-
-function retireCISO() {
-  if (confirm('¿Retirarte como CISO? Tu legado será evaluado con los datos actuales.')) {
-    sfxClick();
-    showEnding();
-  }
+  playQueue.forEach((s,i) => {
+    const d = document.createElement('div');
+    d.className = 'prog-dot' + (s.isEvent ? ' event' : '');
+    d.id = 'pd-'+i;
+    d.title = s.title;
+    bar.appendChild(d);
+  });
+  const lbl = document.createElement('span');
+  lbl.className = 'prog-label'; lbl.id = 'prog-lbl';
+  lbl.textContent = '0 / ' + playQueue.length;
+  bar.appendChild(lbl);
 }
 
 function updateProgress() {
-  // Year ticks every 6 decisions; cycle ticks every full pass through ALL_SCENES
-  G.year = Math.floor(G.decisionsCount / 6) + 1;
-  G.cycle = Math.floor(G.decisionsCount / ALL_SCENES.length) + 1;
-  updateProgressBarInfinite();
+  playQueue.forEach((_,i) => {
+    const d = document.getElementById('pd-'+i);
+    if (!d) return;
+    d.className = 'prog-dot' + (playQueue[i].isEvent?' event':'') +
+      (i < queueIdx ? ' done' : i === queueIdx ? ' current' : '');
+  });
+  document.getElementById('prog-lbl').textContent = queueIdx + ' / ' + playQueue.length;
 }
 
 // =====================================================================
@@ -1175,13 +1167,9 @@ function maybeFireRandomEvent(callback) {
 // =====================================================================
 function playScene() {
   maybeFireRandomEvent(() => {
-    // INFINITE MODE: refill queue when running low
-    if (queueIdx >= playQueue.length - 2) {
-      refillQueue();
-    }
     if (queueIdx >= playQueue.length) { showEnding(); return; }
     const scene = playQueue[queueIdx];
-    G.day = G.decisionsCount * 14 + 1;
+    G.day = queueIdx * 20 + 1;
 
     document.getElementById('scene-icon').textContent = scene.icon;
     document.getElementById('scene-title').textContent = scene.title;
@@ -1395,27 +1383,7 @@ function makeChoiceCore(choice) {
     btn.className = 'choice-btn';
     btn.style.borderColor = 'var(--green2)'; btn.style.color = 'var(--green)';
     btn.innerHTML = 'Continuar &rarr; <span style="color:var(--muted);font-size:9px">Siguiente escenario</span>';
-    btn.onclick = () => {
-      sfxClick();
-      btn.disabled = true;
-      btn.innerHTML = '';
-      btn.style.cssText += 'border-color:var(--cyan);cursor:default;display:flex;align-items:center;gap:10px;';
-      if (!document.getElementById('ldot-style')) {
-        const s = document.createElement('style');
-        s.id = 'ldot-style';
-        s.textContent = '@keyframes ldot{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.3)}}';
-        document.head.appendChild(s);
-      }
-      btn.innerHTML = `
-        <span style="display:flex;gap:5px;align-items:center;">
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block;animation:ldot .7s ease-in-out 0s infinite;"></span>
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block;animation:ldot .7s ease-in-out .18s infinite;"></span>
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block;animation:ldot .7s ease-in-out .36s infinite;"></span>
-        </span>
-        <span style="color:var(--cyan);font-size:11px;letter-spacing:2px;">CARGANDO ESCENARIO...</span>
-      `;
-      setTimeout(() => playScene(), 700);
-    };
+    btn.onclick = () => { sfxClick(); playScene(); };
     div.appendChild(btn);
   }, 900);
 }
