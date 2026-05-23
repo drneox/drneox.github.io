@@ -1738,11 +1738,11 @@ function renderSidebar() {
 
 function renderThreats() {
   let name, lvl, lbl;
-  if      (G.threat > 75) { name = 'APT Activo';         lvl = 'tl-crit'; lbl = 'CRÍTICO';  }
-  else if (G.threat > 50) { name = 'Exposición Alta';        lvl = 'tl-high'; lbl = 'ALTO';     }
-  else if (G.threat > 30) { name = 'Exposición Moderada';    lvl = 'tl-med';  lbl = 'MODERADA'; }
-  else if (G.threat > 10) { name = 'Perímetro Estable';   lvl = 'tl-low';  lbl = 'BAJO';     }
-  else                    { name = 'Exposición Mínima'; lvl = 'tl-low';  lbl = 'MUY BAJO'; }
+  if      (G.threat > 75) { name = 'APT Activo';         lvl = 'tl-crit'; lbl = 'CRÍTICA';   }
+  else if (G.threat > 50) { name = 'Exposición Alta';    lvl = 'tl-high'; lbl = 'ALTA';      }
+  else if (G.threat > 30) { name = 'Exposición Moderada';lvl = 'tl-med';  lbl = 'MODERADA';  }
+  else if (G.threat > 10) { name = 'Perímetro Estable';  lvl = 'tl-low';  lbl = 'BAJA';      }
+  else                    { name = 'Exposición Mínima';  lvl = 'tl-low';  lbl = 'MUY BAJA';  }
   document.getElementById('threat-list').innerHTML =
     `<div class="threat-item"><span style="color:var(--text);font-size:10px">${name}</span>
      <span class="threat-level ${lvl}">${lbl}</span></div>
