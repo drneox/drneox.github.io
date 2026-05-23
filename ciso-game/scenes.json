@@ -30,7 +30,7 @@
           "fx": {
             "budget": -3000,
             "threat": 5,
-            "reputation": 3
+            "reputation": -1
           },
           "log": "warning"
         },
@@ -103,7 +103,7 @@
           "result": "Sin IR Retainer contratado, el soporte tarda 8 horas. Demasiado tarde para varios servidores críticos.",
           "fx": {
             "budget": -30000,
-            "reputation": 5,
+            "reputation": -5,
             "threat": -20
           },
           "log": "result"
@@ -185,7 +185,7 @@
           "result": "Carlos desarrolla reglas en 3 horas. El exploit bloqueado al 90%. Un atacante encuentra variante y entra, detectado en 8 minutos.",
           "fx": {
             "budget": -5000,
-            "reputation": 5,
+            "reputation": 0,
             "threat": -15
           },
           "log": "warning",
@@ -1142,7 +1142,7 @@
           "fx": {
             "budget": -5000,
             "threat": -10,
-            "reputation": 3
+            "reputation": -3
           },
           "log": "warning"
         },
@@ -1598,7 +1598,7 @@
           "fx": {
             "budget": -15000,
             "threat": -15,
-            "reputation": 5
+            "reputation": -3
           },
           "log": "warning",
           "needsTeam": "luis"
@@ -1607,7 +1607,7 @@
           "text": "Evacuar la planta mientras el equipo analiza el alcance del compromiso",
           "result": "Decisión correcta de seguridad física. Cero riesgos humanos. La investigación revela ataque dirigido de competidor.",
           "fx": {
-            "reputation": 20,
+            "reputation": 10,
             "threat": -20,
             "budget": -40000
           },
@@ -1696,8 +1696,7 @@
           },
           "log": "success",
           "addPolicy": "Política IA Corporativa",
-          "addTool": "DLP para LLMs",
-          "requiresTech": "dlp_tool"
+          "addTool": "DLP para LLMs"
         },
         {
           "text": "Bloquear todas las herramientas de IA externas hasta tener una política",
@@ -1760,7 +1759,7 @@
           "result": "REDSTORM cambia de IPs en 2 horas. El bloqueo fue útil 90 minutos. Pero ahora saben que los detectaste — aceleran el timeline.",
           "fx": {
             "threat": 10,
-            "reputation": 3
+            "reputation": -2
           },
           "log": "warning"
         },
