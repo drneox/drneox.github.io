@@ -29,6 +29,7 @@ let audioCtx = null;
 
 function getAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
   return audioCtx;
 }
 
@@ -74,7 +75,7 @@ function stopAmbient() { try { ambientNode && ambientNode.stop(); ambientNode = 
 function toggleSound() {
   soundEnabled = !soundEnabled;
   document.getElementById('sound-btn').textContent = soundEnabled ? '🔊' : '🔇';
-  if (soundEnabled) startAmbient(); else stopAmbient();
+  if (!soundEnabled) stopAmbient();
 }
 
 // =====================================================================
@@ -95,7 +96,7 @@ function toggleSound() {
 const TEAM_ROSTER = [
   {id:'ana',   name:'Ana Vega',    role:'Analista SOC',     avatar:'👩‍💻', status:'ok', tech:75, mgmt:35, techLoad:0, mgmtLoad:0, level:'mid', dept:'soc',   certs:[]},
   {id:'carlos',name:'Carlos Ríos', role:'Pen Tester',       avatar:'🧑‍💻', status:'ok', tech:85, mgmt:20, techLoad:0, mgmtLoad:0, level:'mid', dept:'red',   certs:[]},
-  {id:'maria', name:'Maria Torres',role:'Resp. Incidentes', avatar:'👩‍🔬', status:'ok', tech:65, mgmt:70, techLoad:0, mgmtLoad:0, level:'mid', dept:'gov',   certs:[]},
+  {id:'maria', name:'Maria Torres',role:'Especialista GRC',  avatar:'👩‍🔬', status:'ok', tech:65, mgmt:70, techLoad:0, mgmtLoad:0, level:'mid', dept:'gov',   certs:[]},
   {id:'luis',  name:'Luis Pena',   role:'Arq. Cloud',       avatar:'👨‍🔧', status:'ok', tech:80, mgmt:55, techLoad:0, mgmtLoad:0, level:'mid', dept:'cloud', certs:[]},
 ];
 
@@ -209,7 +210,6 @@ function startGame() {
 
   buildProgressBar();
   updateStats(); renderTeam(); renderThreats(); renderSidebar(); renderMetrics();
-  startAmbient();
   playScene();
 }
 
