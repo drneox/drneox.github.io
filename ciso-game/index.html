@@ -266,7 +266,10 @@ body.flash-green{animation:flash-green .4s ease,flicker 10s infinite;}
 </div>
 <div id="rand-event">
   <div class="re-icon" id="re-icon"></div>
-  <div class="re-text" id="re-text"></div>
+  <div style="flex:1">
+    <div class="re-text" id="re-text"></div>
+    <div id="re-btns" style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;"></div>
+  </div>
 </div>
 
 <!-- MAIN -->
@@ -723,8 +726,8 @@ const ALL_SCENES = [
 {id:'crypto_mining',cat:'crisis',icon:'⛏️',title:'DETECCIÓN — CRYPTOMINER EN INFRAESTRUCTURA',
  text:'Spike de CPU del 340% en 15 servidores cloud. El costo de AWS este mes ya superó el presupuesto anual en un 200%.\n\nAna confirma: cryptominer instalado. Alguien explotó una API desprotegida.',
  choices:[
-  {text:'Terminar instancias afectadas + auditar todas las APIs expuestas',cost:'$5K',
-   result:'Los mineros eliminados. La auditoría descubre 8 endpoints sin autenticación. Todos cerrados.',
+  {text:'Terminar instancias afectadas + auditar todas las APIs expuestas',cost:'~$50K (AWS + audit)',
+   result:'Los mineros eliminados. La auditoría descubre 8 endpoints sin autenticación. Todos cerrados. La factura de AWS acumulada por el miner: ~$45K.',
    fx:{budget:-50000,threat:-15,reputation:+5},log:'result'},
   {text:'Implementar límites de gasto en AWS + alertas de anomalía de costos',cost:'$2K',
    result:'Los miners eliminados y la alerta de costos previene futuros incidentes similares.',
@@ -953,36 +956,111 @@ function toggleSound() {
 // RANDOM EVENTS (fire between scenes)
 // =====================================================================
 const RANDOM_EVENTS = [
-  {icon:'📰', text:'NOTICIA: Un competidor sufrió una brecha de $12M. El board llama para felicitarte por "mantener la guardia".',
-   fx:{reputation:+5}, log:'success'},
-  {icon:'⚡', text:'ALERTA SECTORIAL: El CERT publica advisory sobre nueva campaña de spear-phishing dirigida a empresas de tu industria.',
-   fx:{threat:+8}, log:'warning'},
-  {icon:'🏆', text:'RECONOCIMIENTO: Tu empresa es citada en un informe de Gartner como "best practice" en gestión de identidades.',
-   fx:{reputation:+8}, log:'success'},
-  {icon:'💼', text:'FUGA DE TALENTO: Un headhunter le ofrece el doble del salario a Carlos. Lo retiene con un aumento de categoría.',
-   fx:{budget:-5000,reputation:+3}, log:'result'},
-  {icon:'📊', text:'AUDITORÍA INTERNA: El auditor interno detecta que llevas 3 meses sin actualizar la matriz de riesgos.',
-   fx:{reputation:-5}, log:'warning'},
-  {icon:'🌍', text:'GEOPOLÍTICA: Nuevas sanciones internacionales obligan a revisar los proveedores cloud con nodos en países sancionados.',
-   fx:{threat:+5,budget:-8000}, log:'warning'},
-  {icon:'💡', text:'INNOVACIÓN: Un empleado desarrolla una herramienta interna de detección de anomalías que el SOC adopta inmediatamente.',
-   fx:{threat:-8,reputation:+5}, log:'success'},
-  {icon:'📱', text:'INCIDENTE MENOR: Un empleado pierde su laptop en el metro. Estaba cifrada. Sin exposición de datos.',
-   fx:{reputation:+3}, log:'result'},
-  {icon:'⚖️', text:'REGULACIÓN NUEVA: Entra en vigor una nueva directiva de ciberseguridad sectorial. Tienes 6 meses para cumplir.',
-   fx:{threat:+10,budget:-15000}, log:'warning'},
-  {icon:'🤝', text:'ALIANZA ESTRATÉGICA: Un banco partner comparte su threat intelligence contigo. Visibilidad de amenazas mejorada.',
-   fx:{threat:-10,reputation:+5}, log:'success'},
-  {icon:'🔥', text:'INCIDENTE EN SECTOR: Tres empresas de tu industria sufrieron ransomware esta semana. El board convoca reunión de emergencia.',
-   fx:{threat:+15,reputation:+3}, log:'warning'},
-  {icon:'💰', text:'BONO ESPECIAL: El CEO aprueba un bono de retención para todo el equipo de seguridad por los buenos resultados.',
-   fx:{budget:-12000,reputation:+10}, log:'success'},
-  {icon:'🧑‍💻', text:'NUEVO TALENTO: Una analista senior con experiencia en threat hunting aplica espontáneamente. El salario encaja en el presupuesto.',
-   fx:{threat:-5,reputation:+3}, log:'result'},
-  {icon:'📉', text:'CRISIS ECONÓMICA: La empresa anuncia pérdidas trimestrales. El CFO pide "eficiencias" en todos los departamentos.',
-   fx:{budget:-20000,reputation:-3}, log:'warning'},
-  {icon:'🎓', text:'CERTIFICACIÓN: Ana aprueba el CISSP. Su nivel de análisis mejora notablemente. El equipo la celebra.',
-   fx:{threat:-5,reputation:+3}, log:'success'},
+  {icon:'📰', text:'NOTICIA: Un competidor sufrió una brecha de $12M. El board llama para felicitarte por "mantener la guardia". ¿Cómo aprovechas el momento?',
+   fx:{reputation:+5}, log:'success',
+   choices:[
+     {text:'Aprovechar el momento para pedir $30K adicionales al CFO', fx:{budget:+20000,reputation:+5}, log:'success', result:'El CFO accede. La buena prensa del sector refuerza tu posición. Presupuesto asegurado.'},
+     {text:'Compartir lecciones aprendidas del competidor con el equipo SOC', fx:{reputation:+5,threat:-8}, log:'result', result:'El equipo aprende de los errores ajenos. La detección interna mejora.'},
+     {text:'Agradecer al board y continuar sin cambios', fx:{reputation:+3}, log:'result', result:'Reconocimiento moderado. El board valora la estabilidad.'},
+   ]},
+  {icon:'⚡', text:'ALERTA SECTORIAL: El CERT publica advisory sobre nueva campaña de spear-phishing dirigida a empresas de tu industria. ¿Cuál es tu respuesta?',
+   fx:{threat:+8}, log:'warning',
+   choices:[
+     {text:'Lanzar simulacro de phishing + formación urgente para toda la empresa $12K', fx:{budget:-12000,threat:-15}, log:'success', cost:'$12K formación', result:'La formación reduce la exposición. El equipo identifica 3 intentos reales en las siguientes semanas.'},
+     {text:'Actualizar reglas del filtro de email y alertar a directores $3K', fx:{budget:-3000,threat:-8}, log:'result', cost:'$3K', result:'Acción rápida y económica. Parcialmente efectiva contra variantes nuevas.'},
+     {text:'Confiar en que el equipo ya sabe identificar phishing', fx:{threat:+5}, log:'warning', result:'Confianza injustificada. Un empleado cae en una prueba interna días después.'},
+   ]},
+  {icon:'🏆', text:'RECONOCIMIENTO: Tu empresa es citada en un informe de Gartner como "best practice" en gestión de identidades. El CEO te llama. ¿Qué haces?',
+   fx:{reputation:+8}, log:'success',
+   choices:[
+     {text:'Pedir al CEO que use el reconocimiento para aprobar más headcount', fx:{reputation:+8,threat:-5}, log:'success', result:'El CEO aprueba una plaza junior. La carga del equipo se reduce y la cultura mejora.'},
+     {text:'Publicar caso de estudio interno para motivar al equipo', fx:{reputation:+10,threat:-5}, log:'result', result:'El equipo está orgulloso. La cultura de seguridad se refuerza. Baja rotación.'},
+     {text:'Reconocerlo con humildad y continuar con la agenda', fx:{reputation:+6}, log:'result', result:'Modestia valorada por el board. Consistencia ante el reconocimiento externo.'},
+   ]},
+  {icon:'💼', text:'FUGA DE TALENTO: Un headhunter le ofrece el doble del salario a Carlos Ríos (Pen Tester). ¿Cómo retienes a tu pentester estrella?',
+   fx:{budget:-5000,reputation:+3}, log:'result',
+   choices:[
+     {text:'Contraofertar con aumento + plan de carrera personalizado $15K', fx:{budget:-15000,reputation:+5}, log:'success', cost:'$15K', result:'Carlos se queda motivado. Su lealtad y el ambiente del equipo mejoran notablemente.'},
+     {text:'Negociar solo el incremento salarial mínimo necesario $5K', fx:{budget:-5000,reputation:+2}, log:'result', cost:'$5K', result:'Carlos acepta pero con cierta resignación. El equipo nota la situación.'},
+     {text:'Dejar ir a Carlos y buscar un reemplazo junior', fx:{threat:+8,reputation:-5}, log:'warning', result:'Pérdida de experiencia clave. El equipo queda temporalmente expuesto en pentest.'},
+   ]},
+  {icon:'📊', text:'AUDITORÍA INTERNA: El auditor detecta que llevas 3 meses sin actualizar la matriz de riesgos. El hallazgo podría escalar al board.',
+   fx:{reputation:-5}, log:'warning',
+   choices:[
+     {text:'Convocar workshop de actualización esta semana con todo el equipo $8K', fx:{budget:-8000,reputation:+5,threat:-10}, log:'success', cost:'$8K', result:'Matriz actualizada y validada. El auditor cierra el hallazgo. Riesgos mejor documentados.'},
+     {text:'Actualizar la matriz tú mismo en los próximos 3 días', fx:{reputation:+2,threat:-5}, log:'result', result:'Trabajo correcto aunque no participativo. El auditor cierra el hallazgo.'},
+     {text:'Argumentar que la metodología actual es válida y suficiente', fx:{reputation:-8}, log:'warning', result:'El auditor no acepta el argumento. Escala el hallazgo al board. Reputación afectada.'},
+   ]},
+  {icon:'🌍', text:'GEOPOLÍTICA: Nuevas sanciones internacionales obligan a revisar proveedores cloud con nodos en países sancionados. ¿Cómo procedes?',
+   fx:{threat:+5,budget:-8000}, log:'warning',
+   choices:[
+     {text:'Contratar consultoría para mapear todos los proveedores afectados $20K', fx:{budget:-20000,threat:-10,reputation:+5}, log:'success', cost:'$20K', result:'Mapa completo de exposición. Dos servicios críticos migrados. Cumplimiento garantizado.'},
+     {text:'Revisar internamente los contratos cloud más críticos $5K', fx:{budget:-5000,threat:-5}, log:'result', cost:'$5K', result:'Revisión parcial pero enfocada. Riesgo residual bajo y controlado.'},
+     {text:'Esperar a que Legal defina el alcance antes de invertir', fx:{threat:+8,reputation:-3}, log:'warning', result:'La demora atrae la atención del regulador. Legal tarda 3 semanas más en responder.'},
+   ]},
+  {icon:'💡', text:'INNOVACIÓN: Un analista junior desarrolla una herramienta interna de detección de anomalías que el SOC quiere adoptar. ¿Qué decides?',
+   fx:{threat:-8,reputation:+5}, log:'success',
+   choices:[
+     {text:'Oficializar la herramienta con presupuesto de mejora y soporte $8K', fx:{budget:-8000,threat:-12,reputation:+8}, log:'success', cost:'$8K', result:'La herramienta se convierte en activo clave. El desarrollador queda muy motivado.'},
+     {text:'Adoptar la herramienta sin inversión adicional de forma inmediata', fx:{threat:-8,reputation:+5}, log:'result', result:'Adopción ágil. Mejora inmediata sin coste extra. Sin soporte formal.'},
+     {text:'Evaluar el código durante 6 semanas antes de adoptar', fx:{threat:-3}, log:'result', result:'Proceso conservador. El equipo pierde momentum y el desarrollador se desanima.'},
+   ]},
+  {icon:'📱', text:'INCIDENTE MENOR: Un empleado pierde su laptop en el metro. Está cifrada y no hay evidencia de acceso a datos. ¿Cómo respondes?',
+   fx:{reputation:+3}, log:'result',
+   choices:[
+     {text:'Activar procedimiento completo: auditoría de accesos + notificación preventiva $5K', fx:{budget:-5000,reputation:+5,threat:-3}, log:'success', cost:'$5K', result:'Respuesta modélica. El regulador queda impresionado. Excelente documentación del proceso.'},
+     {text:'Revocar credenciales y documentar formalmente el incidente', fx:{reputation:+3}, log:'result', result:'Respuesta correcta y proporcional. Sin impacto operativo.'},
+     {text:'Solo revocar accesos sin documentar formalmente', fx:{reputation:-2}, log:'warning', result:'Acción mínima. La falta de documentación podría ser un problema en la próxima auditoría.'},
+   ]},
+  {icon:'⚖️', text:'REGULACIÓN NUEVA: Entra en vigor una nueva directiva de ciberseguridad sectorial. Tienes 6 meses para cumplir. ¿Por dónde empiezas?',
+   fx:{threat:+10,budget:-15000}, log:'warning',
+   choices:[
+     {text:'Contratar gap assessment externo e iniciar programa de cumplimiento $30K', fx:{budget:-30000,threat:-15,reputation:+8}, log:'success', cost:'$30K', result:'Roadmap claro. Cumplimiento garantizado antes del plazo. El regulador lo valora positivamente.'},
+     {text:'Asignar a Maria el análisis de gaps con recursos internos $5K', fx:{budget:-5000,threat:-8,reputation:+3}, log:'result', cost:'$5K', result:'Análisis completo con menor coste. Algunos gaps requerirán apoyo externo puntual.'},
+     {text:'Esperar a tener más información antes de comprometer presupuesto', fx:{threat:+12,reputation:-5}, log:'warning', result:'El plazo se acorta. El regulador envía requerimiento formal de información.'},
+   ]},
+  {icon:'🤝', text:'ALIANZA ESTRATÉGICA: Un banco partner ofrece compartir su threat intelligence contigo de forma bilateral. ¿Qué decides?',
+   fx:{threat:-10,reputation:+5}, log:'success',
+   choices:[
+     {text:'Firmar acuerdo formal de intercambio bidireccional y automatizar el feed $8K', fx:{budget:-8000,threat:-15,reputation:+8}, log:'success', cost:'$8K', result:'Feed automático de IOCs mejora la detección. La alianza se formaliza. Visibilidad excelente.'},
+     {text:'Incorporar el feed manualmente en el SIEM sin formalizar acuerdo', fx:{threat:-10,reputation:+5}, log:'result', result:'Beneficio inmediato con bajo compromiso formal. Dependiente de la relación personal.'},
+     {text:'Agradecer el gesto pero declinar por política de confidencialidad', fx:{threat:-3}, log:'result', result:'Decisión conservadora. Perdemos visibilidad pero mantenemos control total.'},
+   ]},
+  {icon:'🔥', text:'INCIDENTE EN SECTOR: Tres empresas de tu industria sufrieron ransomware esta semana. El board convoca reunión de emergencia. ¿Qué presentas?',
+   fx:{threat:+15,reputation:+3}, log:'warning',
+   choices:[
+     {text:'Convocar war game interno: simular ransomware y revisar playbook $15K', fx:{budget:-15000,threat:-20,reputation:+8}, log:'success', cost:'$15K', result:'El equipo está listo. El board queda tranquilizado. El playbook actualizado.'},
+     {text:'Reforzar backups offsite y revisar segmentación de red $8K', fx:{budget:-8000,threat:-12}, log:'result', cost:'$8K', result:'Defensa proactiva. Si llega el ransomware, el daño será contenido.'},
+     {text:'Enviar email de alerta al board y continuar monitorizando', fx:{threat:+5,reputation:+3}, log:'warning', result:'El board pide un plan de acción formal. No queda convencido con la respuesta pasiva.'},
+   ]},
+  {icon:'💰', text:'BONO ESPECIAL: El CEO aprueba un bono de retención para todo el equipo de seguridad por los excelentes resultados. ¿Cómo lo gestionas?',
+   fx:{budget:-12000,reputation:+10}, log:'success',
+   choices:[
+     {text:'Aceptar el bono y aprovechar el momento para pedir headcount adicional', fx:{budget:-12000,reputation:+12,threat:-5}, log:'success', result:'El CEO aprueba también el headcount. El equipo está muy motivado y completo.'},
+     {text:'Distribuir el bono con reconocimiento personalizado de logros específicos', fx:{budget:-12000,reputation:+10}, log:'result', result:'El equipo valora el reconocimiento personalizado. Alta retención garantizada.'},
+     {text:'Reinvertir el bono en herramientas de seguridad en lugar de repartirlo', fx:{budget:-8000,threat:-10,reputation:+5}, log:'result', result:'Decisión insólita que el equipo respeta. Las nuevas herramientas mejoran capacidades.'},
+   ]},
+  {icon:'🧑‍💻', text:'NUEVO TALENTO: Una analista senior con experiencia en threat hunting aplica espontáneamente. El salario encaja en presupuesto. ¿Qué decides?',
+   fx:{threat:-5,reputation:+3}, log:'result',
+   choices:[
+     {text:'Contratar inmediatamente con onboarding exprés esta semana $20K', fx:{budget:-20000,threat:-12,reputation:+5}, log:'success', cost:'$20K/año', result:'La analista se incorpora. Su expertise detecta 2 amenazas dormidas en las primeras semanas.'},
+     {text:'Proceso de selección estándar: entrevistas técnicas primero', fx:{budget:-20000,threat:-5,reputation:+3}, log:'result', cost:'$20K/año', result:'Proceso correcto. La analista supera las pruebas y se incorpora en 3 semanas.'},
+     {text:'Poner el puesto en hold: no es el momento para crecer el equipo', fx:{threat:+3}, log:'warning', result:'La analista acepta otra oferta. Perdemos a una candidata excelente.'},
+   ]},
+  {icon:'📉', text:'CRISIS ECONÓMICA: La empresa anuncia pérdidas trimestrales. El CFO pide "eficiencias" del 15% en todos los departamentos. ¿Cómo respondes?',
+   fx:{budget:-20000,reputation:-3}, log:'warning',
+   choices:[
+     {text:'Presentar análisis ROI de seguridad al CFO para proteger el presupuesto $5K', fx:{budget:-5000,reputation:+5}, log:'success', cost:'$5K consultoría', result:'El análisis convence al CFO. Seguridad recibe el recorte mínimo. Posición reforzada.'},
+     {text:'Aceptar recorte menor y renegociar contratos de herramientas', fx:{budget:-15000,threat:+3}, log:'result', result:'Impacto controlado. Algunas licencias se reducen pero lo esencial queda cubierto.'},
+     {text:'Escudarte en el regulador para bloquear cualquier recorte', fx:{budget:-25000,reputation:-8}, log:'warning', result:'El CFO y el CEO rechazan la táctica. La relación con dirección queda deteriorada.'},
+   ]},
+  {icon:'🎓', text:'CERTIFICACIÓN: Ana Vega aprueba el CISSP. Su nivel de análisis mejora notablemente. El equipo la celebra. ¿Cómo respondes como CISO?',
+   fx:{threat:-5,reputation:+3}, log:'success',
+   choices:[
+     {text:'Promover a Ana como Tech Lead del SOC con aumento salarial $8K', fx:{budget:-8000,threat:-10,reputation:+5}, log:'success', cost:'$8K/año', result:'Ana lidera análisis críticos. Su motivación es máxima. El equipo la sigue.'},
+     {text:'Reconocer el logro públicamente y asignarle casos más complejos', fx:{threat:-5,reputation:+5}, log:'result', result:'El reconocimiento motiva a todo el equipo a buscar certificaciones propias.'},
+     {text:'Felicitarla brevemente sin cambiar su rol ni sus responsabilidades', fx:{reputation:-3}, log:'warning', result:'Ana se siente infravalorada. Empieza a explorar otras opciones laborales.'},
+   ]},
 ];
 
 // =====================================================================
@@ -1006,9 +1084,9 @@ const CHAIN_EFFECTS = {
 // =====================================================================
 const TEAM_ROSTER = [
   {id:'ana',   name:'Ana Vega',   role:'Analista SOC',    avatar:'👩‍💻', status:'ok'},
-  {id:'carlos',name:'C. Ríos',   role:'Pen Tester',      avatar:'🧑‍💻', status:'ok'},
-  {id:'maria', name:'M. Torres', role:'Resp. Incidentes', avatar:'👩‍🔬', status:'ok'},
-  {id:'luis',  name:'L. Pena',   role:'Arq. Cloud',      avatar:'👨‍🔧', status:'ok'},
+  {id:'carlos',name:'Carlos Ríos',   role:'Pen Tester',      avatar:'🧑‍💻', status:'ok'},
+  {id:'maria', name:'Maria Torres', role:'Resp. Incidentes', avatar:'👩‍🔬', status:'ok'},
+  {id:'luis',  name:'Luis Pena',   role:'Arq. Cloud',      avatar:'👨‍🔧', status:'ok'},
 ];
 
 const DIFF_CONFIG = {
@@ -1145,29 +1223,147 @@ function retireCISO() {
 
 function updateProgress() {
   // Year ticks every 6 decisions; cycle ticks every full pass through ALL_SCENES
+  const prevYear = G.year || 1;
   G.year = Math.floor(G.decisionsCount / 6) + 1;
   G.cycle = Math.floor(G.decisionsCount / ALL_SCENES.length) + 1;
+  if (G.year > prevYear) G.pendingAnnualBudget = G.year;
   updateProgressBarInfinite();
+}
+
+function grantAnnualBudget(year) {
+  const injection = Math.round(G.maxBudget * 0.30);
+  G.budget += injection;
+  updateStats();
+  sfxSuccess();
+  addLog(`💰 PRESUPUESTO AÑO ${year} APROBADO — El CFO libera +${fmtNum(injection)} como presupuesto anual de seguridad.`, 'success');
+  // Show toast notification in yellow
+  const box = document.getElementById('rand-event');
+  document.getElementById('re-icon').textContent = '💰';
+  document.getElementById('re-text').innerHTML =
+    `<strong style="color:var(--yellow)">PRESUPUESTO AÑO ${year} APROBADO</strong> — +${fmtNum(injection)} inyectados por el CFO como presupuesto anual de seguridad.`;
+  const btnsDiv = document.getElementById('re-btns');
+  if (btnsDiv) btnsDiv.innerHTML = '';
+  box.style.borderColor = 'var(--yellow)';
+  box.style.background = 'rgba(255,215,0,.08)';
+  box.style.display = 'flex';
+  setTimeout(() => {
+    box.style.display = 'none';
+    box.style.borderColor = '';
+    box.style.background = '';
+  }, 4500);
 }
 
 // =====================================================================
 // RANDOM EVENT between scenes
 // =====================================================================
+function showEventScenario(ev, callback) {
+  const box = document.getElementById('rand-event');
+  box.style.display = 'none';
+  document.getElementById('scene-icon').textContent = ev.icon;
+  document.getElementById('scene-title').textContent = 'EVENTO INESPERADO';
+  document.getElementById('scene-day').textContent = 'INTERRUPCIÓN';
+  document.getElementById('ai-btn').style.display = 'none';
+  const tb = document.getElementById('turn-badge'); tb.style.display = 'none';
+  document.getElementById('event-alert').style.display = 'none';
+  clearLog();
+  typewriteLog(ev.text, 'scene', () => {
+    addLog('──────────────────────────────────────', 'system');
+    const div = document.getElementById('choices-area');
+    div.innerHTML = '';
+    ev.choices.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      let inner = c.text;
+      if (c.cost) inner += '<span class="cost-tag ' + (c.cost.startsWith('$') || c.cost.startsWith('~') ? 'cost-money' : 'cost-risk') + '">' + c.cost + '</span>';
+      btn.innerHTML = inner;
+      btn.onclick = () => {
+        sfxClick();
+        document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+        applyFx(c.fx);
+        addLog('◆ ' + c.text, 'system');
+        addLog(c.result, c.log || 'result');
+        const deltas = [];
+        if (c.fx.budget     !== undefined) deltas.push('Presupuesto ' + (c.fx.budget>=0?'+':'') + fmtNum(c.fx.budget));
+        if (c.fx.reputation !== undefined) deltas.push('Reputación ' + (c.fx.reputation>=0?'+':'') + c.fx.reputation);
+        if (c.fx.threat     !== undefined) deltas.push('Amenaza ' + (c.fx.threat>=0?'+':'') + c.fx.threat);
+        if (deltas.length) addLog('[ ' + deltas.join(' | ') + ' ]', 'system');
+        if (c.log === 'success') { sfxSuccess(); flashBody('green'); }
+        else if (c.log === 'danger') { sfxFail(); flashBody('red'); }
+        updateStats(); renderTeam(); renderSidebar(); renderMetrics();
+        document.getElementById('ai-btn').style.display = 'block';
+        setTimeout(() => {
+          div.innerHTML = '';
+          const contBtn = document.createElement('button');
+          contBtn.className = 'choice-btn';
+          contBtn.style.borderColor = 'var(--green2)'; contBtn.style.color = 'var(--green)';
+          contBtn.innerHTML = 'Continuar &rarr; <span style="color:var(--muted);font-size:9px">Siguiente escenario</span>';
+          contBtn.onclick = () => {
+            sfxClick(); contBtn.disabled = true;
+            contBtn.innerHTML = '<span style="color:var(--cyan);font-size:11px;letter-spacing:2px;">CARGANDO ESCENARIO...</span>';
+            setTimeout(() => callback(), 700);
+          };
+          div.appendChild(contBtn);
+        }, 900);
+      };
+      div.appendChild(btn);
+    });
+  });
+}
+
 function maybeFireRandomEvent(callback) {
   if (queueIdx === 0 || Math.random() > 0.45) { callback(); return; }
   const ev = RANDOM_EVENTS[Math.floor(Math.random()*RANDOM_EVENTS.length)];
   G.randEventsCount++;
   const box = document.getElementById('rand-event');
+  box.style.borderColor = '';
+  box.style.background = '';
   document.getElementById('re-icon').textContent = ev.icon;
   document.getElementById('re-text').innerHTML = '<strong>EVENTO ALEATORIO:</strong> ' + ev.text;
-  box.style.display = 'flex';
-  applyFx(ev.fx);
-  updateStats(); renderMetrics();
-  sfxBeep();
-  setTimeout(() => {
+
+  const btnsDiv = document.getElementById('re-btns');
+  btnsDiv.innerHTML = '';
+
+  // Botón "Atender ahora"
+  const btnAttend = document.createElement('button');
+  btnAttend.className = 'choice-btn';
+  btnAttend.style.cssText = 'font-size:10px;padding:5px 12px;border-color:var(--purple);color:var(--purple);';
+  btnAttend.textContent = '⚡ Atender ahora';
+  btnAttend.onclick = () => {
+    sfxClick();
+    if (ev.choices && ev.choices.length > 0) {
+      showEventScenario(ev, callback);
+    } else {
+      applyFx(ev.fx);
+      const deltas = [];
+      if (ev.fx.budget     !== undefined) deltas.push('Presupuesto ' + (ev.fx.budget>=0?'+':'') + fmtNum(ev.fx.budget));
+      if (ev.fx.reputation !== undefined) deltas.push('Reputación ' + (ev.fx.reputation>=0?'+':'') + ev.fx.reputation);
+      if (ev.fx.threat     !== undefined) deltas.push('Amenaza ' + (ev.fx.threat>=0?'+':'') + ev.fx.threat);
+      addLog(ev.icon + ' EVENTO ATENDIDO: ' + ev.text, ev.log || 'warning');
+      if (deltas.length) addLog('[ ' + deltas.join(' | ') + ' ]', 'system');
+      updateStats(); renderMetrics();
+      box.style.display = 'none';
+      callback();
+    }
+  };
+
+  // Botón "Ignorar"
+  const btnIgnore = document.createElement('button');
+  btnIgnore.className = 'choice-btn';
+  btnIgnore.style.cssText = 'font-size:10px;padding:5px 12px;border-color:var(--muted);color:var(--muted);';
+  btnIgnore.textContent = '↷ Ignorar (reputación −5)';
+  btnIgnore.onclick = () => {
+    sfxClick();
+    applyFx({reputation: -5});
+    addLog(ev.icon + ' EVENTO IGNORADO — Reputación -5. Continúas sin atenderlo.', 'warning');
+    updateStats(); renderMetrics();
     box.style.display = 'none';
     callback();
-  }, 3500);
+  };
+
+  btnsDiv.appendChild(btnAttend);
+  btnsDiv.appendChild(btnIgnore);
+  box.style.display = 'flex';
+  sfxBeep();
 }
 
 // =====================================================================
@@ -1214,10 +1410,15 @@ function playScene() {
 
     typewriteLog(scene.text, 'scene', () => {
       addLog('──────────────────────────────────────', 'system');
-      // Timed scene?
-      if (scene.timed) startTimer(scene.timerSec || 25, scene);
+      // Presupuesto anual pendiente
+      if (G.pendingAnnualBudget) {
+        grantAnnualBudget(G.pendingAnnualBudget);
+        G.pendingAnnualBudget = null;
+      }
+      // Timer solo en incidentes críticos (isEvent)
+      if (scene.isEvent) startTimer(30, scene);
       else stopTimer();
-      renderChoices(scene.choices, scene.timed);
+      renderChoices(scene.choices, scene.isEvent);
     });
 
     updateProgress();
@@ -1569,14 +1770,16 @@ function renderSidebar() {
 }
 
 function renderThreats() {
-  const t = [];
-  if (G.threat>75) t.push({name:'APT Activo',lvl:'tl-crit',lbl:'CRÍTICO'});
-  else if (G.threat>50) t.push({name:'Amenaza Alta',lvl:'tl-high',lbl:'ALTO'});
-  else if (G.threat>30) t.push({name:'Amenaza Moderada',lvl:'tl-med',lbl:'MEDIO'});
-  else t.push({name:'Perímetro Estable',lvl:'tl-low',lbl:'BAJO'});
-  document.getElementById('threat-list').innerHTML = t.map(x =>
-    `<div class="threat-item"><span style="color:var(--text);font-size:10px">${x.name}</span>
-     <span class="threat-level ${x.lvl}">${x.lbl}</span></div>`).join('');
+  let name, lvl, lbl;
+  if      (G.threat > 75) { name = 'APT Activo';         lvl = 'tl-crit'; lbl = 'CRÍTICO';  }
+  else if (G.threat > 50) { name = 'Amenaza Alta';        lvl = 'tl-high'; lbl = 'ALTO';     }
+  else if (G.threat > 30) { name = 'Amenaza Moderada';    lvl = 'tl-med';  lbl = 'MODERADO'; }
+  else if (G.threat > 10) { name = 'Perímetro Estable';   lvl = 'tl-low';  lbl = 'BAJO';     }
+  else                    { name = 'Sin Amenazas Activas'; lvl = 'tl-low';  lbl = 'MUY BAJO'; }
+  document.getElementById('threat-list').innerHTML =
+    `<div class="threat-item"><span style="color:var(--text);font-size:10px">${name}</span>
+     <span class="threat-level ${lvl}">${lbl}</span></div>
+     <div style="font-size:9px;color:var(--muted);margin-top:4px;">Nivel: ${G.threat}/100</div>`;
 }
 
 function renderMetrics() {
