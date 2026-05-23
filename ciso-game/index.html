@@ -1136,9 +1136,9 @@ const TEAM_ROSTER = [
 ];
 
 const DIFF_CONFIG = {
-  junior: {budget:700000, threatMult:0.7, label:'JUNIOR'},
-  senior: {budget:500000, threatMult:1.0, label:'SENIOR'},
-  crisis: {budget:200000, threatMult:1.4, label:'EN CRISIS'},
+  junior: {budget:700000, threatMult:0.7, startRep:75, label:'JUNIOR'},
+  senior: {budget:500000, threatMult:1.0, startRep:70, label:'SENIOR'},
+  crisis: {budget:200000, threatMult:1.4, startRep:40, label:'EN CRISIS'},
 };
 
 let G = {};
@@ -1201,7 +1201,7 @@ function startGame() {
   const cfg = DIFF_CONFIG[currentDiff];
   G = {
     budget: cfg.budget, maxBudget: cfg.budget,
-    reputation: 100, threat: currentDiff==='crisis'?40:20,
+    reputation: cfg.startRep, threat: currentDiff==='crisis'?40:20,
     day: 1, year: 1, cycle: 1,
     incidentsHandled: 0, incidentsFailed: 0, decisionsCount: 0,
     team: TEAM_ROSTER.map(m => ({...m})),
