@@ -1583,13 +1583,13 @@
       "choices": [
         {
           "text": "Detener la producción y aislar físicamente los sistemas OT de la red IT",
-          "result": "Producción parada 8 horas. Sin víctimas. Los sistemas OT quedaron infectados con un wiper diseñado para actuar a medianoche. Lo atrapas a tiempo.",
+          "result": "Producción parada 8 horas. Los sistemas OT estaban infectados con un wiper programado para las 00:00 — lo atrapas justo a tiempo. Operaciones y el board preguntan cómo llegó el malware a planta.",
           "fx": {
             "budget": -80000,
-            "reputation": 15,
-            "threat": -30
+            "reputation": -5,
+            "threat": -25
           },
-          "log": "success"
+          "log": "warning"
         },
         {
           "text": "Implementar segmentación de emergencia IT/OT sin detener producción",

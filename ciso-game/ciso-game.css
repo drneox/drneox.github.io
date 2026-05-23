@@ -113,8 +113,10 @@ h1{font-family:'Orbitron',monospace;font-size:clamp(14px,3.5vw,22px);color:var(-
   font-family:'Share Tech Mono',monospace;font-size:11px;padding:9px 13px;border-radius:3px;
   cursor:pointer;text-align:left;transition:all .15s;line-height:1.4;position:relative;}
 .choice-btn::before{content:'> ';color:var(--green2);font-weight:bold;}
-.choice-btn:hover:not(:disabled){border-color:var(--green2);background:rgba(0,255,136,.05);
-  color:var(--green);box-shadow:0 0 10px rgba(0,255,136,.1);}
+@media (hover: hover) and (pointer: fine) {
+  .choice-btn:hover:not(:disabled){border-color:var(--green2);background:rgba(0,255,136,.05);
+    color:var(--green);box-shadow:0 0 10px rgba(0,255,136,.1);}
+}
 .choice-btn:disabled{opacity:.3;cursor:default;}
 .choice-btn.timed{border-color:var(--orange);}
 .cost-tag{float:right;font-size:9px;padding:1px 5px;border-radius:2px;margin-top:1px;}
