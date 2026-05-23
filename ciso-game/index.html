@@ -124,7 +124,7 @@
   </div>
   <div id="sidebar">
     <div class="side-card">
-      <div class="side-title">&#9656; Equipo Core</div>
+      <div class="side-title">&#9656; Equipo</div>
       <div id="team-list"></div>
     </div>
     <div id="tasks-card" class="side-card" style="display:none"><div class="side-title">&#9656; En Progreso</div><div id="tasks-list"></div></div>
@@ -140,6 +140,16 @@
     <div class="side-card"><div class="side-title">&#9656; Exposición</div><div id="threat-list"></div></div>
     <div class="side-card"><div class="side-title">&#9656; Métricas</div><div id="metrics-list" style="font-size:10px;line-height:1.9;color:var(--muted)"></div></div>
   </div>
+</div>
+
+<!-- CERT MODAL -->
+<div id="cert-modal-backdrop" onclick="closeCertModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:300;"></div>
+<div id="cert-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:460px;max-width:95vw;max-height:76vh;overflow-y:auto;background:var(--panel);border:1px solid rgba(255,200,0,.4);border-radius:4px;z-index:301;padding:20px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+    <div id="cert-modal-title" style="font-family:'Orbitron',monospace;font-size:11px;letter-spacing:2px;color:var(--yellow);">&#127891; CERTIFICACIONES</div>
+    <button onclick="closeCertModal()" style="background:transparent;border:none;color:var(--muted);font-size:16px;cursor:pointer;">&#10005;</button>
+  </div>
+  <div id="cert-modal-body"></div>
 </div>
 
 <!-- TEAM MODAL -->

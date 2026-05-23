@@ -93,10 +93,10 @@ function toggleSound() {
 // GAME STATE
 // =====================================================================
 const TEAM_ROSTER = [
-  {id:'ana',   name:'Ana Vega',    role:'Analista SOC',     avatar:'👩‍💻', status:'ok', tech:75, mgmt:35, techLoad:0, mgmtLoad:0, level:'mid', dept:'soc'},
-  {id:'carlos',name:'Carlos Ríos', role:'Pen Tester',       avatar:'🧑‍💻', status:'ok', tech:85, mgmt:20, techLoad:0, mgmtLoad:0, level:'mid', dept:'red'},
-  {id:'maria', name:'Maria Torres',role:'Resp. Incidentes', avatar:'👩‍🔬', status:'ok', tech:65, mgmt:70, techLoad:0, mgmtLoad:0, level:'mid', dept:'gov'},
-  {id:'luis',  name:'Luis Pena',   role:'Arq. Cloud',       avatar:'👨‍🔧', status:'ok', tech:80, mgmt:55, techLoad:0, mgmtLoad:0, level:'mid', dept:'cloud'},
+  {id:'ana',   name:'Ana Vega',    role:'Analista SOC',     avatar:'👩‍💻', status:'ok', tech:75, mgmt:35, techLoad:0, mgmtLoad:0, level:'mid', dept:'soc',   certs:[]},
+  {id:'carlos',name:'Carlos Ríos', role:'Pen Tester',       avatar:'🧑‍💻', status:'ok', tech:85, mgmt:20, techLoad:0, mgmtLoad:0, level:'mid', dept:'red',   certs:[]},
+  {id:'maria', name:'Maria Torres',role:'Resp. Incidentes', avatar:'👩‍🔬', status:'ok', tech:65, mgmt:70, techLoad:0, mgmtLoad:0, level:'mid', dept:'gov',   certs:[]},
+  {id:'luis',  name:'Luis Pena',   role:'Arq. Cloud',       avatar:'👨‍🔧', status:'ok', tech:80, mgmt:55, techLoad:0, mgmtLoad:0, level:'mid', dept:'cloud', certs:[]},
 ];
 
 // Capacidad total de un miembro (tech + mgmt)
@@ -1437,7 +1437,7 @@ function hireMember(id) {
 
   sfxSuccess();
   G.budget -= upfront;
-  G.team.push({...r, id: uid, _catalogId: id, name: r.name + suffix, status: 'ok', techLoad: 0, mgmtLoad: 0});
+  G.team.push({...r, id: uid, _catalogId: id, name: r.name + suffix, status: 'ok', techLoad: 0, mgmtLoad: 0, certs: []});
   const payroll = G.team.reduce((s, m) => s + (m.salary || 0), 0);
   addLog(`👤 CONTRATADO — ${r.name}${suffix} (${r.role}) [T:${r.tech} M:${r.mgmt}]. Costo inmediato: −${fmtNum(upfront)}. Nómina anual: ${fmtNum(payroll)}/año.`, 'success');
   updateStats(); renderTeam(); renderSidebar();
@@ -1495,7 +1495,7 @@ const DEPT_META  = {
 };
 
 // compact=true → sidebar (etiquetas cortas),  compact=false → modal (etiquetas completas)
-function memberCard(m, compact = true) {
+function memberCard(m, compact = true, extraHTML = '') {
   const isDown  = m.status === 'down';
   const tech    = m.tech || 0;
   const mgmt    = m.mgmt || 0;
@@ -1516,10 +1516,11 @@ function memberCard(m, compact = true) {
   const barRow = (label, pct, used, max, color) =>
     `<div style="display:flex;align-items:center;gap:3px;margin-bottom:1px;">
       <span style="font-size:${lblSize};color:${color};width:${lblWidth};font-weight:bold">${label}</span>
-      <div style="flex:1;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;">
-        <div style="width:${pct}%;height:100%;background:${pct>=80?'var(--orange)':pct>=40?'var(--yellow)':color};border-radius:2px;transition:width .4s;"></div>
+      <div style="flex:1;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;width:${max}%;height:100%;background:${color}28;border-radius:2px;"></div>
+        <div style="position:absolute;left:0;top:0;width:${pct}%;height:100%;background:${pct>=80?'var(--orange)':pct>=40?'var(--yellow)':color};border-radius:2px;transition:width .4s;"></div>
       </div>
-      <span style="font-size:8px;color:var(--muted);width:28px;text-align:right">${used}/${max}</span>
+      <span style="font-size:8px;color:${used>0?'var(--yellow)':'var(--muted)'};width:28px;text-align:right">${used>0?`${used}/${max}`:max}</span>
     </div>`;
   const bars = !isDown && (tech > 0 || mgmt > 0)
     ? `<div style="margin-top:3px;">
@@ -1528,15 +1529,16 @@ function memberCard(m, compact = true) {
       </div>`
     : '';
   return `
-    <div class="team-member">
-      <div class="member-avatar" style="background:${isDown?'#200':'#0a1a10'}">${m.avatar}</div>
-      <div class="member-info">
-        <div class="member-name">${m.name}${levelBadge}</div>
-        <div class="member-role">${m.role}</div>
-        ${bars}
-      </div>
-      <div class="member-status ${sc}">${st}</div>
-    </div>`;
+    <div>
+      <div class="team-member">
+        <div class="member-avatar" style="background:${isDown?'#200':'#0a1a10'}">${m.avatar}</div>
+        <div class="member-info">
+          <div class="member-name">${m.name}${levelBadge}</div>
+          <div class="member-role">${m.role}</div>
+          ${bars}
+        </div>
+        <div class="member-status ${sc}">${st}</div>
+      </div>${extraHTML}</div>`;
 }
 
 function renderTeam() {
@@ -1566,7 +1568,18 @@ function showTeamModal() {
           </button>
         </div>
       </div>
-      ${n ? members.map(m => memberCard(m, false)).join('') : '<div style="font-size:9px;color:var(--muted);padding:4px 0;">Sin miembros — contratar para cubrir este departamento</div>'}
+      ${n ? members.map(m => {
+        const uid = m.uid || m.id;
+        const dCerts = CERT_CATALOG[m.dept||''] || [];
+        const badges = (m.certs||[]).map(certId => {
+          const c = dCerts.find(x => x.id === certId);
+          return `<span style="font-size:8px;background:rgba(0,255,136,.08);border:1px solid var(--green2);color:var(--green2);padding:1px 5px;border-radius:2px;">🎓 ${c?c.name:certId.toUpperCase()}</span>`;
+        }).join(' ');
+        const extra = dCerts.length
+          ? `<div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin:2px 0 6px 30px;">${badges}<button onclick="showCertModal('${uid}')" style="font-size:8px;padding:1px 7px;border:1px solid rgba(255,200,0,.4);color:var(--yellow);background:transparent;cursor:pointer;border-radius:2px;font-family:inherit;">🎓 Certificar</button></div>`
+          : '';
+        return memberCard(m, false, extra);
+      }).join('') : '<div style="font-size:9px;color:var(--muted);padding:4px 0;">Sin miembros — contratar para cubrir este departamento</div>'}
     </div>`;
   }
   document.getElementById('team-modal-body').innerHTML = html;
@@ -1577,6 +1590,102 @@ function showTeamModal() {
 function closeTeamModal() {
   document.getElementById('team-modal-backdrop').style.display = 'none';
   document.getElementById('team-modal').style.display          = 'none';
+}
+
+const CERT_CATALOG = {
+  soc: [
+    {id:'gsec',  name:'GSEC',         cost:3500, boost:{stat:'tech', val:8},  desc:'Fundamentos de seguridad (GIAC)'},
+    {id:'gcih',  name:'GCIH',         cost:4500, boost:{stat:'tech', val:12}, desc:'Manejo de incidentes certificado (GIAC)'},
+    {id:'cysa',  name:'CySA+',        cost:2800, boost:{stat:'mgmt', val:6},  desc:'CompTIA Cybersecurity Analyst'},
+  ],
+  red: [
+    {id:'oscp',  name:'OSCP',         cost:1499, boost:{stat:'tech', val:15}, desc:'Offensive Security Certified Professional'},
+    {id:'crto',  name:'CRTO',         cost:900,  boost:{stat:'tech', val:10}, desc:'Certified Red Team Operator'},
+    {id:'gpen',  name:'GPEN',         cost:4500, boost:{stat:'tech', val:12}, desc:'Penetration Tester (GIAC)'},
+  ],
+  vuln: [
+    {id:'gwapt', name:'GWAPT',        cost:4500, boost:{stat:'tech', val:12}, desc:'Web App Penetration Testing (GIAC)'},
+    {id:'ewpt',  name:'eWPT',         cost:800,  boost:{stat:'tech', val:8},  desc:'eLearnSecurity Web Pentester'},
+    {id:'cvss',  name:'CVSSv4',       cost:500,  boost:{stat:'mgmt', val:5},  desc:'Gestión de métricas de severidad'},
+  ],
+  gov: [
+    {id:'cism',  name:'CISM',         cost:5500, boost:{stat:'mgmt', val:15}, desc:'Certified Information Security Manager (ISACA)'},
+    {id:'crisc', name:'CRISC',        cost:5000, boost:{stat:'mgmt', val:12}, desc:'Risk & Information Systems Control (ISACA)'},
+    {id:'iso27', name:'ISO 27001 LA', cost:2500, boost:{stat:'mgmt', val:10}, desc:'Lead Auditor ISO/IEC 27001'},
+  ],
+  cloud: [
+    {id:'ccsp',  name:'CCSP',         cost:4500, boost:{stat:'tech', val:10}, desc:'Certified Cloud Security Professional (ISC2)'},
+    {id:'awssec',name:'AWS Security', cost:3000, boost:{stat:'tech', val:12}, desc:'AWS Certified Security – Specialty'},
+    {id:'ccsk',  name:'CCSK',         cost:500,  boost:{stat:'mgmt', val:6},  desc:'Certificate of Cloud Security Knowledge'},
+  ],
+  iam: [
+    {id:'sc300', name:'SC-300',       cost:1650, boost:{stat:'tech', val:10}, desc:'Microsoft Identity & Access Administrator'},
+    {id:'cidpro',name:'CIDPRO',       cost:2000, boost:{stat:'tech', val:8},  desc:'Certified Identity Professional (IDPRO)'},
+    {id:'ciam',  name:'CIAM',         cost:3000, boost:{stat:'mgmt', val:8},  desc:'Customer Identity & Access Management'},
+  ],
+};
+
+function showCertModal(uid) {
+  const m = G.team.find(t => (t.uid || t.id) === uid);
+  if (!m) return;
+  const deptCerts = CERT_CATALOG[m.dept || ''] || [];
+  const obtained  = new Set(m.certs || []);
+  document.getElementById('cert-modal-title').textContent = `🎓 CERTIFICACIONES — ${m.name}`;
+  let html = `<div style="font-size:10px;color:var(--muted);margin-bottom:12px;">
+    Presupuesto: <span style="color:var(--green)">${fmtBudget()}</span>
+    &nbsp;·&nbsp; Técnico: <span style="color:var(--cyan)">${m.tech}</span>
+    &nbsp;·&nbsp; Gestión: <span style="color:var(--purple)">${m.mgmt}</span>
+  </div>`;
+  if (!deptCerts.length) {
+    html += '<div style="font-size:10px;color:var(--muted)">Sin certificaciones disponibles para este departamento.</div>';
+  } else {
+    html += deptCerts.map(c => {
+      const has       = obtained.has(c.id);
+      const canAfford = G.budget >= c.cost;
+      const statColor = c.boost.stat === 'tech' ? 'var(--cyan)' : 'var(--purple)';
+      const statLabel = c.boost.stat === 'tech' ? 'Técnico' : 'Gestión';
+      return `<div style="padding:8px 10px;border:1px solid ${has?'var(--green2)':'var(--border)'};border-radius:3px;margin-bottom:6px;background:${has?'rgba(0,255,136,.04)':'transparent'}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+          <span style="color:${has?'var(--green)':'var(--text)'};font-size:11px;font-weight:bold">${has?'✓ ':''}${c.name}</span>
+          <span style="font-size:10px;color:${statColor};font-weight:bold">+${c.boost.val} ${statLabel}</span>
+        </div>
+        <div style="font-size:9px;color:var(--muted);margin-bottom:6px">${c.desc}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:10px;color:var(--yellow)">${fmtNum(c.cost)}</span>
+          ${has
+            ? `<span style="font-size:9px;color:var(--green2)">✓ Obtenida</span>`
+            : `<button onclick="purchaseCert('${uid}','${c.id}')" style="font-size:9px;padding:2px 10px;border:1px solid ${canAfford?'var(--yellow)':'var(--border)'};color:${canAfford?'var(--yellow)':'var(--muted)'};background:transparent;cursor:${canAfford?'pointer':'default'};border-radius:2px;font-family:inherit;" ${canAfford?'':'disabled'}>Obtener</button>`
+          }
+        </div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('cert-modal-body').innerHTML = html;
+  document.getElementById('cert-modal-backdrop').style.display = 'block';
+  document.getElementById('cert-modal').style.display          = 'block';
+}
+
+function closeCertModal() {
+  document.getElementById('cert-modal-backdrop').style.display = 'none';
+  document.getElementById('cert-modal').style.display          = 'none';
+}
+
+function purchaseCert(uid, certId) {
+  const m = G.team.find(t => (t.uid || t.id) === uid);
+  if (!m) return;
+  const cert = (CERT_CATALOG[m.dept||''] || []).find(c => c.id === certId);
+  if (!cert) return;
+  if (G.budget < cert.cost) { addLog('💸 Presupuesto insuficiente para esta certificación.', 'warn'); return; }
+  if ((m.certs || []).includes(certId)) return;
+  G.budget -= cert.cost;
+  if (!m.certs) m.certs = [];
+  m.certs.push(certId);
+  m[cert.boost.stat] += cert.boost.val;
+  const statLabel = cert.boost.stat === 'tech' ? 'Técnico' : 'Gestión';
+  addLog(`🎓 ${m.name} obtuvo ${cert.name} → +${cert.boost.val} ${statLabel}`, 'success');
+  renderHUD();
+  showTeamModal();    // refrescar fondo
+  showCertModal(uid); // refrescar modal de cert encima
 }
 
 function renderSidebar() {
