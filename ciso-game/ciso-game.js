@@ -1203,8 +1203,11 @@ function showEnding() {
 
 function showFinalStats(color, sc, grade, isGameOver) {
   const penText = isGameOver ? ` ×${sc.penaltyMult.toFixed(1)} penalización` : '';
+  document.getElementById('score-hero').innerHTML =
+    `<div class="sh-num" style="color:${color}">${sc.total}</div>` +
+    `<div class="sh-label">PUNTUACIÓN FINAL</div>` +
+    `<div class="sh-grade" style="color:${color}">${grade}</div>`;
   document.getElementById('final-stats').innerHTML =
-    `<div class="fs-item"><div class="fs-num" style="color:${color};font-size:34px;">${sc.total}</div><div class="fs-label">PUNTUACIÓN FINAL</div></div>` +
     `<div class="fs-item"><div class="fs-num" style="color:var(--green)">${G.year}</div><div class="fs-label">AÑO ALCANZADO</div></div>` +
     `<div class="fs-item"><div class="fs-num" style="color:var(--cyan)">${G.reputation}</div><div class="fs-label">REPUTACIÓN</div></div>` +
     `<div class="fs-item"><div class="fs-num" style="color:var(--yellow)">${fmtBudget()}</div><div class="fs-label">PRESUPUESTO</div></div>` +
