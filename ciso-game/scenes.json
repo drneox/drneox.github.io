@@ -18,9 +18,17 @@
             "threat": -20
           },
           "log": "result",
-          "teamBusy": [
-            "ana",
-            "maria"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 50,
+              "mgmt": 20
+            },
+            {
+              "dept": "iam",
+              "tech": 30,
+              "mgmt": 15
+            }
           ]
         },
         {
@@ -32,7 +40,14 @@
             "threat": 5,
             "reputation": -1
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Lanzar simulacro de phishing para medir exposición real",
@@ -43,7 +58,14 @@
             "reputation": 10,
             "threat": -10
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25
+            }
+          ]
         },
         {
           "text": "Enviar comunicado de alerta a empleados y esperar reportes voluntarios",
@@ -73,7 +95,14 @@
             "threat": -30
           },
           "log": "success",
-          "addPolicy": "DRP Activado"
+          "addPolicy": "DRP Activado",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 50,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Pagar el rescate — el negocio no puede parar",
@@ -96,7 +125,14 @@
             "reputation": -5,
             "threat": -15
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 40,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Llamar al proveedor de IR externo para que lideren la respuesta",
@@ -106,7 +142,14 @@
             "reputation": -5,
             "threat": -20
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 30
+            }
+          ]
         }
       ]
     },
@@ -128,7 +171,13 @@
             "threat": -15
           },
           "log": "success",
-          "needsTeam": "luis"
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 40,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Cambiar DNS a Cloudflare Enterprise de emergencia",
@@ -139,7 +188,14 @@
             "reputation": -10,
             "threat": -20
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Bloquear todo el tráfico internacional temporalmente",
@@ -148,7 +204,14 @@
             "reputation": -18,
             "threat": -25
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 20,
+              "mgmt": 5
+            }
+          ]
         },
         {
           "text": "Comunicar transparentemente mientras se resuelve",
@@ -177,7 +240,14 @@
             "reputation": -10,
             "threat": -30
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Implementar WAF temporal con reglas específicas para el exploit",
@@ -189,7 +259,13 @@
             "threat": -15
           },
           "log": "warning",
-          "needsTeam": "carlos"
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 35,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Migrar urgente a solución VPN alternativa en la nube",
@@ -201,8 +277,14 @@
             "threat": -25
           },
           "log": "success",
-          "needsTeam": "luis",
-          "addTool": "VPN Cloud Segura"
+          "addTool": "VPN Cloud Segura",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 50,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Mantener operación con monitoreo elevado y esperar el parche",
@@ -211,7 +293,14 @@
             "threat": 35,
             "reputation": -15
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 25,
+              "mgmt": 5
+            }
+          ]
         }
       ]
     },
@@ -233,7 +322,13 @@
             "reputation": 5
           },
           "log": "success",
-          "needsTeam": "luis"
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 50,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Aislar segmento de red + análisis forense del malware",
@@ -245,7 +340,13 @@
             "reputation": 8
           },
           "log": "success",
-          "needsTeam": "maria"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 40,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Notificar al CERT y esperar guía oficial antes de actuar",
@@ -267,7 +368,13 @@
             "reputation": 6
           },
           "log": "success",
-          "needsTeam": "ana"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 30,
+              "mgmt": 10
+            }
+          ]
         }
       ]
     },
@@ -292,6 +399,18 @@
           "requiresTech": [
             "siem",
             "edr"
+          ],
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 40,
+              "mgmt": 20
+            },
+            {
+              "dept": "red",
+              "tech": 35,
+              "mgmt": 10
+            }
           ]
         },
         {
@@ -303,7 +422,14 @@
             "budget": -50000
           },
           "log": "danger",
-          "removeTech": "edr"
+          "removeTech": "edr",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Reconstruir toda la infraestructura comprometida desde cero",
@@ -315,7 +441,14 @@
             "reputation": 8
           },
           "log": "success",
-          "addPolicy": "Infraestructura Reforzada"
+          "addPolicy": "Infraestructura Reforzada",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 50,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Aislar los segmentos afectados y contener el radio de acción",
@@ -326,7 +459,14 @@
             "threat": -20,
             "reputation": 5
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 35,
+              "mgmt": 15
+            }
+          ]
         }
       ]
     },
@@ -347,7 +487,14 @@
             "reputation": 5,
             "threat": -10
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Investigar cómo entraron antes de restaurar",
@@ -357,7 +504,13 @@
             "reputation": -5
           },
           "log": "result",
-          "needsTeam": "ana"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Página de mantenimiento temporal + comunicado en redes sociales",
@@ -368,7 +521,14 @@
             "reputation": 2,
             "threat": -5
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 15,
+              "mgmt": 5
+            }
+          ]
         },
         {
           "text": "Ignorar públicamente y restaurar sin comunicar",
@@ -377,7 +537,14 @@
             "reputation": -25,
             "threat": -8
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 15,
+              "mgmt": 5
+            }
+          ]
         }
       ]
     },
@@ -395,7 +562,14 @@
             "reputation": 8,
             "threat": -5
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 25,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Monitorear 48h en silencio para construir evidencia forense completa",
@@ -405,7 +579,13 @@
             "reputation": 12
           },
           "log": "success",
-          "needsTeam": "maria"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Hablar directamente con Rodrigo para entender el contexto",
@@ -473,7 +653,14 @@
             "threat": -5
           },
           "log": "success",
-          "addPolicy": "Balance Laboral SOC"
+          "addPolicy": "Balance Laboral SOC",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25
+            }
+          ]
         },
         {
           "text": "Pedirle que aguante hasta terminar el proyecto crítico del trimestre",
@@ -504,7 +691,13 @@
             "reputation": 5
           },
           "log": "result",
-          "needsTeam": "maria"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Usar el incidente para programa urgente de concienciación para directivos",
@@ -516,7 +709,14 @@
             "threat": -15
           },
           "log": "success",
-          "addPolicy": "Programa Concienciación Directivos"
+          "addPolicy": "Programa Concienciación Directivos",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "Pedirle al CFO que haga el reporte forense él mismo",
@@ -558,8 +758,12 @@
           },
           "log": "success",
           "addPolicy": "RBAC Implementado",
-          "teamBusy": [
-            "luis"
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 50,
+              "mgmt": 20
+            }
           ]
         },
         {
@@ -572,7 +776,14 @@
             "reputation": 8
           },
           "log": "success",
-          "addTool": "Identity Governance"
+          "addTool": "Identity Governance",
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 30,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Enviar memo a jefes de área pidiéndoles revisar accesos de sus equipos",
@@ -590,7 +801,14 @@
             "reputation": -20,
             "threat": -10
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 35,
+              "mgmt": 10
+            }
+          ]
         }
       ]
     },
@@ -653,7 +871,14 @@
             "budget": 80000,
             "threat": 8
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "Presentar ROI detallado para negociar y proteger el presupuesto de seguridad",
@@ -672,7 +897,14 @@
             "threat": 35,
             "reputation": -10
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Despedir al miembro menos senior del equipo",
@@ -751,7 +983,13 @@
             "threat": -15
           },
           "log": "success",
-          "needsTeam": "carlos"
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 20,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "No renovar y migrar a proveedor con certificación SOC 2",
@@ -762,7 +1000,14 @@
             "reputation": 15,
             "threat": -20
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Incluir cláusulas de seguridad en el nuevo contrato y confiar",
@@ -771,7 +1016,14 @@
             "threat": 10,
             "reputation": 2
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 35
+            }
+          ]
         },
         {
           "text": "Renovar sin cambios — llevan 8 años sin problemas",
@@ -801,7 +1053,14 @@
             "reputation": 10,
             "threat": -5
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 35
+            }
+          ]
         },
         {
           "text": "Investigar 48h más para confirmar acceso real antes de notificar",
@@ -811,7 +1070,18 @@
             "reputation": 8
           },
           "log": "success",
-          "needsTeam": "maria"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 30,
+              "mgmt": 15
+            },
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25
+            }
+          ]
         },
         {
           "text": "No notificar — sin evidencia de acceso, el riesgo parece mínimo",
@@ -830,7 +1100,14 @@
             "budget": -80000,
             "reputation": -10
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30
+            }
+          ]
         }
       ]
     },
@@ -849,7 +1126,14 @@
             "budget": -35000,
             "reputation": 18
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 35
+            }
+          ]
         },
         {
           "text": "Usar equipo interno con horas extra compensadas",
@@ -862,10 +1146,21 @@
           },
           "log": "warning",
           "addPolicy": "Certificación Condicional",
-          "slots": [{"tech": 15, "mgmt": 40}, {"tech": 20, "mgmt": 10}],
           "taskName": "Remediación ISO 27001",
           "taskIcon": "📋",
-          "taskMonths": 2
+          "taskMonths": 2,
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 15,
+              "mgmt": 40
+            },
+            {
+              "dept": "cloud",
+              "tech": 20,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Aprovechar políticas GRC ya implementadas para justificar controles",
@@ -876,10 +1171,16 @@
           },
           "log": "result",
           "requiresMinPolicies": 4,
-          "slots": [{"tech": 5, "mgmt": 30}],
           "taskName": "Documentación ISO 27001",
           "taskIcon": "📋",
-          "taskMonths": 1
+          "taskMonths": 1,
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "Ser 100% transparente con el auditor sobre el estado real",
@@ -900,10 +1201,16 @@
             "threat": -5
           },
           "log": "warning",
-          "slots": [{"tech": 10, "mgmt": 25}],
           "taskName": "Documentación de controles",
           "taskIcon": "📋",
-          "taskMonths": 1
+          "taskMonths": 1,
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 25
+            }
+          ]
         }
       ]
     },
@@ -924,8 +1231,19 @@
             "reputation": 10
           },
           "log": "success",
-          "needsTeam": "luis",
-          "addPolicy": "Retención de Datos v2"
+          "addPolicy": "Retención de Datos v2",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 10
+            },
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25
+            }
+          ]
         },
         {
           "text": "Consultar con Legal si algunos datos tienen valor para litigios antes de eliminar",
@@ -947,7 +1265,14 @@
             "threat": 5,
             "reputation": -3
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 20,
+              "mgmt": 5
+            }
+          ]
         },
         {
           "text": "Ignorar — si están ahí es porque alguien los necesitará",
@@ -976,7 +1301,14 @@
             "threat": -25
           },
           "log": "success",
-          "addPolicy": "Cloud Security Framework"
+          "addPolicy": "Cloud Security Framework",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 35,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Integrarte ahora y diseñar controles en paralelo a la migración",
@@ -987,7 +1319,14 @@
             "threat": -15,
             "reputation": 5
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 40,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Contratar Cloud Security Architect externo para liderar la seguridad del proyecto",
@@ -1029,8 +1368,14 @@
             "reputation": 8
           },
           "log": "success",
-          "needsTeam": "luis",
-          "addPolicy": "Patch Management Process"
+          "addPolicy": "Patch Management Process",
+          "needsDept": [
+            {
+              "dept": "vuln",
+              "tech": 40,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Parchear las 23 críticas de inmediato y aceptar el riesgo de rotura",
@@ -1039,7 +1384,14 @@
             "threat": -20,
             "reputation": -5
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "vuln",
+              "tech": 35,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Compensar con controles alternativos: IDS, segmentación, monitoreo intensivo",
@@ -1051,7 +1403,14 @@
             "reputation": 5
           },
           "log": "result",
-          "addPolicy": "Risk Acceptance Documentado"
+          "addPolicy": "Risk Acceptance Documentado",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Exigir al CTO congelar funcionalidades hasta parchear todo",
@@ -1081,7 +1440,14 @@
             "reputation": 10
           },
           "log": "success",
-          "addTool": "SIEM NextGen"
+          "addTool": "SIEM NextGen",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Tunar el SIEM actual con reglas más precisas — sin nuevo gasto",
@@ -1091,11 +1457,14 @@
             "reputation": 5
           },
           "log": "result",
-          "needsTeam": "ana",
-          "teamBusy": [
-            "ana"
-          ],
-          "requiresTech": "siem"
+          "requiresTech": "siem",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 50,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Contratar MSSP para gestionar el SIEM externamente",
@@ -1133,7 +1502,19 @@
             "threat": -25,
             "reputation": 8
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 10
+            },
+            {
+              "dept": "vuln",
+              "tech": 30,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Remediar los 2 críticos esta semana, altos el próximo mes",
@@ -1144,7 +1525,14 @@
             "threat": -10,
             "reputation": -3
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "vuln",
+              "tech": 35,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Presentar todos los hallazgos al board para conseguir presupuesto de remediación",
@@ -1163,7 +1551,14 @@
             "reputation": -20,
             "threat": 5
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "red",
+              "tech": 40,
+              "mgmt": 15
+            }
+          ]
         }
       ]
     },
@@ -1182,9 +1577,17 @@
             "reputation": -10
           },
           "log": "result",
-          "needsTeam": [
-            "ana",
-            "maria"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 15
+            },
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 30
+            }
           ]
         },
         {
@@ -1231,7 +1634,14 @@
             "reputation": 15
           },
           "log": "success",
-          "addPolicy": "Cooperación FBI Activa"
+          "addPolicy": "Cooperación FBI Activa",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Contratar firma especializada en amenazas estado-nación",
@@ -1284,7 +1694,14 @@
             "threat": -15,
             "reputation": 5
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 35,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Implementar límites de gasto en AWS + alertas de anomalía de costos",
@@ -1296,7 +1713,14 @@
             "reputation": 3
           },
           "log": "success",
-          "addTool": "Cloud Cost Monitoring"
+          "addTool": "Cloud Cost Monitoring",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Investigar quién instaló el miner: interno o externo",
@@ -1306,7 +1730,13 @@
             "reputation": 5
           },
           "log": "result",
-          "needsTeam": "maria"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Ignorar — probablemente un spike temporal de carga legítima",
@@ -1342,7 +1772,14 @@
             "threat": 20,
             "reputation": -5
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Llamar a la policía directamente",
@@ -1360,7 +1797,14 @@
             "threat": -15,
             "reputation": 8
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 20,
+              "mgmt": 10
+            }
+          ]
         }
       ]
     },
@@ -1380,8 +1824,17 @@
             "threat": -25
           },
           "log": "success",
-          "teamBusy": [
-            "ana"
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 40,
+              "mgmt": 20
+            },
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 15
+            }
           ]
         },
         {
@@ -1393,7 +1846,14 @@
             "threat": -20,
             "reputation": 2
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 25,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Configurar honeypot: monitorear intentos de login con esas credenciales",
@@ -1403,7 +1863,13 @@
             "reputation": 8
           },
           "log": "success",
-          "needsTeam": "ana"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Ignorar — probablemente son de una brecha vieja de otro servicio",
@@ -1434,8 +1900,14 @@
             "reputation": 10
           },
           "log": "success",
-          "needsTeam": "luis",
-          "addTool": "MDM Platform"
+          "addTool": "MDM Platform",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 40,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Borrado remoto del iPhone del CEO + cambio de credenciales urgente",
@@ -1444,7 +1916,19 @@
             "threat": -10,
             "reputation": 5
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 25,
+              "mgmt": 10
+            },
+            {
+              "dept": "iam",
+              "tech": 20,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Crear política BYOD con app contenedor para datos corporativos",
@@ -1456,7 +1940,14 @@
             "reputation": 8
           },
           "log": "success",
-          "addPolicy": "BYOD Policy"
+          "addPolicy": "BYOD Policy",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "Prohibir acceso corporativo desde dispositivos personales con efecto inmediato",
@@ -1464,7 +1955,14 @@
           "fx": {
             "reputation": -15
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         }
       ]
     },
@@ -1496,7 +1994,14 @@
             "threat": -15
           },
           "log": "success",
-          "addPolicy": "Verificación Dual Financiera"
+          "addPolicy": "Verificación Dual Financiera",
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 30,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Contactar LinkedIn para eliminar el video mientras investigas",
@@ -1518,7 +2023,13 @@
             "threat": -5
           },
           "log": "result",
-          "needsTeam": "maria"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 40,
+              "mgmt": 15
+            }
+          ]
         }
       ]
     },
@@ -1548,7 +2059,14 @@
             "reputation": -20,
             "threat": 15
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 25,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Activar protocolo de congelamiento de transferencias + alertar a todos los bancos vinculados",
@@ -1601,7 +2119,13 @@
             "reputation": -3
           },
           "log": "warning",
-          "needsTeam": "luis"
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 45,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Evacuar la planta mientras el equipo analiza el alcance del compromiso",
@@ -1622,7 +2146,14 @@
             "budget": -500000
           },
           "log": "danger",
-          "requiresTech": "siem"
+          "requiresTech": "siem",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 30,
+              "mgmt": 10
+            }
+          ]
         }
       ]
     },
@@ -1642,7 +2173,14 @@
             "reputation": 12,
             "threat": -10
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 35
+            }
+          ]
         },
         {
           "text": "Investigar cómo accedieron a la sala del board antes de escalar",
@@ -1653,7 +2191,13 @@
             "threat": -8
           },
           "log": "result",
-          "needsTeam": "carlos"
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Contratar firma de crisis de reputación para contener el daño mediático",
@@ -1696,7 +2240,14 @@
           },
           "log": "success",
           "addPolicy": "Política IA Corporativa",
-          "addTool": "DLP para LLMs"
+          "addTool": "DLP para LLMs",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 15,
+              "mgmt": 35
+            }
+          ]
         },
         {
           "text": "Bloquear todas las herramientas de IA externas hasta tener una política",
@@ -1705,7 +2256,14 @@
             "reputation": -15,
             "threat": 10
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Desplegar una instancia privada de LLM on-premise para uso corporativo",
@@ -1717,7 +2275,14 @@
             "reputation": 18
           },
           "log": "success",
-          "addTool": "LLM Privado On-Premise"
+          "addTool": "LLM Privado On-Premise",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 45,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Monitorear qué datos se están enviando antes de crear política",
@@ -1728,7 +2293,14 @@
             "threat": -8,
             "reputation": 5
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 25,
+              "mgmt": 10
+            }
+          ]
         }
       ]
     },
@@ -1752,7 +2324,14 @@
             "reputation": 8
           },
           "log": "success",
-          "addTool": "Honeypot Network"
+          "addTool": "Honeypot Network",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 40,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Bloquear todos los IPs de origen y alertar al equipo de defensa activa",
@@ -1761,7 +2340,14 @@
             "threat": 10,
             "reputation": -2
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 25,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Compartir los IOCs con el CERT y otras empresas del sector",
@@ -1771,7 +2357,14 @@
             "threat": -8
           },
           "log": "success",
-          "addPolicy": "Threat Intel Compartida"
+          "addPolicy": "Threat Intel Compartida",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Ignorar — el reconocimiento es normal en internet",
@@ -2417,29 +3010,73 @@
         {
           "text": "Apagar la VPN — acceso remoto 0 hasta nuevo aviso",
           "result": "800 empleados sin acceso remoto. Operaciones críticas pausadas. Nadie entra... pero tampoco los atacantes. Productividad cae un 40% durante la semana.",
-          "fx": { "reputation": -8, "budget": -20000, "threat": -20 },
-          "log": "warning"
+          "fx": {
+            "reputation": -8,
+            "budget": -20000,
+            "threat": -20
+          },
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Mantener operativa con lista blanca de IPs y MFA forzado",
           "result": "La lista blanca reduce la superficie pero no elimina el riesgo. Tres días después, un actor explota la vulnerabilidad desde una IP de proveedor autorizado. Exposición controlada pero no cerrada.",
-          "fx": { "reputation": -5, "threat": 15 },
-          "log": "warning"
+          "fx": {
+            "reputation": -5,
+            "threat": 15
+          },
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 35,
+              "mgmt": 15
+            },
+            {
+              "dept": "iam",
+              "tech": 25,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Migración de emergencia a solución alternativa en 48 horas",
           "result": "El equipo trabaja sin dormir. La migración se completa con errores de configuración que el equipo de red tarda 4 días en estabilizar. Nuevo sistema activo, pero la precipitación genera deuda técnica.",
-          "fx": { "budget": -45000, "reputation": -3, "threat": -10 },
+          "fx": {
+            "budget": -45000,
+            "reputation": -3,
+            "threat": -10
+          },
           "log": "warning",
-          "slots": [{"tech": 60, "mgmt": 20}, {"tech": 50, "mgmt": 10}],
           "taskName": "Migración VPN emergencia",
           "taskIcon": "🔥",
-          "taskMonths": 1
+          "taskMonths": 1,
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 60,
+              "mgmt": 20
+            },
+            {
+              "dept": "iam",
+              "tech": 50,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Escalar al vendor con SLA ejecutivo y aceptar el riesgo mientras tanto",
           "result": "El vendor promete un hotfix en 10 días. En el día 7, un atacante explota la vulnerabilidad y consigue foothold inicial. Contención cuesta más de lo que habría costado actuar antes.",
-          "fx": { "threat": 25, "reputation": -12 },
+          "fx": {
+            "threat": 25,
+            "reputation": -12
+          },
           "log": "danger"
         }
       ]
@@ -2455,27 +3092,73 @@
         {
           "text": "Notificar ahora con la información incompleta disponible",
           "result": "El regulador recibe notificación a tiempo pero con datos parciales. Exige informe complementario en 72h. La prensa obtiene la notificación por filtraicón y publica: 'NutBank admite brecha sin conocer el alcance.' Reputación golpeada, pero sin multa regulatoria.",
-          "fx": { "reputation": -15, "threat": -5 },
-          "log": "warning"
+          "fx": {
+            "reputation": -15,
+            "threat": -5
+          },
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 35
+            }
+          ]
         },
         {
           "text": "Esperar 24h más para tener información completa antes de notificar",
           "result": "La notificación llega con 14 horas de retraso del plazo legal. El regulador abre expediente sancionador. Multa mínima: €120K. Además, la espera no resolvió la incertidumbre del alcance — el informe sigue siendo incompleto.",
-          "fx": { "budget": -120000, "reputation": -10 },
-          "log": "danger"
+          "fx": {
+            "budget": -120000,
+            "reputation": -10
+          },
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 25,
+              "mgmt": 15
+            },
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "Notificar minimizando el alcance como 'incidente potencial menor'",
           "result": "El regulador acepta la notificación pero meses después descubre que el alcance real era mayor. Apertura de expediente por notificación engañosa. Multa y daño reputacional son mayores que si hubiera notificado con incertidumbre.",
-          "fx": { "budget": -200000, "reputation": -22 },
-          "log": "danger"
+          "fx": {
+            "budget": -200000,
+            "reputation": -22
+          },
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "Contratar firma legal de crisis + notificar coordinadamente $30K",
           "result": "La firma legal encuadra la notificación con precisión regulatoria. El regulador no sanciona. Pero el costo legal y el tiempo del equipo dejan huella. La brecha en sí sigue siendo noticia.",
-          "fx": { "budget": -30000, "reputation": -8, "threat": -5 },
+          "fx": {
+            "budget": -30000,
+            "reputation": -8,
+            "threat": -5
+          },
           "log": "warning",
-          "cost": "$30K"
+          "cost": "$30K",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 35
+            }
+          ]
         }
       ]
     },
@@ -2490,30 +3173,63 @@
         {
           "text": "Despedir inmediatamente y aceptar el riesgo legal",
           "result": "El administrador es despedido. Presenta demanda laboral. El caso se resuelve 14 meses después con acuerdo extrajudicial. Datos ya fuera: no se recuperan. El equipo entra en modo desconfianza; otros dos empleados renuncian.",
-          "fx": { "budget": -50000, "reputation": -8, "threat": 10 },
+          "fx": {
+            "budget": -50000,
+            "reputation": -8,
+            "threat": 10
+          },
           "log": "warning"
         },
         {
           "text": "Monitoreo encubierto 2 semanas para fortalecer el caso legal",
           "result": "Se documenta actividad adicional. El caso legal es sólido. Pero durante esas 2 semanas, el empleado exfiltró 20 GB más. El departamento legal aprueba el procedimiento, aunque recursos humanos lo cuestiona por el impacto en cultura.",
-          "fx": { "threat": 18, "reputation": -5, "budget": -15000 },
+          "fx": {
+            "threat": 18,
+            "reputation": -5,
+            "budget": -15000
+          },
           "log": "warning",
-          "slots": [{"tech": 40, "mgmt": 20}],
           "taskName": "Investigación insider",
           "taskIcon": "🕵️",
-          "taskMonths": 1
+          "taskMonths": 1,
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 40,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Confrontar al empleado de forma privada y negociar devolución de datos",
           "result": "El empleado niega todo inicialmente, luego admite haber copiado datos 'por si acaso'. Firma acuerdo de confidencialidad, pero no hay garantía de que los datos no circulen. Sienta un precedente peligroso: la empresa negocia con insiders.",
-          "fx": { "reputation": -18, "threat": 8 },
+          "fx": {
+            "reputation": -18,
+            "threat": 8
+          },
           "log": "danger"
         },
         {
           "text": "Reportar a las autoridades y activar protocolo forense completo",
           "result": "La denuncia paraliza la investigación interna mientras Fiscalía toma el caso. El proceso dura meses. El regulador de datos abre investigación paralela al enterarse. La empresa gana en integridad pero pierde 6 meses de foco operativo.",
-          "fx": { "budget": -35000, "reputation": -5, "threat": -8 },
-          "log": "warning"
+          "fx": {
+            "budget": -35000,
+            "reputation": -5,
+            "threat": -8
+          },
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 30,
+              "mgmt": 20
+            },
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30
+            }
+          ]
         }
       ]
     }

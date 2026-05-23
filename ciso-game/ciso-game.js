@@ -963,42 +963,36 @@ function makeChoiceCore(choice) {
     if (m) m.status = 'down';
     G.incidentsFailed++;
   }
-  if (choice.teamBusy) {
-    const ids = Array.isArray(choice.teamBusy) ? choice.teamBusy : [choice.teamBusy];
-    const slots = ids.map(id => {
-      const idx = G.team.findIndex(t => t.id === id);
-      if (idx >= 0 && G.team[idx].status !== 'down') {
-        const m = G.team[idx];
-        // Respuesta operativa: consume 50 tech + 30 mgmt
-        m.techLoad = (m.techLoad || 0) + 50;
-        m.mgmtLoad = (m.mgmtLoad || 0) + 30;
-        return {memberIdx: idx, tech: 50, mgmt: 30};
-      }
-      return null;
-    }).filter(Boolean);
-    if (slots.length > 0) {
-      if (!G.tasks) G.tasks = [];
-      G.tasks.push({name:'Respuesta operativa', icon:'🔥', slots, monthsLeft:1, totalMonths:1});
-      G.threat = computeExposure();
-    }
-  }
-  if (choice.needsTeam) {
-    const ids = Array.isArray(choice.needsTeam) ? choice.needsTeam : [choice.needsTeam];
-    ids.forEach(id => {
-      const m = G.team.find(t=>t.id===id);
-      if (!m) return;
-      if (m.status === 'down') {
-        addLog('⚠ Miembro no disponible — penalización aplicada','warning');
-        G.threatBase = Math.min(150, G.threatBase + 8); G.threat = computeExposure();
+  // Sistema unificado de consumo de recursos por departamento
+  if (choice.needsDept) {
+    const reqs = [].concat(choice.needsDept);
+    reqs.forEach(req => {
+      const dept     = typeof req === 'string' ? req : req.dept;
+      const techLoad = (typeof req === 'object' ? req.tech  : null) ?? 25;
+      const mgmtLoad = (typeof req === 'object' ? req.mgmt  : null) ?? 15;
+      const months   = (typeof req === 'object' ? req.months : null) ?? 1;
+      const skill    = DEPT_SKILL[dept] || 'tech';
+      const deptName = DEPT_META[dept]?.name || dept.toUpperCase();
+      const available = G.team.filter(m => m.dept === dept && m.status !== 'down');
+      if (available.length === 0) {
+        addLog(`⚠ Sin personal de ${deptName} disponible — la acción no pudo ejecutarse correctamente. Exposición +8`, 'warning');
+        G.threatBase = Math.min(150, G.threatBase + 8);
+        G.threat = computeExposure();
       } else {
-        // Consume light resources: the member is working on this task
+        available.sort((a,b) => (b[skill]||0) - (a[skill]||0));
+        const m   = available[0];
         const idx = G.team.indexOf(m);
-        const slots = [{memberIdx: idx, tech: 25, mgmt: 15}];
-        m.techLoad = (m.techLoad || 0) + 25;
-        m.mgmtLoad = (m.mgmtLoad || 0) + 15;
+        m.techLoad = (m.techLoad || 0) + techLoad;
+        m.mgmtLoad = (m.mgmtLoad || 0) + mgmtLoad;
         if (!G.tasks) G.tasks = [];
-        const label = choice.taskName || choice.text.substring(0, 35);
-        G.tasks.push({name: label, icon: choice.taskIcon || '🔧', slots, monthsLeft: 1, totalMonths: 1});
+        const label = choice.taskName || choice.text.substring(0, 40);
+        G.tasks.push({
+          name: label,
+          icon: choice.taskIcon || (skill === 'tech' ? '⚙️' : '📋'),
+          slots: [{memberIdx: idx, tech: techLoad, mgmt: mgmtLoad}],
+          monthsLeft: months,
+          totalMonths: months
+        });
         G.threat = computeExposure();
       }
     });
@@ -1045,11 +1039,7 @@ function makeChoiceCore(choice) {
   }
   if (choice.addTeam && !G.team.find(t=>t.id===choice.addTeam.id)) G.team.push({...choice.addTeam,status:'ok'});
 
-  // Consumo de recursos del equipo vía slots (definidos en la elección)
-  if (choice.slots && choice.slots.length > 0) {
-    const label = choice.taskName || choice.text.substring(0, 40);
-    startTask(label, choice.taskIcon || '📋', choice.slots, choice.taskMonths || 1, false, null);
-  }
+  // (slots migrado a needsDept — ver arriba)
 
   // Stakeholder effects
   updateStakeholders(choice);
@@ -1529,6 +1519,8 @@ function checkTechAudit(year) {
 }
 
 const DEPT_ORDER = ['soc','red','vuln','gov','cloud','iam'];
+// Habilidad dominante por departamento (tech vs mgmt)
+const DEPT_SKILL  = { soc:'tech', red:'tech', vuln:'tech', cloud:'tech', iam:'tech', gov:'mgmt' };
 const DEPT_META  = {
   soc:  {name:'SOC & Detección',            color:'#00e5ff'},
   red:  {name:'Ofensiva / Red Team',         color:'#ff4455'},
