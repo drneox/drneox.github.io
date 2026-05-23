@@ -33,18 +33,38 @@ function getAudio() {
   return audioCtx;
 }
 
+// Desbloqueo temprano de AudioContext en primer toque (necesario en iOS Safari)
+document.addEventListener('touchstart', function _iosUnlock() {
+  document.removeEventListener('touchstart', _iosUnlock);
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioCtx.resume().catch(() => {});
+    // Buffer silencioso para activar el contexto completamente
+    const buf = audioCtx.createBuffer(1, 1, 22050);
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf; src.connect(audioCtx.destination); src.start(0);
+  } catch(e) {}
+}, { once: true, passive: true });
+
 function playTone(freq, type, duration, vol=0.15, delay=0) {
   if (!soundEnabled) return;
   try {
     const ctx = getAudio();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.type = type; osc.frequency.value = freq;
-    const t = ctx.currentTime + delay;
-    gain.gain.setValueAtTime(vol, t);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
-    osc.start(t); osc.stop(t + duration);
+    const schedule = () => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = type; osc.frequency.value = freq;
+      const t = ctx.currentTime + Math.max(delay, 0.015); // margen mínimo en iOS
+      gain.gain.setValueAtTime(vol, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+      osc.start(t); osc.stop(t + duration);
+    };
+    if (ctx.state !== 'running') {
+      ctx.resume().then(schedule).catch(() => {});
+    } else {
+      schedule();
+    }
   } catch(e) {}
 }
 

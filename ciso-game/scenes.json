@@ -2406,6 +2406,117 @@
           "result": "Ana se siente infravalorada. Empieza a explorar otras opciones laborales."
         }
       ]
+    },
+    {
+      "id": "dilemma_zero_day_wild",
+      "cat": "ataque",
+      "icon": "🔥",
+      "title": "DILEMA — ZERO-DAY SIN PARCHE",
+      "isDilemma": true,
+      "text": "CVSS 9.8. Tu VPN corporativa tiene un zero-day bajo <strong>explotación activa</strong> en todo el sector. El vendor confirma: <em>\"no hay parche disponible, ETA desconocido.\"</em>\n\nNo hay opción sin daño. Solo hay opciones menos malas.",
+      "choices": [
+        {
+          "text": "Apagar la VPN — acceso remoto 0 hasta nuevo aviso",
+          "result": "800 empleados sin acceso remoto. Operaciones críticas pausadas. Nadie entra... pero tampoco los atacantes. Productividad cae un 40% durante la semana.",
+          "fx": { "reputation": -8, "budget": -20000, "threat": -20 },
+          "log": "warning"
+        },
+        {
+          "text": "Mantener operativa con lista blanca de IPs y MFA forzado",
+          "result": "La lista blanca reduce la superficie pero no elimina el riesgo. Tres días después, un actor explota la vulnerabilidad desde una IP de proveedor autorizado. Exposición controlada pero no cerrada.",
+          "fx": { "reputation": -5, "threat": 15 },
+          "log": "warning"
+        },
+        {
+          "text": "Migración de emergencia a solución alternativa en 48 horas",
+          "result": "El equipo trabaja sin dormir. La migración se completa con errores de configuración que el equipo de red tarda 4 días en estabilizar. Nuevo sistema activo, pero la precipitación genera deuda técnica.",
+          "fx": { "budget": -45000, "reputation": -3, "threat": -10 },
+          "log": "warning",
+          "slots": [{"tech": 60, "mgmt": 20}, {"tech": 50, "mgmt": 10}],
+          "taskName": "Migración VPN emergencia",
+          "taskIcon": "🔥",
+          "taskMonths": 1
+        },
+        {
+          "text": "Escalar al vendor con SLA ejecutivo y aceptar el riesgo mientras tanto",
+          "result": "El vendor promete un hotfix en 10 días. En el día 7, un atacante explota la vulnerabilidad y consigue foothold inicial. Contención cuesta más de lo que habría costado actuar antes.",
+          "fx": { "threat": 25, "reputation": -12 },
+          "log": "danger"
+        }
+      ]
+    },
+    {
+      "id": "dilemma_breach_notify",
+      "cat": "regulacion",
+      "icon": "⚖️",
+      "title": "DILEMA — NOTIFICACIÓN DE BRECHA",
+      "isDilemma": true,
+      "text": "Brecha confirmada. Datos de clientes comprometidos — alcance exacto aún desconocido. El reloj RGPD lleva <strong>38 horas corriendo</strong>. Tienes 34 horas antes de que venza la obligación de notificar.\n\nNo hay respuesta correcta, solo grados de daño.",
+      "choices": [
+        {
+          "text": "Notificar ahora con la información incompleta disponible",
+          "result": "El regulador recibe notificación a tiempo pero con datos parciales. Exige informe complementario en 72h. La prensa obtiene la notificación por filtraicón y publica: 'NutBank admite brecha sin conocer el alcance.' Reputación golpeada, pero sin multa regulatoria.",
+          "fx": { "reputation": -15, "threat": -5 },
+          "log": "warning"
+        },
+        {
+          "text": "Esperar 24h más para tener información completa antes de notificar",
+          "result": "La notificación llega con 14 horas de retraso del plazo legal. El regulador abre expediente sancionador. Multa mínima: €120K. Además, la espera no resolvió la incertidumbre del alcance — el informe sigue siendo incompleto.",
+          "fx": { "budget": -120000, "reputation": -10 },
+          "log": "danger"
+        },
+        {
+          "text": "Notificar minimizando el alcance como 'incidente potencial menor'",
+          "result": "El regulador acepta la notificación pero meses después descubre que el alcance real era mayor. Apertura de expediente por notificación engañosa. Multa y daño reputacional son mayores que si hubiera notificado con incertidumbre.",
+          "fx": { "budget": -200000, "reputation": -22 },
+          "log": "danger"
+        },
+        {
+          "text": "Contratar firma legal de crisis + notificar coordinadamente $30K",
+          "result": "La firma legal encuadra la notificación con precisión regulatoria. El regulador no sanciona. Pero el costo legal y el tiempo del equipo dejan huella. La brecha en sí sigue siendo noticia.",
+          "fx": { "budget": -30000, "reputation": -8, "threat": -5 },
+          "log": "warning",
+          "cost": "$30K"
+        }
+      ]
+    },
+    {
+      "id": "dilemma_insider_confirmed",
+      "cat": "personas",
+      "icon": "🕵️",
+      "title": "DILEMA — AMENAZA INTERNA CONFIRMADA",
+      "isDilemma": true,
+      "text": "Forense confirma: un administrador de sistemas copió <strong>50 GB de datos de clientes</strong> a dispositivo externo hace 3 semanas. Lleva 8 años en la empresa. Legal advierte: sin más evidencias, un despido inmediato puede ser impugnable.\n\nCada opción tiene un costo. No existe la respuesta sin daño.",
+      "choices": [
+        {
+          "text": "Despedir inmediatamente y aceptar el riesgo legal",
+          "result": "El administrador es despedido. Presenta demanda laboral. El caso se resuelve 14 meses después con acuerdo extrajudicial. Datos ya fuera: no se recuperan. El equipo entra en modo desconfianza; otros dos empleados renuncian.",
+          "fx": { "budget": -50000, "reputation": -8, "threat": 10 },
+          "log": "warning"
+        },
+        {
+          "text": "Monitoreo encubierto 2 semanas para fortalecer el caso legal",
+          "result": "Se documenta actividad adicional. El caso legal es sólido. Pero durante esas 2 semanas, el empleado exfiltró 20 GB más. El departamento legal aprueba el procedimiento, aunque recursos humanos lo cuestiona por el impacto en cultura.",
+          "fx": { "threat": 18, "reputation": -5, "budget": -15000 },
+          "log": "warning",
+          "slots": [{"tech": 40, "mgmt": 20}],
+          "taskName": "Investigación insider",
+          "taskIcon": "🕵️",
+          "taskMonths": 1
+        },
+        {
+          "text": "Confrontar al empleado de forma privada y negociar devolución de datos",
+          "result": "El empleado niega todo inicialmente, luego admite haber copiado datos 'por si acaso'. Firma acuerdo de confidencialidad, pero no hay garantía de que los datos no circulen. Sienta un precedente peligroso: la empresa negocia con insiders.",
+          "fx": { "reputation": -18, "threat": 8 },
+          "log": "danger"
+        },
+        {
+          "text": "Reportar a las autoridades y activar protocolo forense completo",
+          "result": "La denuncia paraliza la investigación interna mientras Fiscalía toma el caso. El proceso dura meses. El regulador de datos abre investigación paralela al enterarse. La empresa gana en integridad pero pierde 6 meses de foco operativo.",
+          "fx": { "budget": -35000, "reputation": -5, "threat": -8 },
+          "log": "warning"
+        }
+      ]
     }
   ],
   "chainEffects": {
