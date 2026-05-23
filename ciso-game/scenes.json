@@ -74,7 +74,14 @@
             "threat": 15,
             "reputation": -5
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 15
+            }
+          ]
         }
       ]
     },
@@ -852,7 +859,14 @@
             "threat": 5,
             "reputation": -3
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Revocar masivamente todos los accesos y que cada uno solicite lo que necesita",
@@ -905,7 +919,14 @@
             "reputation": 20,
             "threat": 5
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "red",
+              "tech": 30,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Pedir al equipo que presente y excusarte por una emergencia técnica",
@@ -913,7 +934,19 @@
           "fx": {
             "reputation": -20
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 10,
+              "mgmt": 15
+            },
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         }
       ]
     },
@@ -1737,7 +1770,14 @@
             "budget": -10000,
             "reputation": 3
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25
+            }
+          ]
         }
       ]
     },
@@ -1900,7 +1940,19 @@
             "threat": -20,
             "reputation": 10
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 20,
+              "mgmt": 10
+            },
+            {
+              "dept": "iam",
+              "tech": 15,
+              "mgmt": 5
+            }
+          ]
         },
         {
           "text": "Monitorear remotamente qué hace el intruso antes de actuar",
@@ -2156,7 +2208,14 @@
             "reputation": -15,
             "threat": 10
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Rastrear el origen del deepfake con el equipo forense",
@@ -2194,7 +2253,14 @@
             "reputation": 10,
             "threat": -10
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Investigar primero si el email es realmente falso antes de actuar",
@@ -2300,7 +2366,14 @@
             "threat": -20,
             "budget": -40000
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 25,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Continuar operación con monitoreo intensivo — probablemente es un fallo de sensor",
@@ -3305,7 +3378,14 @@
             "reputation": 5
           },
           "log": "result",
-          "result": "Decisión insólita que el equipo respeta. Las nuevas herramientas mejoran capacidades."
+          "result": "Decisión insólita que el equipo respeta. Las nuevas herramientas mejoran capacidades.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         }
       ]
     },
@@ -3460,7 +3540,14 @@
             "reputation": -8
           },
           "log": "warning",
-          "result": "El CFO y el CEO rechazan la táctica. La relación con dirección queda deteriorada."
+          "result": "El CFO y el CEO rechazan la táctica. La relación con dirección queda deteriorada.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         }
       ]
     },
