@@ -1631,7 +1631,7 @@ function renderThreats() {
   let name, lvl, lbl;
   if      (G.threat > 75) { name = 'APT Activo';         lvl = 'tl-crit'; lbl = 'CRÍTICO';  }
   else if (G.threat > 50) { name = 'Exposición Alta';        lvl = 'tl-high'; lbl = 'ALTO';     }
-  else if (G.threat > 30) { name = 'Exposición Moderada';    lvl = 'tl-med';  lbl = 'MODERADO'; }
+  else if (G.threat > 30) { name = 'Exposición Moderada';    lvl = 'tl-med';  lbl = 'MODERADA'; }
   else if (G.threat > 10) { name = 'Perímetro Estable';   lvl = 'tl-low';  lbl = 'BAJO';     }
   else                    { name = 'Exposición Mínima'; lvl = 'tl-low';  lbl = 'MUY BAJO'; }
   document.getElementById('threat-list').innerHTML =
@@ -1646,9 +1646,9 @@ function renderMetrics() {
     <div>📅 Día: <span style="color:var(--green)">${G.day}</span></div>
     <div>✅ Resueltos: <span style="color:var(--green)">${G.incidentsHandled}</span></div>
     <div>❌ Fallidos: <span style="color:var(--red)">${G.incidentsFailed}</span></div>
-    <div>🔧 Herramientas: <span style="color:var(--cyan)">${G.tools.length}</span></div>
-    <div>📜 Políticas activas: <span style="color:var(--yellow)">${activePolicies().length}/${G.policies.length}</span></div>
+    <div>🔧 Herramientas narrativas: <span style="color:var(--cyan)">${G.tools.length}</span></div>
     <div>💻 Stack tecnológico: <span style="color:var(--cyan)">${activeTechStack().length}/${G.techStack.length}</span></div>
+    <div>📜 Políticas activas: <span style="color:var(--yellow)">${activePolicies().length}/${G.policies.length}</span></div>
     <div>🎲 Eventos rnd: <span style="color:var(--purple)">${G.randEventsCount}</span></div>
     <div>🎯 Decisiones: <span style="color:var(--text)">${G.decisionsCount}</span></div>
     <div>👥 CEO: <span style="color:var(--cyan)">${'★'.repeat(G.stakeholders.ceo)}${'☆'.repeat(5-G.stakeholders.ceo)}</span></div>
