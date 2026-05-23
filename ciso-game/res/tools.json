@@ -1,0 +1,269 @@
+[
+  {
+    "id": "siem",
+    "name": "SIEM",
+    "cost": 45000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -15,
+      "reputation": 5
+    },
+    "desc": "Monitoreo centralizado de eventos. Requerido por regulador (año 2+).",
+    "reqYear": 2,
+    "taskLoad": {
+      "months": 4,
+      "slots": [
+        {
+          "tech": 85,
+          "mgmt": 20
+        },
+        {
+          "tech": 65,
+          "mgmt": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "edr",
+    "name": "EDR / XDR",
+    "cost": 35000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -12
+    },
+    "desc": "Detección y respuesta en endpoints. Frena ransomware avanzado.",
+    "reqYear": 2,
+    "taskLoad": {
+      "months": 2,
+      "slots": [
+        {
+          "tech": 55,
+          "mgmt": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "ngfw",
+    "name": "Firewall NGFW",
+    "cost": 30000,
+    "expiresAfter": 4,
+    "fx": {
+      "threat": -10
+    },
+    "desc": "Firewall de próxima generación con inspección profunda de paquetes.",
+    "reqYear": 2,
+    "taskLoad": {
+      "months": 1,
+      "slots": [
+        {
+          "tech": 50,
+          "mgmt": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "backup_dr",
+    "name": "Backup & Recovery",
+    "cost": 22000,
+    "expiresAfter": 4,
+    "fx": {
+      "threat": -6,
+      "reputation": 8
+    },
+    "desc": "Copias automatizadas + plan de recuperación ante desastres.",
+    "reqYear": 2,
+    "taskLoad": {
+      "months": 2,
+      "slots": [
+        {
+          "tech": 45,
+          "mgmt": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "waf",
+    "name": "WAF",
+    "cost": 20000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -8
+    },
+    "desc": "Web Application Firewall. Protege APIs y portales web.",
+    "reqYear": 3,
+    "taskLoad": {
+      "months": 1,
+      "slots": [
+        {
+          "tech": 40,
+          "mgmt": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "pam",
+    "name": "PAM",
+    "cost": 25000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -10,
+      "reputation": 3
+    },
+    "desc": "Gestión de accesos privilegiados. Frena movimiento lateral.",
+    "reqYear": 3,
+    "taskLoad": {
+      "months": 3,
+      "slots": [
+        {
+          "tech": 65,
+          "mgmt": 20
+        },
+        {
+          "tech": 40,
+          "mgmt": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "dlp_tool",
+    "name": "DLP Tool",
+    "cost": 18000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -7,
+      "reputation": 5
+    },
+    "desc": "Prevención de fuga de datos. Cumplimiento GDPR/LOPD.",
+    "reqYear": 3,
+    "taskLoad": {
+      "months": 3,
+      "slots": [
+        {
+          "tech": 65,
+          "mgmt": 15
+        },
+        {
+          "tech": 45,
+          "mgmt": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "vuln_scan",
+    "name": "Vuln Scanner",
+    "cost": 15000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -12
+    },
+    "desc": "Escaneo continuo de vulnerabilidades en toda la infraestructura.",
+    "reqYear": 3,
+    "taskLoad": {
+      "months": 1,
+      "slots": [
+        {
+          "tech": 30,
+          "mgmt": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "email_sec",
+    "name": "Email Security",
+    "cost": 12000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -10
+    },
+    "desc": "Filtra phishing, spam y malware en correo corporativo.",
+    "reqYear": 0,
+    "taskLoad": {
+      "months": 1,
+      "slots": [
+        {
+          "tech": 40,
+          "mgmt": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "soar",
+    "name": "SOAR",
+    "cost": 50000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -18,
+      "reputation": 8
+    },
+    "desc": "Orquestación y automatización de respuesta a incidentes.",
+    "reqYear": 0,
+    "taskLoad": {
+      "months": 4,
+      "slots": [
+        {
+          "tech": 75,
+          "mgmt": 25
+        },
+        {
+          "tech": 55,
+          "mgmt": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "cspm",
+    "name": "CSPM",
+    "cost": 28000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -9,
+      "reputation": 3
+    },
+    "desc": "Gestión de postura de seguridad en entornos cloud.",
+    "reqYear": 0,
+    "taskLoad": {
+      "months": 2,
+      "slots": [
+        {
+          "tech": 50,
+          "mgmt": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "idp_sso",
+    "name": "IdP / SSO",
+    "cost": 22000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -8,
+      "reputation": 3
+    },
+    "desc": "Proveedor de identidad centralizado con Single Sign-On.",
+    "reqYear": 0,
+    "taskLoad": {
+      "months": 3,
+      "slots": [
+        {
+          "tech": 65,
+          "mgmt": 20
+        },
+        {
+          "tech": 45,
+          "mgmt": 15
+        }
+      ]
+    }
+  }
+]

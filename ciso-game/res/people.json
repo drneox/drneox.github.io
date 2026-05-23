@@ -1,0 +1,223 @@
+[
+  {
+    "id": "devsecops",
+    "name": "Jordan Pérez",
+    "role": "DevSecOps Engineer",
+    "avatar": "🧑‍💻",
+    "salary": 75000,
+    "bio": "Integra seguridad en el ciclo de desarrollo. Experto en pipelines seguros y gestión de vulnerabilidades.",
+    "expertise": [
+      "ssdlc",
+      "patching",
+      "vuln_mgmt",
+      "cspm",
+      "vuln_scan"
+    ],
+    "tech": 80,
+    "mgmt": 40,
+    "level": "mid",
+    "dept": "vuln"
+  },
+  {
+    "id": "identity",
+    "name": "Sofía Kim",
+    "role": "Identity Engineer",
+    "avatar": "👩‍🔐",
+    "salary": 70000,
+    "bio": "Especialista en identidad y acceso. Diseña arquitecturas Zero Trust, IAM y PAM.",
+    "expertise": [
+      "iam",
+      "pam",
+      "idp_sso",
+      "mfa",
+      "passwords"
+    ],
+    "tech": 75,
+    "mgmt": 45,
+    "level": "mid",
+    "dept": "iam"
+  },
+  {
+    "id": "datasec",
+    "name": "Ahmed Nour",
+    "role": "Data Security Specialist",
+    "avatar": "🧑‍🔬",
+    "salary": 80000,
+    "bio": "Experto en cifrado, clasificación de datos y prevención de fuga. GDPR y privacidad.",
+    "expertise": [
+      "encrypt",
+      "dlp",
+      "dlp_tool",
+      "backup_dr",
+      "vendors"
+    ],
+    "tech": 70,
+    "mgmt": 60,
+    "level": "mid",
+    "dept": "gov"
+  },
+  {
+    "id": "architect",
+    "name": "Elena Voss",
+    "role": "Security Architect",
+    "avatar": "👩‍🏗️",
+    "salary": 92000,
+    "bio": "Diseña la arquitectura de seguridad global. Referente técnico para proyectos complejos.",
+    "expertise": [
+      "siem",
+      "soar",
+      "ndr",
+      "risk_mgmt",
+      "bcp",
+      "ir_plan",
+      "ngfw"
+    ],
+    "tech": 85,
+    "mgmt": 80,
+    "level": "senior",
+    "dept": "cloud"
+  },
+  {
+    "id": "grc",
+    "name": "Marco Silva",
+    "role": "GRC Analyst",
+    "avatar": "🧑‍💼",
+    "salary": 55000,
+    "bio": "Gestión de riesgos, cumplimiento normativo y auditorías. ISO 27001, NIST, GDPR.",
+    "expertise": [
+      "risk_mgmt",
+      "vendors",
+      "bcp",
+      "phishing",
+      "passwords",
+      "vuln_mgmt"
+    ],
+    "tech": 30,
+    "mgmt": 85,
+    "level": "mid",
+    "dept": "gov"
+  },
+  {
+    "id": "cloudsec",
+    "name": "Priya Osei",
+    "role": "Cloud Security Engineer",
+    "avatar": "👩‍☁️",
+    "salary": 78000,
+    "bio": "Asegura infraestructuras cloud. Especialista en postura cloud, WAF y redes.",
+    "expertise": [
+      "cspm",
+      "waf",
+      "ngfw",
+      "backup_dr",
+      "idp_sso",
+      "email_sec"
+    ],
+    "tech": 80,
+    "mgmt": 50,
+    "level": "mid",
+    "dept": "cloud"
+  },
+  {
+    "id": "threati",
+    "name": "Kai Tanaka",
+    "role": "Threat Intelligence Analyst",
+    "avatar": "🕵️",
+    "salary": 67000,
+    "bio": "Monitorea el panorama de amenazas. Correlación de señales, OSINT y detección avanzada.",
+    "expertise": [
+      "siem",
+      "soar",
+      "edr",
+      "email_sec",
+      "phishing",
+      "ir_plan"
+    ],
+    "tech": 75,
+    "mgmt": 40,
+    "level": "mid",
+    "dept": "soc"
+  },
+  {
+    "id": "soc_jr",
+    "name": "Alex Mora",
+    "role": "Analista SOC",
+    "avatar": "🧑‍💻",
+    "tech": 50,
+    "mgmt": 15,
+    "level": "junior",
+    "dept": "soc",
+    "salary": 40000,
+    "bio": "Junior con experiencia en SIEM y alertas. Necesita mentoring.",
+    "expertise": [
+      "siem",
+      "edr"
+    ]
+  },
+  {
+    "id": "appsec_jr",
+    "name": "Sam Torres",
+    "role": "Analista AppSec",
+    "avatar": "👨‍💻",
+    "tech": 55,
+    "mgmt": 15,
+    "level": "junior",
+    "dept": "red",
+    "salary": 42000,
+    "bio": "Recién certificado en OWASP. Fuerte en escaneo y revisión de código.",
+    "expertise": [
+      "vuln_scan",
+      "waf"
+    ]
+  },
+  {
+    "id": "grc_jr",
+    "name": "Mia Chen",
+    "role": "Analista GRC",
+    "avatar": "👩‍💼",
+    "tech": 20,
+    "mgmt": 55,
+    "level": "junior",
+    "dept": "gov",
+    "salary": 38000,
+    "bio": "Background en auditoría. Fuerte en documentación y gestión de riesgos.",
+    "expertise": [
+      "risk_mgmt",
+      "vendors",
+      "phishing"
+    ]
+  },
+  {
+    "id": "cloud_jr",
+    "name": "Leo Park",
+    "role": "Cloud Security Analyst",
+    "avatar": "👨‍🔧",
+    "tech": 55,
+    "mgmt": 20,
+    "level": "junior",
+    "dept": "cloud",
+    "salary": 44000,
+    "bio": "Certificado Cloud Practitioner. Especialidad en hardening y CSPM.",
+    "expertise": [
+      "cspm",
+      "ngfw",
+      "backup_dr"
+    ]
+  },
+  {
+    "id": "vuln_jr",
+    "name": "Inés Díaz",
+    "role": "Analista de Vulnerabilidades",
+    "avatar": "👩‍🔬",
+    "tech": 60,
+    "mgmt": 30,
+    "level": "junior",
+    "dept": "vuln",
+    "salary": 45000,
+    "bio": "Especialista en vulnerability management y remediación. Conoce Tenable y Qualys.",
+    "expertise": [
+      "vuln_mgmt",
+      "vuln_scan",
+      "patching"
+    ]
+  }
+]

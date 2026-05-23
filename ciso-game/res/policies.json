@@ -1,0 +1,258 @@
+[
+  {
+    "id": "mfa",
+    "name": "MFA Obligatorio",
+    "cost": 5000,
+    "expiresAfter": 2,
+    "fx": {
+      "threat": -8
+    },
+    "desc": "Autenticación multifactor en todos los sistemas críticos.",
+    "taskLoad": {
+      "months": 2,
+      "slots": [
+        {
+          "tech": 30,
+          "mgmt": 40
+        }
+      ]
+    }
+  },
+  {
+    "id": "passwords",
+    "name": "Política de Contraseñas",
+    "cost": 3000,
+    "expiresAfter": 2,
+    "fx": {
+      "threat": -5
+    },
+    "desc": "Contraseñas robustas y rotación trimestral obligatoria.",
+    "taskLoad": {
+      "months": 1,
+      "slots": [
+        {
+          "tech": 15,
+          "mgmt": 30
+        }
+      ]
+    }
+  },
+  {
+    "id": "patching",
+    "name": "Gestión de Parches",
+    "cost": 15000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -12,
+      "reputation": 3
+    },
+    "desc": "Parches de seguridad aplicados en ≤30 días en todos los sistemas.",
+    "taskLoad": {
+      "months": 2,
+      "slots": [
+        {
+          "tech": 45,
+          "mgmt": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "bcp",
+    "name": "Plan de Continuidad (BCP)",
+    "cost": 25000,
+    "expiresAfter": 3,
+    "fx": {
+      "reputation": 8,
+      "threat": -5
+    },
+    "desc": "Plan BCP documentado y probado. El regulador lo valora positivamente.",
+    "taskLoad": {
+      "months": 4,
+      "slots": [
+        {
+          "tech": 15,
+          "mgmt": 65
+        },
+        {
+          "tech": 10,
+          "mgmt": 40
+        }
+      ]
+    }
+  },
+  {
+    "id": "iam",
+    "name": "Política de Identidades (IAM)",
+    "cost": 8000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -10
+    },
+    "desc": "Gestión formal de accesos e identidades corporativas.",
+    "taskLoad": {
+      "months": 4,
+      "slots": [
+        {
+          "tech": 65,
+          "mgmt": 25
+        },
+        {
+          "tech": 40,
+          "mgmt": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "ir_plan",
+    "name": "Plan de Respuesta IR",
+    "cost": 18000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -15,
+      "reputation": 5
+    },
+    "desc": "Procedimientos formales de respuesta ante incidentes. Reduce MTTR.",
+    "taskLoad": {
+      "months": 3,
+      "slots": [
+        {
+          "tech": 30,
+          "mgmt": 55
+        },
+        {
+          "tech": 20,
+          "mgmt": 35
+        }
+      ]
+    }
+  },
+  {
+    "id": "dlp",
+    "name": "Política DLP",
+    "cost": 12000,
+    "expiresAfter": 2,
+    "fx": {
+      "threat": -8,
+      "reputation": 3
+    },
+    "desc": "Prevención de fuga de datos. Cumplimiento GDPR/LOPD.",
+    "taskLoad": {
+      "months": 2,
+      "slots": [
+        {
+          "tech": 25,
+          "mgmt": 45
+        }
+      ]
+    }
+  },
+  {
+    "id": "risk_mgmt",
+    "name": "Marco de Gestión de Riesgos",
+    "cost": 20000,
+    "expiresAfter": 3,
+    "fx": {
+      "reputation": 10,
+      "threat": -8
+    },
+    "desc": "Metodología ISO 27001 para evaluación y tratamiento de riesgos.",
+    "taskLoad": {
+      "months": 4,
+      "slots": [
+        {
+          "tech": 15,
+          "mgmt": 65
+        },
+        {
+          "tech": 10,
+          "mgmt": 45
+        }
+      ]
+    }
+  },
+  {
+    "id": "phishing",
+    "name": "Programa Anti-Phishing",
+    "cost": 7000,
+    "expiresAfter": 2,
+    "fx": {
+      "threat": -10
+    },
+    "desc": "Simulaciones periódicas de phishing y capacitación al personal.",
+    "taskLoad": {
+      "months": 1,
+      "slots": [
+        {
+          "tech": 20,
+          "mgmt": 35
+        }
+      ]
+    }
+  },
+  {
+    "id": "vuln_mgmt",
+    "name": "Gestión de Vulnerabilidades",
+    "cost": 22000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -18,
+      "reputation": 5
+    },
+    "desc": "Escaneo continuo y remediation tracking automatizado.",
+    "taskLoad": {
+      "months": 2,
+      "slots": [
+        {
+          "tech": 45,
+          "mgmt": 35
+        }
+      ]
+    }
+  },
+  {
+    "id": "vendors",
+    "name": "Política de Proveedores",
+    "cost": 10000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -7,
+      "reputation": 5
+    },
+    "desc": "Due diligence y SLA de seguridad con todos los terceros.",
+    "taskLoad": {
+      "months": 2,
+      "slots": [
+        {
+          "tech": 15,
+          "mgmt": 50
+        }
+      ]
+    }
+  },
+  {
+    "id": "encrypt",
+    "name": "Política de Cifrado",
+    "cost": 8000,
+    "expiresAfter": 3,
+    "fx": {
+      "threat": -6,
+      "reputation": 3
+    },
+    "desc": "Cifrado en tránsito y en reposo para todos los datos sensibles.",
+    "taskLoad": {
+      "months": 4,
+      "slots": [
+        {
+          "tech": 55,
+          "mgmt": 30
+        },
+        {
+          "tech": 35,
+          "mgmt": 20
+        }
+      ]
+    }
+  }
+]

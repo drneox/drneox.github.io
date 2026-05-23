@@ -124,7 +124,7 @@
   </div>
   <div id="sidebar">
     <div class="side-card">
-      <div class="side-title" style="display:flex;justify-content:space-between;align-items:center;">&#9656; Equipo<button onclick="showHireCatalog()" style="font-size:9px;padding:1px 6px;border:1px solid var(--green2);color:var(--green);background:transparent;cursor:pointer;border-radius:2px;font-family:inherit;">&#10010; CONTRATAR</button></div>
+      <div class="side-title">&#9656; Equipo Core</div>
       <div id="team-list"></div>
     </div>
     <div id="tasks-card" class="side-card" style="display:none"><div class="side-title">&#9656; En Progreso</div><div id="tasks-list"></div></div>
@@ -140,6 +140,16 @@
     <div class="side-card"><div class="side-title">&#9656; Exposición</div><div id="threat-list"></div></div>
     <div class="side-card"><div class="side-title">&#9656; Métricas</div><div id="metrics-list" style="font-size:10px;line-height:1.9;color:var(--muted)"></div></div>
   </div>
+</div>
+
+<!-- TEAM MODAL -->
+<div id="team-modal-backdrop" onclick="closeTeamModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;"></div>
+<div id="team-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:580px;max-width:96vw;max-height:82vh;overflow-y:auto;background:var(--panel);border:1px solid rgba(0,229,255,.35);border-radius:4px;z-index:201;padding:20px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <div style="font-family:'Orbitron',monospace;font-size:12px;letter-spacing:3px;color:var(--cyan);">&#128101; EQUIPO COMPLETO</div>
+    <button onclick="closeTeamModal()" style="background:transparent;border:none;color:var(--muted);font-size:16px;cursor:pointer;">&#10005;</button>
+  </div>
+  <div id="team-modal-body"></div>
 </div>
 
 <!-- HIRE SHOP -->

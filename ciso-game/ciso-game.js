@@ -5,16 +5,20 @@ let ALL_SCENES, RANDOM_EVENTS, CHAIN_EFFECTS, POLICY_CATALOG, TECH_CATALOG,
     INTRO_SCENE, FINAL_SCENE, HIRE_CATALOG;
 
 async function loadData() {
-  const resp = await fetch('./scenes.json');
-  const d    = await resp.json();
-  ALL_SCENES    = d.scenes;
-  RANDOM_EVENTS = d.randomEvents;
-  CHAIN_EFFECTS = d.chainEffects;
-  POLICY_CATALOG = d.policyCatalog;
-  TECH_CATALOG   = d.techCatalog;
-  HIRE_CATALOG   = d.hireCatalog || [];
-  INTRO_SCENE    = d.introScene;
-  FINAL_SCENE    = d.finalScene;
+  const [scenes, people, policies, tools] = await Promise.all([
+    fetch('./scenes.json').then(r => r.json()),
+    fetch('./res/people.json').then(r => r.json()),
+    fetch('./res/policies.json').then(r => r.json()),
+    fetch('./res/tools.json').then(r => r.json()),
+  ]);
+  ALL_SCENES    = scenes.scenes;
+  RANDOM_EVENTS = scenes.randomEvents;
+  CHAIN_EFFECTS = scenes.chainEffects;
+  INTRO_SCENE   = scenes.introScene;
+  FINAL_SCENE   = scenes.finalScene;
+  POLICY_CATALOG = policies;
+  TECH_CATALOG   = tools;
+  HIRE_CATALOG   = people;
 }
 
 // =====================================================================
@@ -1480,75 +1484,99 @@ function checkTechAudit(year) {
   }
 }
 
+const DEPT_ORDER = ['soc','red','vuln','gov','cloud','iam'];
+const DEPT_META  = {
+  soc:  {name:'SOC & Detección',            color:'#00e5ff'},
+  red:  {name:'Ofensiva / Red Team',         color:'#ff4455'},
+  vuln: {name:'Gestión de Vulnerabilidades', color:'#ff8c00'},
+  gov:  {name:'Gobierno / GRC',              color:'#c77dff'},
+  cloud:{name:'Cloud & Infra',               color:'#56aaff'},
+  iam:  {name:'Identidad & Accesos',         color:'#00ff88'},
+};
+
+// compact=true → sidebar (etiquetas cortas),  compact=false → modal (etiquetas completas)
+function memberCard(m, compact = true) {
+  const isDown  = m.status === 'down';
+  const tech    = m.tech || 0;
+  const mgmt    = m.mgmt || 0;
+  const tLoad   = Math.min(tech, m.techLoad || 0);
+  const mLoad   = Math.min(mgmt, m.mgmtLoad || 0);
+  const tPct    = tech > 0 ? Math.round(tLoad / tech * 100) : 0;
+  const mPct    = mgmt > 0 ? Math.round(mLoad / mgmt * 100) : 0;
+  const maxUtil = Math.max(tPct, mPct);
+  const sc = isDown ? 'status-down' : maxUtil >= 80 ? 'status-busy' : maxUtil >= 40 ? 'status-partial' : 'status-ok';
+  const st = isDown ? '✕BAJA' : maxUtil >= 80 ? `⊗${maxUtil}%` : maxUtil > 0 ? `◑${maxUtil}%` : '●OK';
+  const levelBadge = m.level
+    ? `<span style="font-size:8px;color:var(--muted);margin-left:3px">${m.level==='senior'?'⭐':m.level==='junior'?'○':''}</span>`
+    : '';
+  const lblTEC   = compact ? 'TEC' : 'Técnico';
+  const lblMGT   = compact ? 'MGT' : 'Gestión';
+  const lblSize  = compact ? '7px' : '9px';
+  const lblWidth = compact ? '26px' : '46px';
+  const barRow = (label, pct, used, max, color) =>
+    `<div style="display:flex;align-items:center;gap:3px;margin-bottom:1px;">
+      <span style="font-size:${lblSize};color:${color};width:${lblWidth};font-weight:bold">${label}</span>
+      <div style="flex:1;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;">
+        <div style="width:${pct}%;height:100%;background:${pct>=80?'var(--orange)':pct>=40?'var(--yellow)':color};border-radius:2px;transition:width .4s;"></div>
+      </div>
+      <span style="font-size:8px;color:var(--muted);width:28px;text-align:right">${used}/${max}</span>
+    </div>`;
+  const bars = !isDown && (tech > 0 || mgmt > 0)
+    ? `<div style="margin-top:3px;">
+        ${barRow(lblTEC, tPct, tLoad, tech, 'var(--cyan)')}
+        ${barRow(lblMGT, mPct, mLoad, mgmt, 'var(--purple)')}
+      </div>`
+    : '';
+  return `
+    <div class="team-member">
+      <div class="member-avatar" style="background:${isDown?'#200':'#0a1a10'}">${m.avatar}</div>
+      <div class="member-info">
+        <div class="member-name">${m.name}${levelBadge}</div>
+        <div class="member-role">${m.role}</div>
+        ${bars}
+      </div>
+      <div class="member-status ${sc}">${st}</div>
+    </div>`;
+}
+
 function renderTeam() {
-  const DEPT_ORDER = ['soc','red','vuln','gov','cloud','iam'];
-  const DEPT_META  = {
-    soc:  {name:'SOC & Detección',            color:'#00e5ff'},
-    red:  {name:'Ofensiva / Red Team',         color:'#ff4455'},
-    vuln: {name:'Gestión de Vulnerabilidades', color:'#ff8c00'},
-    gov:  {name:'Gobierno / GRC',              color:'#c77dff'},
-    cloud:{name:'Cloud & Infra',               color:'#56aaff'},
-    iam:  {name:'Identidad & Accesos',         color:'#00ff88'},
-  };
-  function memberCard(m) {
-    const isDown  = m.status === 'down';
-    const tech    = m.tech || 0;
-    const mgmt    = m.mgmt || 0;
-    const tLoad   = Math.min(tech, m.techLoad || 0);
-    const mLoad   = Math.min(mgmt, m.mgmtLoad || 0);
-    const tPct    = tech > 0 ? Math.round(tLoad / tech * 100) : 0;
-    const mPct    = mgmt > 0 ? Math.round(mLoad / mgmt * 100) : 0;
-    const maxUtil = Math.max(tPct, mPct);
-    const sc = isDown ? 'status-down' : maxUtil >= 80 ? 'status-busy' : maxUtil >= 40 ? 'status-partial' : 'status-ok';
-    const st = isDown ? '✕BAJA' : maxUtil >= 80 ? `⊗${maxUtil}%` : maxUtil > 0 ? `◑${maxUtil}%` : '●OK';
-    const levelBadge = m.level ? `<span style="font-size:8px;color:var(--muted);margin-left:3px">${m.level==='senior'?'⭐':''}${m.level==='junior'?'○':''}</span>` : '';
-    const barRow = (label, pct, used, max, color) =>
-      `<div style="display:flex;align-items:center;gap:3px;margin-bottom:1px;">
-        <span style="font-size:8px;color:${color};width:12px;text-align:center;font-weight:bold">${label}</span>
-        <div style="flex:1;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;">
-          <div style="width:${pct}%;height:100%;background:${pct>=80?'var(--orange)':pct>=40?'var(--yellow)':color};border-radius:2px;transition:width .4s;"></div>
-        </div>
-        <span style="font-size:8px;color:var(--muted);width:28px;text-align:right">${used}/${max}</span>
-      </div>`;
-    const bars = !isDown && (tech > 0 || mgmt > 0)
-      ? `<div style="margin-top:3px;">
-          ${barRow('T', tPct, tLoad, tech, 'var(--cyan)')}
-          ${barRow('M', mPct, mLoad, mgmt, 'var(--purple)')}
-        </div>`
-      : '';
-    return `
-      <div class="team-member">
-        <div class="member-avatar" style="background:${isDown?'#200':'#0a1a10'}">${m.avatar}</div>
-        <div class="member-info">
-          <div class="member-name">${m.name}${levelBadge}</div>
-          <div class="member-role">${m.role}</div>
-          ${bars}
-        </div>
-        <div class="member-status ${sc}">${st}</div>
-      </div>`;
-  }
+  const core   = G.team.filter(m => !m._catalogId);
+  const hired  = G.team.filter(m => !!m._catalogId);
+  let html = core.length
+    ? core.map(m => memberCard(m, true)).join('')
+    : '<div style="font-size:10px;color:var(--muted)">Sin miembros core</div>';
+  html += `<button onclick="showTeamModal()" style="width:100%;margin-top:6px;padding:4px 0;background:transparent;border:1px solid rgba(0,229,255,.25);color:var(--cyan);font-size:9px;cursor:pointer;border-radius:2px;font-family:inherit;letter-spacing:1px;">👥 VER EQUIPO COMPLETO${hired.length ? ` (+${hired.length})` : ''}</button>`;
+  document.getElementById('team-list').innerHTML = html;
+}
+
+function showTeamModal() {
   let html = '';
   for (const deptId of DEPT_ORDER) {
+    const d       = DEPT_META[deptId];
     const members = G.team.filter(m => (m.dept || '') === deptId);
-    if (!members.length) continue;
-    const d = DEPT_META[deptId];
-    const avgLoad = Math.round(members.reduce((s, m) => {
-      const cap = (m.tech||0) + (m.mgmt||0);
-      return s + (cap > 0 ? ((m.techLoad||0)+(m.mgmtLoad||0))/cap*100 : 0);
-    }, 0) / members.length);
-    html += `<div class="dept-hdr" style="border-left:2px solid ${d.color}">
-      <span style="color:${d.color}">${d.name}</span>
-      <span style="font-size:8px;color:var(--muted)">${members.length}p · ${avgLoad}%</span>
-      <button class="dept-hire-btn" onclick="showHireCatalog('${deptId}')">＋</button>
+    const n       = members.length;
+    html += `<div style="border-left:3px solid ${d.color};padding:6px 10px;margin-bottom:8px;background:rgba(255,255,255,.02);border-radius:0 3px 3px 0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="color:${d.color};font-size:10px;font-weight:bold;letter-spacing:1px;">${d.name}</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:9px;color:var(--muted)">${n} miembro${n!==1?'s':''}</span>
+          <button onclick="closeTeamModal();showHireCatalog('${deptId}')"
+            style="font-size:9px;padding:2px 8px;border:1px solid ${d.color};color:${d.color};background:transparent;cursor:pointer;border-radius:2px;font-family:inherit;">
+            ＋ Contratar
+          </button>
+        </div>
+      </div>
+      ${n ? members.map(m => memberCard(m, false)).join('') : '<div style="font-size:9px;color:var(--muted);padding:4px 0;">Sin miembros — contratar para cubrir este departamento</div>'}
     </div>`;
-    html += members.map(memberCard).join('');
   }
-  const noDept = G.team.filter(m => !DEPT_ORDER.includes(m.dept || ''));
-  if (noDept.length) {
-    html += `<div class="dept-hdr" style="border-left:2px solid var(--muted)"><span style="color:var(--muted)">Sin departamento</span><button class="dept-hire-btn" onclick="showHireCatalog()">＋</button></div>`;
-    html += noDept.map(memberCard).join('');
-  }
-  document.getElementById('team-list').innerHTML = html;
+  document.getElementById('team-modal-body').innerHTML = html;
+  document.getElementById('team-modal-backdrop').style.display = 'block';
+  document.getElementById('team-modal').style.display       = 'block';
+}
+
+function closeTeamModal() {
+  document.getElementById('team-modal-backdrop').style.display = 'none';
+  document.getElementById('team-modal').style.display          = 'none';
 }
 
 function renderSidebar() {
