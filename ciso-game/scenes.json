@@ -100,7 +100,8 @@
             {
               "dept": "soc",
               "tech": 50,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -114,7 +115,14 @@
             "threat": 20
           },
           "log": "danger",
-          "removeTech": "backup_dr"
+          "removeTech": "backup_dr",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "Negociar el rescate mientras el equipo trabaja la recuperación en paralelo",
@@ -130,7 +138,8 @@
             {
               "dept": "soc",
               "tech": 40,
-              "mgmt": 15
+              "mgmt": 15,
+              "months": 2
             }
           ]
         },
@@ -147,7 +156,8 @@
             {
               "dept": "soc",
               "tech": 20,
-              "mgmt": 30
+              "mgmt": 30,
+              "months": 2
             }
           ]
         }
@@ -175,7 +185,8 @@
             {
               "dept": "cloud",
               "tech": 40,
-              "mgmt": 15
+              "mgmt": 15,
+              "months": 1
             }
           ]
         },
@@ -221,7 +232,14 @@
             "threat": -5,
             "budget": -8000
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         }
       ]
     },
@@ -282,7 +300,8 @@
             {
               "dept": "cloud",
               "tech": 50,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -326,7 +345,8 @@
             {
               "dept": "cloud",
               "tech": 50,
-              "mgmt": 15
+              "mgmt": 15,
+              "months": 2
             }
           ]
         },
@@ -344,7 +364,8 @@
             {
               "dept": "soc",
               "tech": 40,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -356,7 +377,14 @@
             "reputation": -10,
             "budget": -30000
           },
-          "log": "danger"
+          "log": "danger",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 15,
+              "mgmt": 10
+            }
+          ]
         },
         {
           "text": "Analizar logs para verificar si el malware ya fue activado",
@@ -404,12 +432,14 @@
             {
               "dept": "soc",
               "tech": 40,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             },
             {
               "dept": "red",
               "tech": 35,
-              "mgmt": 10
+              "mgmt": 10,
+              "months": 2
             }
           ]
         },
@@ -427,7 +457,8 @@
             {
               "dept": "soc",
               "tech": 35,
-              "mgmt": 10
+              "mgmt": 10,
+              "months": 2
             }
           ]
         },
@@ -446,7 +477,8 @@
             {
               "dept": "cloud",
               "tech": 50,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 3
             }
           ]
         },
@@ -508,7 +540,8 @@
             {
               "dept": "soc",
               "tech": 35,
-              "mgmt": 15
+              "mgmt": 15,
+              "months": 2
             }
           ]
         },
@@ -583,7 +616,8 @@
             {
               "dept": "soc",
               "tech": 35,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -632,7 +666,14 @@
             "role": "Analista SOC",
             "avatar": "👨‍💻",
             "salary": 18000
-          }
+          },
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25
+            }
+          ]
         },
         {
           "text": "Dar un aumento del 20% y prometer mejorar los procesos",
@@ -736,7 +777,14 @@
             "reputation": 10,
             "threat": -5
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25
+            }
+          ]
         }
       ]
     },
@@ -762,7 +810,8 @@
             {
               "dept": "iam",
               "tech": 50,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -1074,12 +1123,14 @@
             {
               "dept": "soc",
               "tech": 30,
-              "mgmt": 15
+              "mgmt": 15,
+              "months": 2
             },
             {
               "dept": "gov",
               "tech": 5,
-              "mgmt": 25
+              "mgmt": 25,
+              "months": 2
             }
           ]
         },
@@ -1131,7 +1182,8 @@
             {
               "dept": "gov",
               "tech": 10,
-              "mgmt": 35
+              "mgmt": 35,
+              "months": 3
             }
           ]
         },
@@ -1153,12 +1205,14 @@
             {
               "dept": "gov",
               "tech": 15,
-              "mgmt": 40
+              "mgmt": 40,
+              "months": 3
             },
             {
               "dept": "cloud",
               "tech": 20,
-              "mgmt": 10
+              "mgmt": 10,
+              "months": 3
             }
           ]
         },
@@ -1178,7 +1232,8 @@
             {
               "dept": "gov",
               "tech": 5,
-              "mgmt": 30
+              "mgmt": 30,
+              "months": 2
             }
           ]
         },
@@ -1189,7 +1244,15 @@
             "reputation": 8
           },
           "log": "result",
-          "addPolicy": "Plan Remediación 6M"
+          "addPolicy": "Plan Remediación 6M",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Documentar controles informales que ya cubren los requisitos",
@@ -1208,7 +1271,8 @@
             {
               "dept": "gov",
               "tech": 10,
-              "mgmt": 25
+              "mgmt": 25,
+              "months": 2
             }
           ]
         }
@@ -1236,12 +1300,14 @@
             {
               "dept": "cloud",
               "tech": 30,
-              "mgmt": 10
+              "mgmt": 10,
+              "months": 2
             },
             {
               "dept": "gov",
               "tech": 5,
-              "mgmt": 25
+              "mgmt": 25,
+              "months": 2
             }
           ]
         },
@@ -1254,7 +1320,14 @@
             "threat": -10,
             "reputation": 8
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Archivar en cold storage y revisar en 6 meses",
@@ -1306,7 +1379,8 @@
             {
               "dept": "cloud",
               "tech": 35,
-              "mgmt": 15
+              "mgmt": 15,
+              "months": 3
             }
           ]
         },
@@ -1324,7 +1398,8 @@
             {
               "dept": "cloud",
               "tech": 40,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 3
             }
           ]
         },
@@ -1338,7 +1413,15 @@
             "reputation": 12
           },
           "log": "success",
-          "addTool": "Cloud Security Posture"
+          "addTool": "Cloud Security Posture",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 25,
+              "months": 3
+            }
+          ]
         },
         {
           "text": "Dejar que el CTO migre y agregar seguridad después de que esté estable",
@@ -1373,7 +1456,8 @@
             {
               "dept": "vuln",
               "tech": 40,
-              "mgmt": 15
+              "mgmt": 15,
+              "months": 2
             }
           ]
         },
@@ -1389,7 +1473,8 @@
             {
               "dept": "vuln",
               "tech": 35,
-              "mgmt": 10
+              "mgmt": 10,
+              "months": 2
             }
           ]
         },
@@ -1445,7 +1530,8 @@
             {
               "dept": "soc",
               "tech": 35,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 3
             }
           ]
         },
@@ -1462,7 +1548,8 @@
             {
               "dept": "soc",
               "tech": 50,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -1475,7 +1562,14 @@
             "threat": -15,
             "reputation": 3
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25
+            }
+          ]
         },
         {
           "text": "No hacer nada — el equipo ya está acostumbrado al ruido",
@@ -1507,12 +1601,14 @@
             {
               "dept": "soc",
               "tech": 35,
-              "mgmt": 10
+              "mgmt": 10,
+              "months": 2
             },
             {
               "dept": "vuln",
               "tech": 30,
-              "mgmt": 10
+              "mgmt": 10,
+              "months": 2
             }
           ]
         },
@@ -1542,7 +1638,14 @@
             "reputation": 12,
             "threat": -15
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "Pedir a Carlos que repita el pentest con scope más limitado",
@@ -1556,7 +1659,8 @@
             {
               "dept": "red",
               "tech": 40,
-              "mgmt": 15
+              "mgmt": 15,
+              "months": 2
             }
           ]
         }
@@ -1596,7 +1700,14 @@
           "fx": {
             "reputation": 5
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Negar cualquier brecha sin investigar primero",
@@ -1639,7 +1750,8 @@
             {
               "dept": "soc",
               "tech": 35,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -1652,7 +1764,14 @@
             "threat": -35,
             "reputation": 10
           },
-          "log": "success"
+          "log": "success",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 30
+            }
+          ]
         },
         {
           "text": "Notificar al CEO y revisar qué contratos gubernamentales generan el riesgo",
@@ -1661,7 +1780,14 @@
             "reputation": 12,
             "threat": -15
           },
-          "log": "result"
+          "log": "result",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "No hacer nada — el FBI puede estar equivocado",
@@ -1905,7 +2031,8 @@
             {
               "dept": "cloud",
               "tech": 40,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -1984,7 +2111,14 @@
             "threat": -10
           },
           "log": "success",
-          "addPolicy": "Protocolo Anti-Deepfake"
+          "addPolicy": "Protocolo Anti-Deepfake",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Activar protocolo de verificación de identidad para cualquier instrucción financiera",
@@ -2077,7 +2211,19 @@
             "threat": -15
           },
           "log": "success",
-          "addPolicy": "Protocolo Anti-BEC"
+          "addPolicy": "Protocolo Anti-BEC",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 10
+            },
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20
+            }
+          ]
         },
         {
           "text": "Llamar directamente al CEO y CFO para verificar",
@@ -2107,7 +2253,14 @@
             "reputation": -5,
             "threat": -25
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 15
+            }
+          ]
         },
         {
           "text": "Implementar segmentación de emergencia IT/OT sin detener producción",
@@ -2123,7 +2276,8 @@
             {
               "dept": "cloud",
               "tech": 45,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -2208,7 +2362,14 @@
             "reputation": 5,
             "threat": 15
           },
-          "log": "warning"
+          "log": "warning",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25
+            }
+          ]
         },
         {
           "text": "Silenciar el asunto internamente y esperar a ver si el regulador actúa",
@@ -2245,7 +2406,8 @@
             {
               "dept": "gov",
               "tech": 15,
-              "mgmt": 35
+              "mgmt": 35,
+              "months": 2
             }
           ]
         },
@@ -2261,7 +2423,8 @@
             {
               "dept": "cloud",
               "tech": 30,
-              "mgmt": 10
+              "mgmt": 10,
+              "months": 2
             }
           ]
         },
@@ -2280,7 +2443,8 @@
             {
               "dept": "cloud",
               "tech": 45,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 3
             }
           ]
         },
@@ -2329,7 +2493,8 @@
             {
               "dept": "soc",
               "tech": 40,
-              "mgmt": 20
+              "mgmt": 20,
+              "months": 2
             }
           ]
         },
@@ -2393,7 +2558,15 @@
             "reputation": 5
           },
           "log": "success",
-          "result": "El CFO accede. La buena prensa del sector refuerza tu posición. Presupuesto asegurado."
+          "result": "El CFO accede. La buena prensa del sector refuerza tu posición. Presupuesto asegurado.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Compartir lecciones aprendidas del competidor con el equipo SOC",
@@ -2402,7 +2575,21 @@
             "threat": -8
           },
           "log": "result",
-          "result": "El equipo aprende de los errores ajenos. La detección interna mejora."
+          "result": "El equipo aprende de los errores ajenos. La detección interna mejora.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20,
+              "months": 2
+            },
+            {
+              "dept": "soc",
+              "tech": 15,
+              "mgmt": 5,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Agradecer al board y continuar sin cambios",
@@ -2430,7 +2617,21 @@
           },
           "log": "success",
           "cost": "$12K formación",
-          "result": "La formación reduce la exposición. El equipo identifica 3 intentos reales en las siguientes semanas."
+          "result": "La formación reduce la exposición. El equipo identifica 3 intentos reales en las siguientes semanas.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 25,
+              "months": 2
+            },
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 10,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Actualizar reglas del filtro de email y alertar a directores $3K",
@@ -2440,7 +2641,15 @@
           },
           "log": "result",
           "cost": "$3K",
-          "result": "Acción rápida y económica. Parcialmente efectiva contra variantes nuevas."
+          "result": "Acción rápida y económica. Parcialmente efectiva contra variantes nuevas.",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 10,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Confiar en que el equipo ya sabe identificar phishing",
@@ -2470,7 +2679,15 @@
             "threat": -5
           },
           "log": "success",
-          "result": "El CEO aprueba una plaza junior. La carga del equipo se reduce y la cultura mejora."
+          "result": "El CEO aprueba una plaza junior. La carga del equipo se reduce y la cultura mejora.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Publicar caso de estudio interno para motivar al equipo",
@@ -2479,7 +2696,15 @@
             "threat": -5
           },
           "log": "result",
-          "result": "El equipo está orgulloso. La cultura de seguridad se refuerza. Baja rotación."
+          "result": "El equipo está orgulloso. La cultura de seguridad se refuerza. Baja rotación.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 15,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Reconocerlo con humildad y continuar con la agenda",
@@ -2511,7 +2736,15 @@
           },
           "log": "success",
           "cost": "$15K",
-          "result": "Carlos se queda motivado. Su lealtad y el ambiente del equipo mejoran notablemente."
+          "result": "Carlos se queda motivado. Su lealtad y el ambiente del equipo mejoran notablemente.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Negociar solo el incremento salarial mínimo necesario $5K",
@@ -2521,7 +2754,15 @@
           },
           "log": "warning",
           "cost": "$5K",
-          "result": "Carlos acepta pero con cierta resignación. El equipo nota la situación — la moral baja levemente."
+          "result": "Carlos acepta pero con cierta resignación. El equipo nota la situación — la moral baja levemente.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 15,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Dejar ir a Carlos y buscar un reemplazo junior",
@@ -2551,7 +2792,15 @@
           },
           "log": "success",
           "cost": "$8K",
-          "result": "Matriz actualizada y validada. El auditor cierra el hallazgo. Riesgos mejor documentados."
+          "result": "Matriz actualizada y validada. El auditor cierra el hallazgo. Riesgos mejor documentados.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 30,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Actualizar la matriz tú mismo en los próximos 3 días",
@@ -2560,7 +2809,15 @@
             "threat": -5
           },
           "log": "result",
-          "result": "Trabajo correcto aunque no participativo. El auditor cierra el hallazgo."
+          "result": "Trabajo correcto aunque no participativo. El auditor cierra el hallazgo.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Argumentar que la metodología actual es válida y suficiente",
@@ -2593,7 +2850,15 @@
           },
           "log": "success",
           "cost": "$20K",
-          "result": "Mapa completo de exposición. Dos servicios críticos migrados. Cumplimiento garantizado."
+          "result": "Mapa completo de exposición. Dos servicios críticos migrados. Cumplimiento garantizado.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 15,
+              "mgmt": 35,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Revisar internamente los contratos cloud más críticos $5K",
@@ -2603,7 +2868,21 @@
           },
           "log": "result",
           "cost": "$5K",
-          "result": "Revisión parcial pero enfocada. Riesgo residual bajo y controlado."
+          "result": "Revisión parcial pero enfocada. Riesgo residual bajo y controlado.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 25,
+              "months": 2
+            },
+            {
+              "dept": "cloud",
+              "tech": 20,
+              "mgmt": 10,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Esperar a que Legal defina el alcance antes de invertir",
@@ -2634,7 +2913,21 @@
           },
           "log": "success",
           "cost": "$8K",
-          "result": "La herramienta se convierte en activo clave. El desarrollador queda muy motivado."
+          "result": "La herramienta se convierte en activo clave. El desarrollador queda muy motivado.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 15,
+              "mgmt": 20,
+              "months": 1
+            },
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 5,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Adoptar la herramienta sin inversión adicional de forma inmediata",
@@ -2643,7 +2936,15 @@
             "reputation": 5
           },
           "log": "result",
-          "result": "Adopción ágil. Mejora inmediata sin coste extra. Sin soporte formal."
+          "result": "Adopción ágil. Mejora inmediata sin coste extra. Sin soporte formal.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 15,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Evaluar el código durante 6 semanas antes de adoptar",
@@ -2651,7 +2952,15 @@
             "threat": -3
           },
           "log": "result",
-          "result": "Proceso conservador. El equipo pierde momentum y el desarrollador se desanima."
+          "result": "Proceso conservador. El equipo pierde momentum y el desarrollador se desanima.",
+          "needsDept": [
+            {
+              "dept": "red",
+              "tech": 30,
+              "mgmt": 10,
+              "months": 1
+            }
+          ]
         }
       ]
     },
@@ -2672,7 +2981,21 @@
           },
           "log": "success",
           "cost": "$5K",
-          "result": "Respuesta modélica. El regulador queda impresionado. Excelente documentación del proceso."
+          "result": "Respuesta modélica. El regulador queda impresionado. Excelente documentación del proceso.",
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 30,
+              "mgmt": 15,
+              "months": 1
+            },
+            {
+              "dept": "soc",
+              "tech": 25,
+              "mgmt": 10,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Revocar credenciales y documentar formalmente el incidente",
@@ -2680,7 +3003,21 @@
             "reputation": 3
           },
           "log": "result",
-          "result": "Respuesta correcta y proporcional. Sin impacto operativo."
+          "result": "Respuesta correcta y proporcional. Sin impacto operativo.",
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 20,
+              "mgmt": 10,
+              "months": 1
+            },
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Solo revocar accesos sin documentar formalmente",
@@ -2688,7 +3025,15 @@
             "reputation": -2
           },
           "log": "warning",
-          "result": "Acción mínima. La falta de documentación podría ser un problema en la próxima auditoría."
+          "result": "Acción mínima. La falta de documentación podría ser un problema en la próxima auditoría.",
+          "needsDept": [
+            {
+              "dept": "iam",
+              "tech": 15,
+              "mgmt": 5,
+              "months": 1
+            }
+          ]
         }
       ],
       "condition": {
@@ -2713,7 +3058,15 @@
           },
           "log": "success",
           "cost": "$30K",
-          "result": "Roadmap claro. Cumplimiento garantizado antes del plazo. El regulador lo valora positivamente."
+          "result": "Roadmap claro. Cumplimiento garantizado antes del plazo. El regulador lo valora positivamente.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 35,
+              "months": 3
+            }
+          ]
         },
         {
           "text": "Asignar a Maria el análisis de gaps con recursos internos $5K",
@@ -2724,7 +3077,15 @@
           },
           "log": "result",
           "cost": "$5K",
-          "result": "Análisis completo con menor coste. Algunos gaps requerirán apoyo externo puntual."
+          "result": "Análisis completo con menor coste. Algunos gaps requerirán apoyo externo puntual.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 15,
+              "mgmt": 40,
+              "months": 3
+            }
+          ]
         },
         {
           "text": "Esperar a tener más información antes de comprometer presupuesto",
@@ -2755,7 +3116,21 @@
           },
           "log": "success",
           "cost": "$8K",
-          "result": "Feed automático de IOCs mejora la detección. La alianza se formaliza. Visibilidad excelente."
+          "result": "Feed automático de IOCs mejora la detección. La alianza se formaliza. Visibilidad excelente.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 30,
+              "months": 2
+            },
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 10,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Incorporar el feed manualmente en el SIEM sin formalizar acuerdo",
@@ -2764,7 +3139,15 @@
             "reputation": 5
           },
           "log": "result",
-          "result": "Beneficio inmediato con bajo compromiso formal. Dependiente de la relación personal."
+          "result": "Beneficio inmediato con bajo compromiso formal. Dependiente de la relación personal.",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 5,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Agradecer el gesto pero declinar por política de confidencialidad",
@@ -2797,7 +3180,21 @@
           },
           "log": "success",
           "cost": "$15K",
-          "result": "El equipo está listo. El board queda tranquilizado. El playbook actualizado."
+          "result": "El equipo está listo. El board queda tranquilizado. El playbook actualizado.",
+          "needsDept": [
+            {
+              "dept": "soc",
+              "tech": 35,
+              "mgmt": 20,
+              "months": 2
+            },
+            {
+              "dept": "cloud",
+              "tech": 25,
+              "mgmt": 10,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Reforzar backups offsite y revisar segmentación de red $8K",
@@ -2807,7 +3204,21 @@
           },
           "log": "result",
           "cost": "$8K",
-          "result": "Defensa proactiva. Si llega el ransomware, el daño será contenido."
+          "result": "Defensa proactiva. Si llega el ransomware, el daño será contenido.",
+          "needsDept": [
+            {
+              "dept": "cloud",
+              "tech": 30,
+              "mgmt": 15,
+              "months": 2
+            },
+            {
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 5,
+              "months": 2
+            }
+          ]
         },
         {
           "text": "Enviar email de alerta al board y continuar monitorizando",
@@ -2816,7 +3227,15 @@
             "reputation": 3
           },
           "log": "warning",
-          "result": "El board pide un plan de acción formal. No queda convencido con la respuesta pasiva."
+          "result": "El board pide un plan de acción formal. No queda convencido con la respuesta pasiva.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 15,
+              "months": 2
+            }
+          ]
         }
       ],
       "condition": {
@@ -2840,7 +3259,15 @@
             "threat": -5
           },
           "log": "success",
-          "result": "El CEO aprueba también el headcount. El equipo está muy motivado y completo."
+          "result": "El CEO aprueba también el headcount. El equipo está muy motivado y completo.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Distribuir el bono con reconocimiento personalizado de logros específicos",
@@ -2849,7 +3276,15 @@
             "reputation": 10
           },
           "log": "result",
-          "result": "El equipo valora el reconocimiento personalizado. Alta retención garantizada."
+          "result": "El equipo valora el reconocimiento personalizado. Alta retención garantizada.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 15,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Reinvertir el bono en herramientas de seguridad en lugar de repartirlo",
@@ -2888,7 +3323,15 @@
             "role": "Threat Hunter",
             "avatar": "🕵️‍♀️",
             "salary": 20000
-          }
+          },
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 25,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Proceso de selección estándar: entrevistas técnicas primero",
@@ -2906,7 +3349,15 @@
             "role": "Threat Hunter",
             "avatar": "🕵️‍♀️",
             "salary": 20000
-          }
+          },
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 20,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Poner el puesto en hold: no es el momento para crecer el equipo",
@@ -2938,7 +3389,15 @@
           },
           "log": "success",
           "cost": "$5K consultoría",
-          "result": "El análisis convence al CFO. Seguridad recibe el recorte mínimo. Posición reforzada."
+          "result": "El análisis convence al CFO. Seguridad recibe el recorte mínimo. Posición reforzada.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 10,
+              "mgmt": 30,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Aceptar recorte menor y renegociar contratos de herramientas",
@@ -2947,7 +3406,15 @@
             "threat": 3
           },
           "log": "result",
-          "result": "Impacto controlado. Algunas licencias se reducen pero lo esencial queda cubierto."
+          "result": "Impacto controlado. Algunas licencias se reducen pero lo esencial queda cubierto.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Escudarte en el regulador para bloquear cualquier recorte",
@@ -2978,7 +3445,15 @@
           },
           "log": "success",
           "cost": "$8K/año",
-          "result": "Ana lidera análisis críticos. Su motivación es máxima. El equipo la sigue."
+          "result": "Ana lidera análisis críticos. Su motivación es máxima. El equipo la sigue.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 25,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Reconocer el logro públicamente y asignarle casos más complejos",
@@ -2987,7 +3462,15 @@
             "reputation": 5
           },
           "log": "result",
-          "result": "El reconocimiento motiva a todo el equipo a buscar certificaciones propias."
+          "result": "El reconocimiento motiva a todo el equipo a buscar certificaciones propias.",
+          "needsDept": [
+            {
+              "dept": "gov",
+              "tech": 5,
+              "mgmt": 10,
+              "months": 1
+            }
+          ]
         },
         {
           "text": "Felicitarla brevemente sin cambiar su rol ni sus responsabilidades",
