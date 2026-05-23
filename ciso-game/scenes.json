@@ -665,7 +665,18 @@
             "name": "Jorge Lima",
             "role": "Analista SOC",
             "avatar": "👨‍💻",
-            "salary": 18000
+            "salary": 40000,
+            "dept": "soc",
+            "tech": 50,
+            "mgmt": 20,
+            "level": "junior",
+            "techLoad": 0,
+            "mgmtLoad": 0,
+            "certs": [],
+            "expertise": [
+              "siem",
+              "edr"
+            ]
           },
           "needsDept": [
             {
@@ -3318,17 +3329,30 @@
           "cost": "$20K/año",
           "result": "La analista se incorpora. Su expertise detecta 2 amenazas dormidas en las primeras semanas.",
           "addTeam": {
-            "id": "sofia",
+            "id": "sofia_hunter",
             "name": "Sofía Díaz",
             "role": "Threat Hunter",
             "avatar": "🕵️‍♀️",
-            "salary": 20000
+            "salary": 75000,
+            "dept": "soc",
+            "tech": 78,
+            "mgmt": 45,
+            "level": "senior",
+            "techLoad": 0,
+            "mgmtLoad": 0,
+            "certs": [],
+            "expertise": [
+              "siem",
+              "edr",
+              "ir_plan",
+              "soar"
+            ]
           },
           "needsDept": [
             {
-              "dept": "gov",
-              "tech": 10,
-              "mgmt": 25,
+              "dept": "soc",
+              "tech": 20,
+              "mgmt": 10,
               "months": 1
             }
           ]
@@ -3344,17 +3368,30 @@
           "cost": "$20K/año",
           "result": "Proceso correcto. La analista supera las pruebas y se incorpora en 3 semanas.",
           "addTeam": {
-            "id": "sofia",
+            "id": "sofia_hunter",
             "name": "Sofía Díaz",
             "role": "Threat Hunter",
             "avatar": "🕵️‍♀️",
-            "salary": 20000
+            "salary": 75000,
+            "dept": "soc",
+            "tech": 78,
+            "mgmt": 45,
+            "level": "senior",
+            "techLoad": 0,
+            "mgmtLoad": 0,
+            "certs": [],
+            "expertise": [
+              "siem",
+              "edr",
+              "ir_plan",
+              "soar"
+            ]
           },
           "needsDept": [
             {
-              "dept": "gov",
-              "tech": 5,
-              "mgmt": 20,
+              "dept": "soc",
+              "tech": 15,
+              "mgmt": 10,
               "months": 1
             }
           ]
