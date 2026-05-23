@@ -181,7 +181,7 @@ function startGame() {
     day: 1, year: 1, cycle: 1,
     incidentsHandled: 0, incidentsFailed: 0, decisionsCount: 0,
     team: TEAM_ROSTER.map(m => ({...m})),
-    tools: [], policies: [], techStack: [],
+    tools: [], policies: [], techStack: [{id:'siem', name:'SIEM', year:1}],
     tasks: [], totalMonths: 0,
     stakeholders: initStakeholders(),
     threatMult: cfg.threatMult,
@@ -856,7 +856,14 @@ function injectSceneContext(sceneId) {
 function renderChoices(choices, timed) {
   const div = document.getElementById('choices-area');
   div.innerHTML = '';
+  const activePol  = new Set((activePolicies()  || []).map(p => p.id));
+  const activeTech = new Set((activeTechStack() || []).map(t => t.id));
   choices.forEach(c => {
+    // Filtros de visibilidad
+    if (c.requiresMinPolicies && (G.policies || []).length < c.requiresMinPolicies) return;
+    if (c.requiresMaxPolicies && (G.policies || []).length > c.requiresMaxPolicies) return;
+    if (c.requiresPolicy && !activePol.has(c.requiresPolicy)) return;
+    if (c.requiresTechVisible && !activeTech.has(c.requiresTechVisible)) return;
     const btn = document.createElement('button');
     btn.className = 'choice-btn' + (timed ? ' timed' : '');
     let inner = c.text;
@@ -1006,6 +1013,12 @@ function makeChoiceCore(choice) {
     }
   }
   if (choice.addTeam && !G.team.find(t=>t.id===choice.addTeam.id)) G.team.push({...choice.addTeam,status:'ok'});
+
+  // Consumo de recursos del equipo vía slots (definidos en la elección)
+  if (choice.slots && choice.slots.length > 0) {
+    const label = choice.taskName || choice.text.substring(0, 40);
+    startTask(label, choice.taskIcon || '📋', choice.slots, choice.taskMonths || 1, false, null);
+  }
 
   // Stakeholder effects
   updateStakeholders(choice);

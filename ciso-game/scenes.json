@@ -854,14 +854,32 @@
         {
           "text": "Usar equipo interno con horas extra compensadas",
           "cost": "$8K",
-          "result": "Llegan al 81%. Certificación condicional con plan de remediación de 90 días.",
+          "result": "Llegan al 81%. Certificación condicional con plan de remediación de 90 días. El equipo queda saturado las próximas semanas.",
           "fx": {
             "budget": -8000,
             "reputation": -5,
             "threat": 10
           },
           "log": "warning",
-          "addPolicy": "Certificación Condicional"
+          "addPolicy": "Certificación Condicional",
+          "slots": [{"tech": 15, "mgmt": 40}, {"tech": 20, "mgmt": 10}],
+          "taskName": "Remediación ISO 27001",
+          "taskIcon": "📋",
+          "taskMonths": 2
+        },
+        {
+          "text": "Aprovechar políticas GRC ya implementadas para justificar controles",
+          "result": "Tus políticas existentes cubren más controles de lo que creías. Llegas al 82% documentando el trabajo ya hecho. El auditor otorga 60 días para cerrar la brecha restante.",
+          "fx": {
+            "reputation": 10,
+            "threat": -5
+          },
+          "log": "result",
+          "requiresMinPolicies": 4,
+          "slots": [{"tech": 5, "mgmt": 30}],
+          "taskName": "Documentación ISO 27001",
+          "taskIcon": "📋",
+          "taskMonths": 1
         },
         {
           "text": "Ser 100% transparente con el auditor sobre el estado real",
@@ -881,7 +899,11 @@
             "reputation": 5,
             "threat": -5
           },
-          "log": "warning"
+          "log": "warning",
+          "slots": [{"tech": 10, "mgmt": 25}],
+          "taskName": "Documentación de controles",
+          "taskIcon": "📋",
+          "taskMonths": 1
         }
       ]
     },
@@ -1903,11 +1925,11 @@
           "text": "Negociar solo el incremento salarial mínimo necesario $5K",
           "fx": {
             "budget": -5000,
-            "reputation": 2
+            "reputation": -2
           },
-          "log": "result",
+          "log": "warning",
           "cost": "$5K",
-          "result": "Carlos acepta pero con cierta resignación. El equipo nota la situación."
+          "result": "Carlos acepta pero con cierta resignación. El equipo nota la situación — la moral baja levemente."
         },
         {
           "text": "Dejar ir a Carlos y buscar un reemplazo junior",
