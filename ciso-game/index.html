@@ -127,6 +127,21 @@ h1{font-family:'Orbitron',monospace;font-size:clamp(14px,3.5vw,22px);color:var(-
 .cost-tag{float:right;font-size:9px;padding:1px 5px;border-radius:2px;margin-top:1px;}
 .cost-money{background:rgba(255,215,0,.15);color:var(--yellow);}
 .cost-risk{background:rgba(255,51,85,.15);color:var(--red);}
+/* POLICY SHOP MODAL */
+#policy-shop-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:998;}
+#policy-shop{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(560px,94vw);max-height:80vh;overflow-y:auto;
+  background:#000d06;border:1px solid var(--purple);border-radius:8px;
+  padding:16px;z-index:999;font-family:'Share Tech Mono',monospace;}
+#policy-shop .ps-item{border:1px solid var(--border);border-radius:4px;padding:10px;margin-bottom:8px;}
+#policy-shop .ps-item.unaffordable{opacity:.4;}
+#policy-shop .ps-name{font-size:12px;color:var(--green);font-weight:bold;margin-bottom:3px;}
+#policy-shop .ps-desc{font-size:10px;color:var(--muted);margin-bottom:5px;line-height:1.4;}
+#policy-shop .ps-fx{font-size:10px;color:var(--cyan);}
+#policy-shop .ps-buy{font-size:10px;padding:5px 11px;border:1px solid var(--green2);
+  color:var(--green);background:transparent;cursor:pointer;border-radius:3px;
+  font-family:inherit;white-space:nowrap;flex-shrink:0;}
+#policy-shop .ps-buy:disabled{border-color:var(--border);color:var(--muted);cursor:not-allowed;}
 
 /* TIMER BAR */
 #timer-bar{height:3px;background:var(--border);margin:0 13px 4px;border-radius:2px;display:none;}
@@ -252,7 +267,7 @@ body.flash-green{animation:flash-green .4s ease,flicker 10s infinite;}
   <div class="sh-card"><div class="sh-name">CEO</div><div class="sh-meter" id="sh-ceo"></div></div>
   <div class="sh-card"><div class="sh-name">CFO</div><div class="sh-meter" id="sh-cfo"></div></div>
   <div class="sh-card"><div class="sh-name">REGULADOR</div><div class="sh-meter" id="sh-reg"></div></div>
-  <div class="sh-card"><div class="sh-name">EQUIPO SOC</div><div class="sh-meter" id="sh-team"></div></div>
+  <div class="sh-card"><div class="sh-name">EQUIPO</div><div class="sh-meter" id="sh-team"></div></div>
 </div>
 
 <!-- PROGRESS -->
@@ -271,6 +286,15 @@ body.flash-green{animation:flash-green .4s ease,flicker 10s infinite;}
     <div id="re-btns" style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;"></div>
   </div>
 </div>
+<div id="policy-shop-backdrop" onclick="closePolicyCatalog()"></div>
+<div id="policy-shop">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <span style="font-size:13px;color:var(--purple);letter-spacing:2px;">🛡 CATÁLOGO DE POLÍTICAS</span>
+    <button onclick="closePolicyCatalog()" style="background:transparent;border:1px solid var(--border);color:var(--muted);cursor:pointer;padding:3px 9px;font-family:inherit;font-size:11px;">✕ CERRAR</button>
+  </div>
+  <div style="font-size:10px;color:var(--muted);margin-bottom:12px;">Presupuesto disponible: <span id="ps-budget" style="color:var(--yellow);font-weight:bold;"></span></div>
+  <div id="policy-catalog-list"></div>
+</div>
 
 <!-- MAIN -->
 <div id="main">
@@ -287,9 +311,12 @@ body.flash-green{animation:flash-green .4s ease,flicker 10s infinite;}
     <div id="choices-area"></div>
   </div>
   <div id="sidebar">
-    <div class="side-card"><div class="side-title">&#9656; Equipo SOC</div><div id="team-list"></div></div>
+    <div class="side-card"><div class="side-title">&#9656; Equipo</div><div id="team-list"></div></div>
     <div class="side-card"><div class="side-title">&#9656; Herramientas</div><div id="tools-list"></div></div>
-    <div class="side-card"><div class="side-title">&#9656; Políticas</div><div id="policies-list"></div></div>
+    <div class="side-card">
+      <div class="side-title" style="display:flex;justify-content:space-between;align-items:center;">&#9656; Políticas<button onclick="showPolicyCatalog()" style="font-size:9px;padding:1px 6px;border:1px solid var(--purple);color:var(--purple);background:transparent;cursor:pointer;border-radius:2px;font-family:inherit;">⊕ NUEVA</button></div>
+      <div id="policies-list"></div>
+    </div>
     <div class="side-card"><div class="side-title">&#9656; Amenazas</div><div id="threat-list"></div></div>
     <div class="side-card"><div class="side-title">&#9656; Métricas</div><div id="metrics-list" style="font-size:10px;line-height:1.9;color:var(--muted)"></div></div>
   </div>
@@ -452,7 +479,8 @@ const ALL_SCENES = [
  choices:[
   {text:'Contratar un analista adicional y redistribuir la carga',cost:'$18K/mes',
    result:'La inversión correcta. Ana se queda y capacita al nuevo. Capacidad del SOC aumenta. Rotación cuesta 3x el salario.',
-   fx:{budget:-18000,reputation:+8,threat:-10},log:'success'},
+   fx:{budget:-18000,reputation:+8,threat:-10},log:'success',
+   addTeam:{id:'jorge',name:'Jorge Lima',role:'Analista SOC',avatar:'👨‍💻',salary:18000}},
   {text:'Dar un aumento del 20% y prometer mejorar los procesos',cost:'$3K/mes',
    result:'El aumento compra tiempo, pero sin cambios reales Ana renuncia 6 semanas después igual.',
    fx:{budget:-3000,reputation:-5,threat:+10},log:'warning'},
@@ -1043,8 +1071,8 @@ const RANDOM_EVENTS = [
   {icon:'🧑‍💻', text:'NUEVO TALENTO: Una analista senior con experiencia en threat hunting aplica espontáneamente. El salario encaja en presupuesto. ¿Qué decides?',
    fx:{threat:-5,reputation:+3}, log:'result',
    choices:[
-     {text:'Contratar inmediatamente con onboarding exprés esta semana $20K', fx:{budget:-20000,threat:-12,reputation:+5}, log:'success', cost:'$20K/año', result:'La analista se incorpora. Su expertise detecta 2 amenazas dormidas en las primeras semanas.'},
-     {text:'Proceso de selección estándar: entrevistas técnicas primero', fx:{budget:-20000,threat:-5,reputation:+3}, log:'result', cost:'$20K/año', result:'Proceso correcto. La analista supera las pruebas y se incorpora en 3 semanas.'},
+     {text:'Contratar inmediatamente con onboarding exprés esta semana $20K', fx:{budget:-20000,threat:-12,reputation:+5}, log:'success', cost:'$20K/año', result:'La analista se incorpora. Su expertise detecta 2 amenazas dormidas en las primeras semanas.', addTeam:{id:'sofia',name:'Sofía Díaz',role:'Threat Hunter',avatar:'🕵️‍♀️',salary:20000}},
+     {text:'Proceso de selección estándar: entrevistas técnicas primero', fx:{budget:-20000,threat:-5,reputation:+3}, log:'result', cost:'$20K/año', result:'Proceso correcto. La analista supera las pruebas y se incorpora en 3 semanas.', addTeam:{id:'sofia',name:'Sofía Díaz',role:'Threat Hunter',avatar:'🕵️‍♀️',salary:20000}},
      {text:'Poner el puesto en hold: no es el momento para crecer el equipo', fx:{threat:+3}, log:'warning', result:'La analista acepta otra oferta. Perdemos a una candidata excelente.'},
    ]},
   {icon:'📉', text:'CRISIS ECONÓMICA: La empresa anuncia pérdidas trimestrales. El CFO pide "eficiencias" del 15% en todos los departamentos. ¿Cómo respondes?',
@@ -1078,6 +1106,24 @@ const CHAIN_EFFECTS = {
 };
 
 
+
+// =====================================================================
+// POLICY CATALOG (on-demand purchase)
+// =====================================================================
+const POLICY_CATALOG = [
+  {id:'mfa',       name:'MFA Obligatorio',              cost:5000,  fx:{threat:-8},               desc:'Autenticación multifactor en todos los sistemas críticos.'},
+  {id:'passwords', name:'Política de Contraseñas',      cost:3000,  fx:{threat:-5},               desc:'Contraseñas robustas y rotación trimestral obligatoria.'},
+  {id:'patching',  name:'Gestión de Parches',            cost:15000, fx:{threat:-12,reputation:+3},desc:'Parches de seguridad aplicados en ≤30 días en todos los sistemas.'},
+  {id:'bcp',       name:'Plan de Continuidad (BCP)',     cost:25000, fx:{reputation:+8,threat:-5}, desc:'Plan BCP documentado y probado. El regulador lo valora positivamente.'},
+  {id:'iam',       name:'Política de Identidades (IAM)', cost:8000,  fx:{threat:-10},              desc:'Gestión formal de accesos e identidades corporativas.'},
+  {id:'ir_plan',   name:'Plan de Respuesta IR',          cost:18000, fx:{threat:-15,reputation:+5},desc:'Procedimientos formales de respuesta ante incidentes. Reduce MTTR.'},
+  {id:'dlp',       name:'Política DLP',                  cost:12000, fx:{threat:-8,reputation:+3}, desc:'Prevención de fuga de datos. Cumplimiento GDPR/LOPD.'},
+  {id:'risk_mgmt', name:'Marco de Gestión de Riesgos',   cost:20000, fx:{reputation:+10,threat:-8},desc:'Metodología ISO 27001 para evaluación y tratamiento de riesgos.'},
+  {id:'phishing',  name:'Programa Anti-Phishing',        cost:7000,  fx:{threat:-10},              desc:'Simulaciones periódicas de phishing y capacitación al personal.'},
+  {id:'vuln_mgmt', name:'Gestión de Vulnerabilidades',   cost:22000, fx:{threat:-18,reputation:+5},desc:'Escaneo continuo y remediation tracking automatizado.'},
+  {id:'vendors',   name:'Política de Proveedores',       cost:10000, fx:{threat:-7,reputation:+5}, desc:'Due diligence y SLA de seguridad con todos los terceros.'},
+  {id:'encrypt',   name:'Política de Cifrado',           cost:8000,  fx:{threat:-6,reputation:+3}, desc:'Cifrado en tránsito y en reposo para todos los datos sensibles.'},
+];
 
 // =====================================================================
 // GAME STATE
@@ -1168,6 +1214,8 @@ function startGame() {
     difficulty: currentDiff,
     mttr: [], mttd: [],
     randEventsCount: 0,
+    repCutFired: [],
+    complianceWarnedYear: 0,
   };
 
   playQueue = [INTRO_SCENE, ...buildQueue()];
@@ -1223,42 +1271,119 @@ function retireCISO() {
 
 function updateProgress() {
   // Year ticks every 6 decisions; cycle ticks every full pass through ALL_SCENES
-  const prevYear = G.year || 1;
-  G.year = Math.floor(G.decisionsCount / 6) + 1;
+  const prevYear  = G.year  || 1;
+  const prevCycle = G.cycle || 1;
+  G.year  = Math.floor(G.decisionsCount / 6) + 1;
   G.cycle = Math.floor(G.decisionsCount / ALL_SCENES.length) + 1;
   if (G.year > prevYear) G.pendingAnnualBudget = G.year;
+  // Cycle completion: +5% to threat multiplier (entorno más hostil)
+  if (G.cycle > prevCycle) {
+    G.threatMult = Math.min(3.0, Math.round((G.threatMult + 0.05) * 100) / 100);
+    setTimeout(() => addLog(
+      `🔄 CICLO ${G.cycle} COMPLETADO — El entorno cibernético escala. Multiplicador de amenazas: ×${G.threatMult.toFixed(2)}`, 'warning'), 200);
+  }
   updateProgressBarInfinite();
+  // Mid-year compliance warning (at decision 3 of each year)
+  if (G.decisionsCount % 6 === 3 && G.complianceWarnedYear !== G.year) {
+    const required = G.year === 1 ? 1 : G.year === 2 ? 3 : 5;
+    if (G.policies.length < required) {
+      G.complianceWarnedYear = G.year;
+      setTimeout(() => addLog(
+        `⚠ AVISO REGULATORIO — Año ${G.year}: tienes ${G.policies.length}/${required} políticas requeridas. ` +
+        `Implementa más antes del cierre del año o enfrentarás multas.`, 'warning'), 200);
+    }
+  }
+}
+
+function checkComplianceAudit(year) {
+  const required = year === 1 ? 1 : year === 2 ? 3 : 5;
+  const have = G.policies.length;
+  if (have < required) {
+    const fineMap = {1: 20000, 2: 40000};
+    const fine    = fineMap[year] || 60000;
+    const repHit  = year === 1 ? 5 : year === 2 ? 8 : 10;
+    G.budget     = Math.max(0, G.budget - fine);
+    G.reputation = Math.max(0, G.reputation - repHit);
+    G.stakeholders.reg = Math.max(0, G.stakeholders.reg - 1);
+    updateStats();
+    sfxFail();
+    addLog(
+      `🏛 MULTA REGULATORIA AÑO ${year} — Solo tienes ${have}/${required} políticas requeridas. ` +
+      `Multa: −${fmtNum(fine)} | Reputación −${repHit} | Regulador pierde confianza.`, 'danger');
+  } else {
+    addLog(
+      `🏛 AUDITORÍA AÑO ${year} SUPERADA — ${have}/${required} políticas en regla. El regulador está conforme.`, 'success');
+    G.stakeholders.reg = Math.min(5, G.stakeholders.reg + 1);
+  }
 }
 
 function grantAnnualBudget(year) {
+  // Compliance audit first
+  checkComplianceAudit(year);
+
+  // Passive threat creep & pressure escalation notification
+  const threatCreep = (year - 1) * 3;
+  if (threatCreep > 0) {
+    G.threat = Math.min(100, G.threat + threatCreep);
+    const yp = yearPressure();
+    const pressurePct = Math.round((yp - 1) * 100);
+    setTimeout(() => addLog(
+      `⚡ ESCALADA AÑO ${year} — Amenaza ambiental +${threatCreep} pts. ` +
+      `Presión económica: +${pressurePct}% en costos y daños de decisiones este año.`, 'warning'), 300);
+  }
+
   // Efficiency bonus: leftover budget converts to reputation (each $50K = +1 rep, cap +5)
   const leftover = Math.max(0, G.budget);
   const effBonus = Math.min(5, Math.floor(leftover / 50000));
-  // Reset budget to full annual allocation
-  G.budget = G.maxBudget;
-  if (effBonus > 0) {
-    G.reputation = Math.min(100, G.reputation + effBonus);
+
+  // Part B: scale budget by reputation
+  let repMult = 1.0;
+  let repNote = '';
+  if      (G.reputation < 20) { repMult = 0.40; repNote = `Reputación crítica (${G.reputation}) → solo 40% aprobado por el board.`; }
+  else if (G.reputation < 40) { repMult = 0.60; repNote = `Reputación baja (${G.reputation}) → solo 60% aprobado por el board.`; }
+  else if (G.reputation < 60) { repMult = 0.80; repNote = `Reputación moderada (${G.reputation}) → 80% aprobado por el board.`; }
+
+  G.budget = Math.round(G.maxBudget * repMult);
+  // Reset threshold cuts so they can fire again in new year
+  G.repCutFired = [];
+
+  // Salary deductions for hired team members (beyond base roster)
+  const hiredMembers = G.team.filter(m => m.salary && m.salary > 0);
+  const totalSalaries = hiredMembers.reduce((sum, m) => sum + m.salary, 0);
+  if (totalSalaries > 0) {
+    G.budget = Math.max(0, G.budget - totalSalaries);
+    addLog(`👥 NÓMINA — ${hiredMembers.map(m=>m.name).join(', ')}: −${fmtNum(totalSalaries)}/año descontados del presupuesto.`, 'warning');
   }
+
+  if (effBonus > 0) G.reputation = Math.min(100, G.reputation + effBonus);
+
   updateStats();
   sfxSuccess();
+
   const effMsg = effBonus > 0
-    ? ` El CFO felicitó tu eficiencia (+${effBonus} reputación por $${fmtNum(leftover)} no gastados).`
+    ? ` El CFO reconoció tu eficiencia: +${effBonus} reputación por ${fmtNum(leftover)} no gastados.`
     : '';
-  addLog(`💰 PRESUPUESTO AÑO ${year} RENOVADO — Presupuesto reiniciado a ${fmtNum(G.maxBudget)}.${effMsg}`, 'success');
-  // Show toast notification in yellow
+  const penaltyMsg = repNote ? ` ⚠ ${repNote}` : '';
+  addLog(`💰 PRESUPUESTO AÑO ${year} RENOVADO — Asignado: ${fmtNum(G.budget)}.${penaltyMsg}${effMsg}`, repMult < 1 ? 'warning' : 'success');
+
+  // Show toast
   const box = document.getElementById('rand-event');
   document.getElementById('re-icon').textContent = '💰';
+  const borderCol = repMult < 1 ? 'var(--orange)' : 'var(--yellow)';
+  const bgCol     = repMult < 1 ? 'rgba(255,150,0,.08)' : 'rgba(255,215,0,.08)';
   document.getElementById('re-text').innerHTML =
-    `<strong style="color:var(--yellow)">PRESUPUESTO AÑO ${year} RENOVADO</strong> — Reiniciado a ${fmtNum(G.maxBudget)}.${effMsg ? `<br><span style="color:var(--green)">${effMsg}</span>` : ''}`;
+    `<strong style="color:${borderCol}">PRESUPUESTO AÑO ${year} RENOVADO</strong> — Asignado: ${fmtNum(G.budget)}` +
+    (repNote ? `<br><span style="color:var(--orange)">⚠ ${repNote}</span>` : '') +
+    (effMsg  ? `<br><span style="color:var(--green)">${effMsg}</span>` : '');
   const btnsDiv = document.getElementById('re-btns');
   if (btnsDiv) btnsDiv.innerHTML = '';
-  box.style.borderColor = 'var(--yellow)';
-  box.style.background = 'rgba(255,215,0,.08)';
+  box.style.borderColor = borderCol;
+  box.style.background  = bgCol;
   box.style.display = 'flex';
   setTimeout(() => {
     box.style.display = 'none';
     box.style.borderColor = '';
-    box.style.background = '';
+    box.style.background  = '';
   }, 4500);
 }
 
@@ -1288,13 +1413,14 @@ function showEventScenario(ev, callback) {
       btn.onclick = () => {
         sfxClick();
         document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
-        applyFx(c.fx);
+        const sfx = scaledFx(c.fx);
+        applyFx(sfx);
         addLog('◆ ' + c.text, 'system');
         addLog(c.result, c.log || 'result');
         const deltas = [];
-        if (c.fx.budget     !== undefined) deltas.push('Presupuesto ' + (c.fx.budget>=0?'+':'') + fmtNum(c.fx.budget));
-        if (c.fx.reputation !== undefined) deltas.push('Reputación ' + (c.fx.reputation>=0?'+':'') + c.fx.reputation);
-        if (c.fx.threat     !== undefined) deltas.push('Amenaza ' + (c.fx.threat>=0?'+':'') + c.fx.threat);
+        if (sfx.budget     !== undefined) deltas.push('Presupuesto ' + (sfx.budget>=0?'+':'') + fmtNum(sfx.budget) + ' → ' + fmtBudget());
+        if (sfx.reputation !== undefined) deltas.push('Reputación ' + (sfx.reputation>=0?'+':'') + sfx.reputation + ' → ' + G.reputation);
+        if (sfx.threat     !== undefined) deltas.push('Amenaza ' + (sfx.threat>=0?'+':'') + sfx.threat + ' → ' + G.threat);
         if (deltas.length) addLog('[ ' + deltas.join(' | ') + ' ]', 'system');
         if (c.log === 'success') { sfxSuccess(); flashBody('green'); }
         else if (c.log === 'danger') { sfxFail(); flashBody('red'); }
@@ -1342,11 +1468,12 @@ function maybeFireRandomEvent(callback) {
     if (ev.choices && ev.choices.length > 0) {
       showEventScenario(ev, callback);
     } else {
-      applyFx(ev.fx);
+      const sfx = scaledFx(ev.fx);
+      applyFx(sfx);
       const deltas = [];
-      if (ev.fx.budget     !== undefined) deltas.push('Presupuesto ' + (ev.fx.budget>=0?'+':'') + fmtNum(ev.fx.budget));
-      if (ev.fx.reputation !== undefined) deltas.push('Reputación ' + (ev.fx.reputation>=0?'+':'') + ev.fx.reputation);
-      if (ev.fx.threat     !== undefined) deltas.push('Amenaza ' + (ev.fx.threat>=0?'+':'') + ev.fx.threat);
+      if (sfx.budget     !== undefined) deltas.push('Presupuesto ' + (sfx.budget>=0?'+':'') + fmtNum(sfx.budget) + ' → ' + fmtBudget());
+      if (sfx.reputation !== undefined) deltas.push('Reputación ' + (sfx.reputation>=0?'+':'') + sfx.reputation + ' → ' + G.reputation);
+      if (sfx.threat     !== undefined) deltas.push('Amenaza ' + (sfx.threat>=0?'+':'') + sfx.threat + ' → ' + G.threat);
       addLog(ev.icon + ' EVENTO ATENDIDO: ' + ev.text, ev.log || 'warning');
       if (deltas.length) addLog('[ ' + deltas.join(' | ') + ' ]', 'system');
       updateStats(); renderMetrics();
@@ -1362,8 +1489,9 @@ function maybeFireRandomEvent(callback) {
   btnIgnore.textContent = '↷ Ignorar (reputación −5)';
   btnIgnore.onclick = () => {
     sfxClick();
-    applyFx({reputation: -5});
-    addLog(ev.icon + ' EVENTO IGNORADO — Reputación -5. Continúas sin atenderlo.', 'warning');
+    const ignFx = scaledFx({reputation: -5});
+    applyFx(ignFx);
+    addLog(ev.icon + ` EVENTO IGNORADO — Reputación ${ignFx.reputation} → ${G.reputation}. Continúas sin atenderlo.`, 'warning');
     updateStats(); renderMetrics();
     box.style.display = 'none';
     callback();
@@ -1531,13 +1659,29 @@ function makeChoice(choice) {
   makeChoiceCore(choice);
 }
 
+// Presión creciente por año: 1.0× año1 → +15% por año, cap 1.75×
+function yearPressure() {
+  return Math.min(1.75, 1.0 + (G.year - 1) * 0.15);
+}
+
+// Escala los efectos negativos (costos, daños) y amenazas positivas por yearPressure
+// Los beneficios (presupuesto+, reputación+) NO se escalan → las victorias mantienen su valor
+function scaledFx(fx) {
+  const p = yearPressure();
+  const out = Object.assign({}, fx);
+  if (out.budget     !== undefined && out.budget < 0)     out.budget     = Math.round(out.budget * p);
+  if (out.reputation !== undefined && out.reputation < 0) out.reputation = Math.round(out.reputation * p);
+  if (out.threat     !== undefined && out.threat > 0)     out.threat     = Math.round(out.threat * p);
+  return out;
+}
+
 function makeChoiceCore(choice) {
   G.decisionsCount++;
   G.lastSceneId = playQueue[queueIdx] ? playQueue[queueIdx].id : '';
   G.lastSceneLog = choice.log || 'result';
 
-  const fx = choice.fx || {};
-  // Apply difficulty multiplier to threat changes
+  const fx = scaledFx(choice.fx || {});
+  // Apply difficulty multiplier to threat changes (on top of year pressure)
   if (fx.threat !== undefined) {
     fx.threat = Math.round(fx.threat * (fx.threat > 0 ? G.threatMult : 1));
   }
@@ -1580,9 +1724,9 @@ function makeChoiceCore(choice) {
   addLog(resultText, choice.log || 'result');
 
   const deltas = [];
-  if (fx.budget     !== undefined) deltas.push('Presupuesto ' + (fx.budget>=0?'+':'') + fmtNum(fx.budget));
-  if (fx.reputation !== undefined) deltas.push('Reputación ' + (fx.reputation>=0?'+':'') + fx.reputation);
-  if (fx.threat     !== undefined) deltas.push('Amenaza ' + (fx.threat>=0?'+':'') + fx.threat);
+  if (fx.budget     !== undefined) deltas.push('Presupuesto ' + (fx.budget>=0?'+':'') + fmtNum(fx.budget) + ' → ' + fmtBudget());
+  if (fx.reputation !== undefined) deltas.push('Reputación ' + (fx.reputation>=0?'+':'') + fx.reputation + ' → ' + G.reputation);
+  if (fx.threat     !== undefined) deltas.push('Amenaza ' + (fx.threat>=0?'+':'') + fx.threat + ' → ' + G.threat);
   if (deltas.length) addLog('[ ' + deltas.join(' | ') + ' ]', 'system');
 
   setTimeout(() => { G.team.forEach(m=>{if(m.status==='busy')m.status='ok';}); }, 1800);
@@ -1634,6 +1778,41 @@ function applyFx(fx) {
   if (fx.budget     !== undefined) G.budget     = Math.max(0, G.budget + fx.budget);
   if (fx.reputation !== undefined) G.reputation = Math.min(100, Math.max(0, G.reputation + fx.reputation));
   if (fx.threat     !== undefined) G.threat     = Math.min(100, Math.max(0, G.threat + fx.threat));
+  checkReputationCut();
+}
+
+function checkReputationCut() {
+  const cuts = [
+    { threshold: 30, pct: 0.15, label: '15%' },
+    { threshold: 15, pct: 0.25, label: '25%' },
+  ];
+  cuts.forEach(({ threshold, pct, label }) => {
+    if (G.reputation <= threshold && !G.repCutFired.includes(threshold)) {
+      G.repCutFired.push(threshold);
+      const cut = Math.round(G.budget * pct);
+      G.budget = Math.max(0, G.budget - cut);
+      // Update CFO trust
+      G.stakeholders.cfo = Math.max(0, G.stakeholders.cfo - 1);
+      sfxFail();
+      addLog(`✂️ RECORTE PRESUPUESTARIO — Reputación en ${G.reputation}. El CFO recorta ${label} del presupuesto. −${fmtNum(cut)} operativos.`, 'danger');
+      updateStats();
+      // Show toast with red border
+      const box = document.getElementById('rand-event');
+      document.getElementById('re-icon').textContent = '✂️';
+      document.getElementById('re-text').innerHTML =
+        `<strong style="color:var(--red)">RECORTE PRESUPUESTARIO</strong> — Tu reputación cayó a ${G.reputation}. El CFO recortó −${label} del presupuesto operativo. Disponible: ${fmtNum(G.budget)}.`;
+      const btnsDiv = document.getElementById('re-btns');
+      if (btnsDiv) btnsDiv.innerHTML = '';
+      box.style.borderColor = 'var(--red)';
+      box.style.background = 'rgba(255,50,50,.08)';
+      box.style.display = 'flex';
+      setTimeout(() => {
+        box.style.display = 'none';
+        box.style.borderColor = '';
+        box.style.background = '';
+      }, 4500);
+    }
+  });
 }
 
 function updateStakeholders(choice) {
@@ -1754,6 +1933,59 @@ function updateStats() {
       el.appendChild(d);
     }
   });
+}
+
+// =====================================================================
+// POLICY SHOP
+// =====================================================================
+function showPolicyCatalog() {
+  if (document.getElementById('main').style.display === 'none') return;
+  document.getElementById('ps-budget').textContent = fmtBudget();
+  const owned = new Set(G.policies);
+  const available = POLICY_CATALOG.filter(p => !owned.has(p.name));
+  const listDiv = document.getElementById('policy-catalog-list');
+  if (available.length === 0) {
+    listDiv.innerHTML = '<div style="color:var(--muted);font-size:11px;text-align:center;padding:20px;">\u2713 Todas las pol\u00edticas del cat\u00e1logo han sido implementadas.</div>';
+  } else {
+    listDiv.innerHTML = available.map(p => {
+      const canAfford = G.budget >= p.cost;
+      const fxText = Object.entries(p.fx).map(([k,v]) => {
+        const label = k==='threat'?'Amenaza':k==='reputation'?'Reputaci\u00f3n':'Presupuesto';
+        return label + ' ' + (v>0?'+':'') + v;
+      }).join(' | ');
+      return `<div class="ps-item${canAfford?'':' unaffordable'}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+          <div style="min-width:0;">
+            <div class="ps-name${canAfford?'':''}" style="color:${canAfford?'var(--green)':'var(--muted)'}">${p.name}</div>
+            <div class="ps-desc">${p.desc}</div>
+            <div class="ps-fx">${fxText}</div>
+          </div>
+          <button class="ps-buy" onclick="buyPolicy('${p.id}')" ${canAfford?'':'disabled'}
+            style="border-color:${canAfford?'var(--green2)':'var(--border)'};color:${canAfford?'var(--green)':'var(--muted)'};cursor:${canAfford?'pointer':'not-allowed'};">
+            \u2212${fmtNum(p.cost)}
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('policy-shop-backdrop').style.display = 'block';
+  document.getElementById('policy-shop').style.display = 'block';
+}
+
+function closePolicyCatalog() {
+  document.getElementById('policy-shop').style.display = 'none';
+  document.getElementById('policy-shop-backdrop').style.display = 'none';
+}
+
+function buyPolicy(id) {
+  const p = POLICY_CATALOG.find(x => x.id === id);
+  if (!p || G.budget < p.cost || G.policies.includes(p.name)) return;
+  sfxSuccess();
+  applyFx({budget: -p.cost, ...p.fx});
+  G.policies.push(p.name);
+  addLog(`\ud83d\udee1 POL\u00cdTICA IMPLEMENTADA \u2014 "${p.name}". Costo: \u2212${fmtNum(p.cost)}.`, 'success');
+  updateStats(); renderTeam(); renderSidebar(); renderMetrics();
+  showPolicyCatalog();
 }
 
 function renderTeam() {
