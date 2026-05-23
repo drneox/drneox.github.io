@@ -1683,7 +1683,7 @@ function purchaseCert(uid, certId) {
   m[cert.boost.stat] += cert.boost.val;
   const statLabel = cert.boost.stat === 'tech' ? 'Técnico' : 'Gestión';
   addLog(`🎓 ${m.name} obtuvo ${cert.name} → +${cert.boost.val} ${statLabel}`, 'success');
-  renderHUD();
+  updateStats(); renderTeam(); renderSidebar(); renderMetrics();
   showTeamModal();    // refrescar fondo
   showCertModal(uid); // refrescar modal de cert encima
 }
