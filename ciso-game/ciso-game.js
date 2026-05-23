@@ -986,9 +986,20 @@ function makeChoiceCore(choice) {
     const ids = Array.isArray(choice.needsTeam) ? choice.needsTeam : [choice.needsTeam];
     ids.forEach(id => {
       const m = G.team.find(t=>t.id===id);
-      if (m && m.status==='down') {
+      if (!m) return;
+      if (m.status === 'down') {
         addLog('⚠ Miembro no disponible — penalización aplicada','warning');
         G.threatBase = Math.min(150, G.threatBase + 8); G.threat = computeExposure();
+      } else {
+        // Consume light resources: the member is working on this task
+        const idx = G.team.indexOf(m);
+        const slots = [{memberIdx: idx, tech: 25, mgmt: 15}];
+        m.techLoad = (m.techLoad || 0) + 25;
+        m.mgmtLoad = (m.mgmtLoad || 0) + 15;
+        if (!G.tasks) G.tasks = [];
+        const label = choice.taskName || choice.text.substring(0, 35);
+        G.tasks.push({name: label, icon: choice.taskIcon || '🔧', slots, monthsLeft: 1, totalMonths: 1});
+        G.threat = computeExposure();
       }
     });
   }
