@@ -1520,7 +1520,7 @@ function memberCard(m, compact = true, extraHTML = '') {
         <div style="position:absolute;left:0;top:0;width:${max}%;height:100%;background:${color}28;border-radius:2px;"></div>
         <div style="position:absolute;left:0;top:0;width:${pct}%;height:100%;background:${pct>=80?'var(--orange)':pct>=40?'var(--yellow)':color};border-radius:2px;transition:width .4s;"></div>
       </div>
-      <span style="font-size:8px;color:${used>0?'var(--yellow)':'var(--muted)'};width:28px;text-align:right">${used>0?`${used}/${max}`:max}</span>
+      <span style="font-size:8px;color:${used>0?'var(--yellow)':'var(--muted)'};width:28px;text-align:right">${used > 0 ? used + '/' + max : max}</span>
     </div>`;
   const bars = !isDown && (tech > 0 || mgmt > 0)
     ? `<div style="margin-top:3px;">
@@ -1765,10 +1765,15 @@ function renderMetrics() {
 }
 
 function flashBody(color) {
-  document.body.classList.remove('flash-red','flash-green');
-  void document.body.offsetWidth;
-  document.body.classList.add('flash-'+color);
-  setTimeout(()=>document.body.classList.remove('flash-red','flash-green'),400);
+  const el = document.getElementById('flash-overlay');
+  if (!el) return;
+  el.style.transition = 'none';
+  el.style.background = color === 'red' ? 'rgba(255,0,50,.2)' : 'rgba(0,255,136,.14)';
+  el.style.opacity = '1';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    el.style.transition = 'opacity 0.45s ease';
+    el.style.opacity = '0';
+  }));
 }
 
 // =====================================================================

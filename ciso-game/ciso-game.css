@@ -246,11 +246,9 @@ h1{font-family:'Orbitron',monospace;font-size:clamp(14px,3.5vw,22px);color:var(-
   max-width:560px;line-height:2;margin:2px 0 6px;padding:10px 14px;
   background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:4px;}
 
-/* SCREEN FLASH */
-@keyframes flash-red{0%,100%{background:var(--bg)}25%,75%{background:rgba(255,0,50,.06)}}
-@keyframes flash-green{0%,100%{background:var(--bg)}25%,75%{background:rgba(0,255,136,.04)}}
-body.flash-red{animation:flash-red .4s ease,flicker 10s infinite;}
-body.flash-green{animation:flash-green .4s ease,flicker 10s infinite;}
+/* SCREEN FLASH — overlay div, no toca el background del body */
+#flash-overlay{position:fixed;inset:0;pointer-events:none;z-index:998;opacity:0;}
+button,input,select,a{-webkit-tap-highlight-color:transparent;}
 
 /* SOUND toggle */
 #sound-btn{position:fixed;top:10px;right:10px;background:transparent;border:1px solid var(--border);
