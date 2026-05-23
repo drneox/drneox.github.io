@@ -444,18 +444,25 @@ function showEventScenario(ev, callback, mitigation) {
         document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
         const raw = mitigation ? mitigateFx(c.fx) : c.fx;
         const sfx = scaledFx(raw);
+        const prevExp = G.threat;
+        const prevBudget = G.budget;
+        const prevRep = G.reputation;
         applyFx(sfx);
         applyNeedsDept(c);
         addLog('◆ ' + c.text, 'system');
         addLog(c.result, c.log || 'result');
         const deltas = [];
-        if (sfx.budget     !== undefined) deltas.push('Presupuesto ' + (sfx.budget>=0?'+':'') + fmtNum(sfx.budget) + ' → ' + fmtBudget());
-        if (sfx.reputation !== undefined) deltas.push('Reputación ' + (sfx.reputation>=0?'+':'') + sfx.reputation + ' → ' + G.reputation);
-        if (sfx.threat     !== undefined) deltas.push('Exposición ' + (sfx.threat>=0?'+':'') + sfx.threat + ' → ' + G.threat);
+        if (sfx.budget     !== undefined) { const d = G.budget - prevBudget; if (d !== 0) deltas.push('Presupuesto ' + (d>=0?'+':'') + fmtNum(d) + ' → ' + fmtBudget()); }
+        if (sfx.reputation !== undefined) { const d = G.reputation - prevRep; if (d !== 0) deltas.push('Reputación ' + (d>=0?'+':'') + d + ' → ' + G.reputation); }
+        { const d = G.threat - prevExp; if (d !== 0) deltas.push('Exposición ' + (d>=0?'+':'') + d + ' → ' + G.threat); }
         if (deltas.length) addLog('[ ' + deltas.join(' | ') + ' ]', 'system');
         if (c.log === 'success') { sfxSuccess(); flashBody('green'); }
         else if (c.log === 'danger') { sfxFail(); flashBody('red'); }
         updateStats(); renderTeam(); renderSidebar(); renderMetrics();
+        // Chequeo game over también en eventos
+        if (G.budget <= 0)     { setTimeout(()=>showGameOver('bancarrota'),1400); return; }
+        if (G.reputation <= 0) { setTimeout(()=>showGameOver('despedido'),1400);  return; }
+        if (G.threat >= 100)   { setTimeout(()=>showGameOver('brecha'),1400);     return; }
 
         setTimeout(() => {
           div.innerHTML = '';
@@ -1016,9 +1023,12 @@ function applyNeedsDept(choice) {
     const deptName = DEPT_META[dept]?.name || dept.toUpperCase();
     const available = G.team.filter(m => m.dept === dept && m.status !== 'down');
     if (available.length === 0) {
-      addLog(`⚠ Sin personal de ${deptName} — la acción no pudo ejecutarse correctamente. Exposición +8`, 'warning');
+      const prevT = G.threat;
       G.threatBase = Math.min(150, G.threatBase + 8);
       G.threat = computeExposure();
+      const delta = G.threat - prevT;
+      const deltaStr = delta > 0 ? ` Exposición +${delta} → ${G.threat}` : ` (exposición ya en límite)`;
+      addLog(`⚠ Sin personal de ${deptName} — la acción no pudo ejecutarse correctamente.${deltaStr}`, 'warning');
     } else {
       // Ordenar por capacidad libre descendente (priorizar el menos cargado)
       available.sort((a, b) => {
@@ -1035,13 +1045,19 @@ function applyNeedsDept(choice) {
       m.mgmtLoad = (m.mgmtLoad || 0) + mgmtLoad;
       // Penalización si el miembro queda sobrecargado
       if (cap > 0 && (usedBefore + addLoad) > cap) {
-        addLog(`🔴 ${m.name} (${deptName}) supera su capacidad — calidad en riesgo. Exposición +6`, 'danger');
+        const prevT = G.threat;
         G.threatBase = Math.min(150, G.threatBase + 6);
         G.threat = computeExposure();
+        const delta = G.threat - prevT;
+        const deltaStr = delta > 0 ? ` Exposición +${delta} → ${G.threat}` : ` (exposición ya en límite)`;
+        addLog(`🔴 ${m.name} (${deptName}) supera su capacidad — calidad en riesgo.${deltaStr}`, 'danger');
       } else if (cap > 0 && (usedBefore + addLoad) > cap * 0.8) {
-        addLog(`⚠ ${m.name} (${deptName}) está al límite de carga — posibles errores. Exposición +3`, 'warning');
+        const prevT = G.threat;
         G.threatBase = Math.min(150, G.threatBase + 3);
         G.threat = computeExposure();
+        const delta = G.threat - prevT;
+        const deltaStr = delta > 0 ? ` Exposición +${delta} → ${G.threat}` : ` (exposición ya en límite)`;
+        addLog(`⚠ ${m.name} (${deptName}) está al límite de carga — posibles errores.${deltaStr}`, 'warning');
       }
       if (!G.tasks) G.tasks = [];
       const label = choice.taskName || choice.text.substring(0, 40);
