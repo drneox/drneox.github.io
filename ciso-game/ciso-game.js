@@ -1,0 +1,1256 @@
+// =====================================================================
+// GAME DATA — loaded from scenes.json
+// =====================================================================
+let ALL_SCENES, RANDOM_EVENTS, CHAIN_EFFECTS, POLICY_CATALOG, TECH_CATALOG,
+    INTRO_SCENE, FINAL_SCENE;
+
+async function loadData() {
+  const resp = await fetch('./scenes.json');
+  const d    = await resp.json();
+  ALL_SCENES    = d.scenes;
+  RANDOM_EVENTS = d.randomEvents;
+  CHAIN_EFFECTS = d.chainEffects;
+  POLICY_CATALOG = d.policyCatalog;
+  TECH_CATALOG   = d.techCatalog;
+  INTRO_SCENE    = d.introScene;
+  FINAL_SCENE    = d.finalScene;
+}
+
+// =====================================================================
+// SOUND ENGINE (Web Audio API — no external files needed)
+// =====================================================================
+let soundEnabled = true;
+let audioCtx = null;
+
+function getAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playTone(freq, type, duration, vol=0.15, delay=0) {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudio();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = type; osc.frequency.value = freq;
+    const t = ctx.currentTime + delay;
+    gain.gain.setValueAtTime(vol, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+    osc.start(t); osc.stop(t + duration);
+  } catch(e) {}
+}
+
+function sfxBeep()   { playTone(880,'square',.08,.12); playTone(1100,'square',.08,.1,.09); }
+function sfxAlert()  { [0,.1,.2].forEach(d=>playTone(440,'sawtooth',.12,.18,d)); }
+function sfxSuccess(){ playTone(523,'sine',.2,.12); playTone(659,'sine',.2,.1,.15); playTone(784,'sine',.3,.1,.3); }
+function sfxFail()   { playTone(220,'sawtooth',.3,.2); playTone(150,'sawtooth',.4,.15,.25); }
+function sfxClick()  { playTone(660,'square',.05,.08); }
+function sfxType()   { playTone(400+Math.random()*200,'square',.03,.04); }
+function sfxTimer()  { playTone(880,'square',.05,.2); }
+
+// Ambient hum
+let ambientNode = null;
+function startAmbient() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudio();
+    ambientNode = ctx.createOscillator();
+    const gain = ctx.createGain();
+    ambientNode.connect(gain); gain.connect(ctx.destination);
+    ambientNode.type = 'sine'; ambientNode.frequency.value = 60;
+    gain.gain.value = 0.02;
+    ambientNode.start();
+  } catch(e) {}
+}
+function stopAmbient() { try { ambientNode && ambientNode.stop(); ambientNode = null; } catch(e){} }
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('sound-btn').textContent = soundEnabled ? '🔊' : '🔇';
+  if (soundEnabled) startAmbient(); else stopAmbient();
+}
+
+// =====================================================================
+// RANDOM EVENTS (fire between scenes)
+// =====================================================================
+// =====================================================================
+// CHAINED CONSEQUENCES
+// =====================================================================
+// =====================================================================
+// POLICY CATALOG (on-demand purchase)
+// =====================================================================
+// =====================================================================
+// TECHNOLOGY CATALOG (on-demand purchase, expires by license)
+// =====================================================================
+// =====================================================================
+// GAME STATE
+// =====================================================================
+const TEAM_ROSTER = [
+  {id:'ana',   name:'Ana Vega',   role:'Analista SOC',    avatar:'👩‍💻', status:'ok'},
+  {id:'carlos',name:'Carlos Ríos',   role:'Pen Tester',      avatar:'🧑‍💻', status:'ok'},
+  {id:'maria', name:'Maria Torres', role:'Resp. Incidentes', avatar:'👩‍🔬', status:'ok'},
+  {id:'luis',  name:'Luis Pena',   role:'Arq. Cloud',      avatar:'👨‍🔧', status:'ok'},
+];
+
+const DIFF_CONFIG = {
+  junior: {budget:700000, threatMult:0.7, startRep:75, label:'JUNIOR'},
+  senior: {budget:500000, threatMult:1.0, startRep:70, label:'SENIOR'},
+  crisis: {budget:200000, threatMult:1.4, startRep:40, label:'EN CRISIS'},
+};
+
+let G = {};
+let playQueue = [];
+let queueIdx = 0;
+let currentDiff = 'senior';
+let timerInterval = null;
+let timerSeconds = 0;
+let lastChoiceId = '';
+let lastChoiceLog = '';
+const SCENES_PER_RUN = 7;
+
+// Stakeholder approval (0-5 each)
+function initStakeholders() {
+  return { ceo: 4, cfo: 3, reg: 4, team: 5 };
+}
+
+function setDiff(d) {
+  currentDiff = d;
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('d-'+d).classList.add('active');
+  sfxClick();
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function buildQueue() {
+  // INFINITE MODE: return ALL scenes shuffled. When exhausted, refill.
+  return shuffle(ALL_SCENES);
+}
+
+// Refill the queue when running low
+function refillQueue() {
+  const refresh = shuffle(ALL_SCENES);
+  playQueue = playQueue.concat(refresh);
+  updateProgressBarInfinite();
+}
+
+function returnToStartScreen() {
+  document.getElementById('endscreen').style.display = 'none';
+  hideGameUIBeforeStart();
+// Load game data from scenes.json, then optionally signal ready
+loadData().catch(err => {
+  console.error('Error al cargar scenes.json:', err);
+  const ss = document.getElementById('start-screen');
+  if (ss) ss.insertAdjacentHTML('beforeend',
+    '<p style="color:var(--red);margin-top:12px;font-size:11px;">⚠ Error cargando datos. Recarga la página.</p>');
+});
+  document.getElementById('start-screen').style.display = 'block';
+  stopAmbient();
+  sfxClick();
+}
+
+function startGame() {
+  // Hide start screen
+  const ss = document.getElementById('start-screen');
+  if (ss) ss.style.display = 'none';
+  sfxClick();
+  
+  const cfg = DIFF_CONFIG[currentDiff];
+  G = {
+    budget: cfg.budget, maxBudget: cfg.budget,
+    reputation: cfg.startRep, threat: currentDiff==='crisis'?40:20,
+    day: 1, year: 1, cycle: 1,
+    incidentsHandled: 0, incidentsFailed: 0, decisionsCount: 0,
+    team: TEAM_ROSTER.map(m => ({...m})),
+    tools: [], policies: [], techStack: [],
+    stakeholders: initStakeholders(),
+    threatMult: cfg.threatMult,
+    chainEffects: [],
+    lastSceneId: '',
+    lastSceneLog: '',
+    difficulty: currentDiff,
+    mttr: [], mttd: [],
+    randEventsCount: 0,
+    repCutFired: [],
+    complianceWarnedYear: 0,
+  };
+
+  playQueue = [INTRO_SCENE, ...buildQueue()];
+  queueIdx = 0;
+
+  const ids = playQueue.filter(s=>s.id!=='intro'&&s.id!=='endgame')
+    .map(s=>s.title.replace(/^[^—]+—\s*/,'')).join(' · ');
+  document.getElementById('seed-display').textContent = 'Escenarios: ' + ids;
+
+  document.getElementById('endscreen').style.display = 'none';
+  document.getElementById('main').style.display = 'grid';
+  document.getElementById('stats-bar').style.display = 'grid';
+  document.getElementById('stakeholders').style.display = 'grid';
+  document.getElementById('progress-bar').style.display = 'flex';
+  document.getElementById('event-alert').style.display = 'none';
+  document.getElementById('rand-event').style.display = 'none';
+
+  buildProgressBar();
+  updateStats(); renderTeam(); renderThreats(); renderSidebar(); renderMetrics();
+  startAmbient();
+  playScene();
+}
+
+function buildProgressBar() {
+  updateProgressBarInfinite();
+}
+
+function updateProgressBarInfinite() {
+  const bar = document.getElementById('progress-bar');
+  bar.innerHTML = '';
+  // Show "infinity" indicator with current year/cycle
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;font-size:11px;';
+  wrapper.innerHTML = `
+    <span style="color:var(--cyan);font-family:'Orbitron',monospace;letter-spacing:2px;">AÑO ${G.year||1}</span>
+    <span style="color:var(--muted);">·</span>
+    <span style="color:var(--green);font-family:'Orbitron',monospace;">DECISIONES: ${G.decisionsCount||0}</span>
+    <span style="color:var(--muted);">·</span>
+    <span style="color:var(--yellow);font-family:'Orbitron',monospace;">CICLO ${G.cycle||1}</span>
+    <span style="color:var(--muted);margin-left:auto;letter-spacing:2px;">MODO INFINITO ∞</span>
+    <button onclick="retireCISO()" style="background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:9px;padding:3px 8px;border-radius:2px;cursor:pointer;letter-spacing:1px;" onmouseover="this.style.borderColor='var(--orange)';this.style.color='var(--orange)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)';">⚑ RETIRARSE</button>
+  `;
+  bar.appendChild(wrapper);
+}
+
+function retireCISO() {
+  if (confirm('¿Retirarte como CISO? Tu legado será evaluado con los datos actuales.')) {
+    sfxClick();
+    showEnding();
+  }
+}
+
+function updateProgress() {
+  // Year ticks every 6 decisions; cycle ticks every full pass through ALL_SCENES
+  const prevYear  = G.year  || 1;
+  const prevCycle = G.cycle || 1;
+  G.year  = Math.floor(G.decisionsCount / 6) + 1;
+  G.cycle = Math.floor(G.decisionsCount / ALL_SCENES.length) + 1;
+  if (G.year > prevYear) G.pendingAnnualBudget = G.year;
+  // Cycle completion: +5% to threat multiplier (entorno más hostil)
+  if (G.cycle > prevCycle) {
+    G.threatMult = Math.min(3.0, Math.round((G.threatMult + 0.05) * 100) / 100);
+    setTimeout(() => addLog(
+      `🔄 CICLO ${G.cycle} COMPLETADO — El entorno cibernético escala. Multiplicador de amenazas: ×${G.threatMult.toFixed(2)}`, 'warning'), 200);
+  }
+  updateProgressBarInfinite();
+  // Mid-year compliance warning (at decision 3 of each year)
+  if (G.decisionsCount % 6 === 3 && G.complianceWarnedYear !== G.year) {
+    const required = G.year === 1 ? 1 : G.year === 2 ? 3 : 5;
+    if (activePolicies().length < required) {
+      G.complianceWarnedYear = G.year;
+      setTimeout(() => addLog(
+        `⚠ AVISO REGULATORIO — Año ${G.year}: tienes ${activePolicies().length}/${required} políticas requeridas. ` +
+        `Implementa más antes del cierre del año o enfrentarás multas.`, 'warning'), 200);
+    }
+  }
+}
+
+function checkComplianceAudit(year) {
+  const required = year === 1 ? 1 : year === 2 ? 3 : 5;
+  const have = activePolicies().length;
+  if (have < required) {
+    const fineMap = {1: 20000, 2: 40000};
+    const fine    = fineMap[year] || 60000;
+    const repHit  = year === 1 ? 5 : year === 2 ? 8 : 10;
+    G.budget     = Math.max(0, G.budget - fine);
+    G.reputation = Math.max(0, G.reputation - repHit);
+    G.stakeholders.reg = Math.max(0, G.stakeholders.reg - 1);
+    updateStats();
+    sfxFail();
+    addLog(
+      `🏛 MULTA REGULATORIA AÑO ${year} — Solo tienes ${have}/${required} políticas requeridas. ` +
+      `Multa: −${fmtNum(fine)} | Reputación −${repHit} | Regulador pierde confianza.`, 'danger');
+  } else {
+    addLog(
+      `🏛 AUDITORÍA AÑO ${year} SUPERADA — ${have}/${required} políticas en regla. El regulador está conforme.`, 'success');
+    G.stakeholders.reg = Math.min(5, G.stakeholders.reg + 1);
+  }
+}
+
+function grantAnnualBudget(year) {
+  // Compliance audit first
+  checkComplianceAudit(year);
+  checkTechAudit(year);
+
+  // Warn about expired policies and tech
+  const expPol  = G.policies.filter(p => !activePolicies().find(a=>a.id===p.id));
+  const expTech = G.techStack.filter(t => !activeTechStack().find(a=>a.id===t.id));
+  if (expPol.length  > 0) setTimeout(() => addLog(`⚠ POLÍTICAS VENCIDAS — ${expPol.map(p=>p.name).join(', ')}. Renúeva para mantener cobertura.`, 'warning'), 400);
+  if (expTech.length > 0) setTimeout(() => addLog(`⚠ TECNOLOGÍAS VENCIDAS — ${expTech.map(t=>t.name).join(', ')}. Renueva las licencias.`, 'warning'), 500);
+
+  // Passive threat creep & pressure escalation notification
+  const threatCreep = (year - 1) * 3;
+  if (threatCreep > 0) {
+    G.threat = Math.min(100, G.threat + threatCreep);
+    const yp = yearPressure();
+    const pressurePct = Math.round((yp - 1) * 100);
+    setTimeout(() => addLog(
+      `⚡ ESCALADA AÑO ${year} — Amenaza ambiental +${threatCreep} pts. ` +
+      `Presión económica: +${pressurePct}% en costos y daños de decisiones este año.`, 'warning'), 300);
+  }
+
+  // Efficiency bonus: leftover budget converts to reputation (each $50K = +1 rep, cap +5)
+  const leftover = Math.max(0, G.budget);
+  const effBonus = Math.min(5, Math.floor(leftover / 50000));
+
+  // Part B: scale budget by reputation
+  let repMult = 1.0;
+  let repNote = '';
+  if      (G.reputation < 20) { repMult = 0.40; repNote = `Reputación crítica (${G.reputation}) → solo 40% aprobado por el board.`; }
+  else if (G.reputation < 40) { repMult = 0.60; repNote = `Reputación baja (${G.reputation}) → solo 60% aprobado por el board.`; }
+  else if (G.reputation < 60) { repMult = 0.80; repNote = `Reputación moderada (${G.reputation}) → 80% aprobado por el board.`; }
+
+  G.budget = Math.round(G.maxBudget * repMult);
+  // Reset threshold cuts so they can fire again in new year
+  G.repCutFired = [];
+
+  // Salary deductions for hired team members (beyond base roster)
+  const hiredMembers = G.team.filter(m => m.salary && m.salary > 0);
+  const totalSalaries = hiredMembers.reduce((sum, m) => sum + m.salary, 0);
+  if (totalSalaries > 0) {
+    G.budget = Math.max(0, G.budget - totalSalaries);
+    addLog(`👥 NÓMINA — ${hiredMembers.map(m=>m.name).join(', ')}: −${fmtNum(totalSalaries)}/año descontados del presupuesto.`, 'warning');
+  }
+
+  if (effBonus > 0) G.reputation = Math.min(100, G.reputation + effBonus);
+
+  updateStats();
+  sfxSuccess();
+
+  const effMsg = effBonus > 0
+    ? ` El CFO reconoció tu eficiencia: +${effBonus} reputación por ${fmtNum(leftover)} no gastados.`
+    : '';
+  const penaltyMsg = repNote ? ` ⚠ ${repNote}` : '';
+  addLog(`💰 PRESUPUESTO AÑO ${year} RENOVADO — Asignado: ${fmtNum(G.budget)}.${penaltyMsg}${effMsg}`, repMult < 1 ? 'warning' : 'success');
+
+  // Show toast
+  const box = document.getElementById('rand-event');
+  document.getElementById('re-icon').textContent = '💰';
+  const borderCol = repMult < 1 ? 'var(--orange)' : 'var(--yellow)';
+  const bgCol     = repMult < 1 ? 'rgba(255,150,0,.08)' : 'rgba(255,215,0,.08)';
+  document.getElementById('re-text').innerHTML =
+    `<strong style="color:${borderCol}">PRESUPUESTO AÑO ${year} RENOVADO</strong> — Asignado: ${fmtNum(G.budget)}` +
+    (repNote ? `<br><span style="color:var(--orange)">⚠ ${repNote}</span>` : '') +
+    (effMsg  ? `<br><span style="color:var(--green)">${effMsg}</span>` : '');
+  const btnsDiv = document.getElementById('re-btns');
+  if (btnsDiv) btnsDiv.innerHTML = '';
+  box.style.borderColor = borderCol;
+  box.style.background  = bgCol;
+  box.style.display = 'flex';
+  setTimeout(() => {
+    box.style.display = 'none';
+    box.style.borderColor = '';
+    box.style.background  = '';
+  }, 4500);
+}
+
+// =====================================================================
+// RANDOM EVENT between scenes
+// =====================================================================
+function showEventScenario(ev, callback) {
+  const box = document.getElementById('rand-event');
+  box.style.display = 'none';
+  document.getElementById('scene-icon').textContent = ev.icon;
+  document.getElementById('scene-title').textContent = 'EVENTO INESPERADO';
+  document.getElementById('scene-day').textContent = 'INTERRUPCIÓN';
+
+  const tb = document.getElementById('turn-badge'); tb.style.display = 'none';
+  document.getElementById('event-alert').style.display = 'none';
+  clearLog();
+  typewriteLog(ev.text, 'scene', () => {
+    addLog('──────────────────────────────────────', 'system');
+    const div = document.getElementById('choices-area');
+    div.innerHTML = '';
+    ev.choices.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      let inner = c.text;
+      if (c.cost) inner += '<span class="cost-tag ' + (c.cost.startsWith('$') || c.cost.startsWith('~') ? 'cost-money' : 'cost-risk') + '">' + c.cost + '</span>';
+      btn.innerHTML = inner;
+      btn.onclick = () => {
+        sfxClick();
+        document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+        const sfx = scaledFx(c.fx);
+        applyFx(sfx);
+        addLog('◆ ' + c.text, 'system');
+        addLog(c.result, c.log || 'result');
+        const deltas = [];
+        if (sfx.budget     !== undefined) deltas.push('Presupuesto ' + (sfx.budget>=0?'+':'') + fmtNum(sfx.budget) + ' → ' + fmtBudget());
+        if (sfx.reputation !== undefined) deltas.push('Reputación ' + (sfx.reputation>=0?'+':'') + sfx.reputation + ' → ' + G.reputation);
+        if (sfx.threat     !== undefined) deltas.push('Amenaza ' + (sfx.threat>=0?'+':'') + sfx.threat + ' → ' + G.threat);
+        if (deltas.length) addLog('[ ' + deltas.join(' | ') + ' ]', 'system');
+        if (c.log === 'success') { sfxSuccess(); flashBody('green'); }
+        else if (c.log === 'danger') { sfxFail(); flashBody('red'); }
+        updateStats(); renderTeam(); renderSidebar(); renderMetrics();
+
+        setTimeout(() => {
+          div.innerHTML = '';
+          const contBtn = document.createElement('button');
+          contBtn.className = 'choice-btn';
+          contBtn.style.borderColor = 'var(--green2)'; contBtn.style.color = 'var(--green)';
+          contBtn.innerHTML = 'Continuar &rarr; <span style="color:var(--muted);font-size:9px">Siguiente escenario</span>';
+          contBtn.onclick = () => {
+            sfxClick(); contBtn.disabled = true;
+            contBtn.innerHTML = '<span style="color:var(--cyan);font-size:11px;letter-spacing:2px;">CARGANDO ESCENARIO...</span>';
+            setTimeout(() => callback(), 700);
+          };
+          div.appendChild(contBtn);
+        }, 900);
+      };
+      div.appendChild(btn);
+    });
+  });
+}
+
+function maybeFireRandomEvent(callback) {
+  if (queueIdx === 0 || Math.random() > 0.45) { callback(); return; }
+  const ev = RANDOM_EVENTS[Math.floor(Math.random()*RANDOM_EVENTS.length)];
+  G.randEventsCount++;
+  const box = document.getElementById('rand-event');
+  box.style.borderColor = '';
+  box.style.background = '';
+  document.getElementById('re-icon').textContent = ev.icon;
+  document.getElementById('re-text').innerHTML = '<strong>EVENTO ALEATORIO:</strong> ' + ev.text;
+
+  const btnsDiv = document.getElementById('re-btns');
+  btnsDiv.innerHTML = '';
+
+  // Botón "Atender ahora"
+  const btnAttend = document.createElement('button');
+  btnAttend.className = 'choice-btn';
+  btnAttend.style.cssText = 'font-size:10px;padding:5px 12px;border-color:var(--purple);color:var(--purple);';
+  btnAttend.textContent = '⚡ Atender ahora';
+  btnAttend.onclick = () => {
+    sfxClick();
+    if (ev.choices && ev.choices.length > 0) {
+      showEventScenario(ev, callback);
+    } else {
+      const sfx = scaledFx(ev.fx);
+      applyFx(sfx);
+      const deltas = [];
+      if (sfx.budget     !== undefined) deltas.push('Presupuesto ' + (sfx.budget>=0?'+':'') + fmtNum(sfx.budget) + ' → ' + fmtBudget());
+      if (sfx.reputation !== undefined) deltas.push('Reputación ' + (sfx.reputation>=0?'+':'') + sfx.reputation + ' → ' + G.reputation);
+      if (sfx.threat     !== undefined) deltas.push('Amenaza ' + (sfx.threat>=0?'+':'') + sfx.threat + ' → ' + G.threat);
+      addLog(ev.icon + ' EVENTO ATENDIDO: ' + ev.text, ev.log || 'warning');
+      if (deltas.length) addLog('[ ' + deltas.join(' | ') + ' ]', 'system');
+      updateStats(); renderMetrics();
+      box.style.display = 'none';
+      callback();
+    }
+  };
+
+  // Botón "Ignorar"
+  const btnIgnore = document.createElement('button');
+  btnIgnore.className = 'choice-btn';
+  btnIgnore.style.cssText = 'font-size:10px;padding:5px 12px;border-color:var(--muted);color:var(--muted);';
+  btnIgnore.textContent = '↷ Ignorar (reputación −5)';
+  btnIgnore.onclick = () => {
+    sfxClick();
+    const ignFx = scaledFx({reputation: -5});
+    applyFx(ignFx);
+    addLog(ev.icon + ` EVENTO IGNORADO — Reputación ${ignFx.reputation} → ${G.reputation}. Continúas sin atenderlo.`, 'warning');
+    updateStats(); renderMetrics();
+    box.style.display = 'none';
+    callback();
+  };
+
+  btnsDiv.appendChild(btnAttend);
+  btnsDiv.appendChild(btnIgnore);
+  box.style.display = 'flex';
+  sfxBeep();
+}
+
+// =====================================================================
+// SCENE ENGINE
+// =====================================================================
+function playScene() {
+  maybeFireRandomEvent(() => {
+    // INFINITE MODE: refill queue when running low
+    if (queueIdx >= playQueue.length - 2) {
+      refillQueue();
+    }
+    if (queueIdx >= playQueue.length) { showEnding(); return; }
+    const scene = playQueue[queueIdx];
+    G.day = G.decisionsCount * 14 + 1;
+
+    document.getElementById('scene-icon').textContent = scene.icon;
+    document.getElementById('scene-title').textContent = scene.title;
+    document.getElementById('scene-day').textContent = 'DÍA ' + G.day;
+
+    const tb = document.getElementById('turn-badge');
+    if (scene.turnLabel) { tb.textContent = scene.turnLabel; tb.style.display='inline'; }
+    else tb.style.display='none';
+
+    const ea = document.getElementById('event-alert');
+    if (scene.isEvent) {
+      ea.style.display = 'flex';
+      document.getElementById('alert-text').textContent =
+        'INCIDENTE ACTIVO — ' + scene.title.replace(/^[^—]+—\s*/,'');
+      sfxAlert();
+      flashBody('red');
+    } else {
+      ea.style.display = 'none';
+      sfxBeep();
+    }
+
+    clearLog();
+
+    // Show chained consequence if applicable
+    const chainKey = G.lastSceneId + '_' + G.lastSceneLog;
+    if (CHAIN_EFFECTS[chainKey]) {
+      addLog('⛓ CONSECUENCIA ANTERIOR: ' + CHAIN_EFFECTS[chainKey], 'chained');
+    }
+
+    typewriteLog(scene.text, 'scene', () => {
+      addLog('──────────────────────────────────────', 'system');
+      // Presupuesto anual pendiente
+      if (G.pendingAnnualBudget) {
+        grantAnnualBudget(G.pendingAnnualBudget);
+        G.pendingAnnualBudget = null;
+      }
+      // Timer solo en incidentes críticos (isEvent)
+      if (scene.isEvent) startTimer(30, scene);
+      else stopTimer();
+      renderChoices(scene.choices, scene.isEvent);
+    });
+
+    updateProgress();
+  });
+}
+
+// =====================================================================
+// TYPEWRITER
+// =====================================================================
+function typewriteLog(text, type, callback) {
+  const div = document.getElementById('log-area');
+  const entry = document.createElement('div');
+  entry.className = 'log-entry ' + type;
+  div.appendChild(entry);
+  div.scrollTop = div.scrollHeight;
+
+  // Strip HTML tags for typewriter, then reveal full
+  let i = 0;
+  const plain = text.replace(/<[^>]+>/g, '');
+  const interval = setInterval(() => {
+    if (i < plain.length) {
+      if (i % 3 === 0) sfxType();
+      i += Math.floor(Math.random()*3)+1;
+      i = Math.min(i, plain.length);
+      entry.textContent = plain.slice(0, i);
+      div.scrollTop = div.scrollHeight;
+    } else {
+      clearInterval(interval);
+      entry.innerHTML = text; // restore rich text
+      div.scrollTop = div.scrollHeight;
+      if (callback) callback();
+    }
+  }, 18);
+}
+
+// =====================================================================
+// COUNTDOWN TIMER
+// =====================================================================
+function startTimer(seconds, scene) {
+  timerSeconds = seconds;
+  const bar = document.getElementById('timer-bar');
+  const fill = document.getElementById('timer-fill');
+  const disp = document.getElementById('timer-display');
+  bar.style.display = 'block';
+  disp.textContent = seconds + 's';
+  fill.style.width = '100%';
+  fill.style.background = 'var(--orange)';
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    fill.style.width = (timerSeconds / seconds * 100) + '%';
+    disp.textContent = timerSeconds + 's';
+    if (timerSeconds <= 5) {
+      fill.style.background = 'var(--red)';
+      sfxTimer();
+    }
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      // Auto-choose worst option
+      timeoutChoice(scene);
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  document.getElementById('timer-bar').style.display = 'none';
+  document.getElementById('timer-display').textContent = '';
+}
+
+function timeoutChoice(scene) {
+  // Pick last (usually worst) choice
+  const lastChoice = scene.choices[scene.choices.length - 1];
+  addLog('⏱ TIEMPO AGOTADO — Decisión automática tomada por inacción.', 'danger');
+  sfxFail();
+  makeChoiceCore({...lastChoice, result:'TIEMPO AGOTADO: ' + lastChoice.result, fx:{...lastChoice.fx, reputation:-5}});
+}
+
+// =====================================================================
+// CHOICE RENDERING & HANDLING
+// =====================================================================
+function renderChoices(choices, timed) {
+  const div = document.getElementById('choices-area');
+  div.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn' + (timed ? ' timed' : '');
+    let inner = c.text;
+    if (c.cost) inner += '<span class="cost-tag ' +
+      (c.cost.startsWith('$')||c.cost.startsWith('~') ? 'cost-money' : 'cost-risk') +
+      '">' + c.cost + '</span>';
+    btn.innerHTML = inner;
+    btn.onclick = () => { sfxClick(); stopTimer(); makeChoice(c); };
+    div.appendChild(btn);
+  });
+}
+
+function makeChoice(choice) {
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+  makeChoiceCore(choice);
+}
+
+// Presión creciente por año: 1.0× año1 → +15% por año, cap 1.75×
+function yearPressure() {
+  return Math.min(1.75, 1.0 + (G.year - 1) * 0.15);
+}
+
+// Escala los efectos negativos (costos, daños) y amenazas positivas por yearPressure
+// Los beneficios (presupuesto+, reputación+) NO se escalan → las victorias mantienen su valor
+function scaledFx(fx) {
+  const p = yearPressure();
+  const out = Object.assign({}, fx);
+  if (out.budget     !== undefined && out.budget < 0)     out.budget     = Math.round(out.budget * p);
+  if (out.reputation !== undefined && out.reputation < 0) out.reputation = Math.round(out.reputation * p);
+  if (out.threat     !== undefined && out.threat > 0)     out.threat     = Math.round(out.threat * p);
+  return out;
+}
+
+function makeChoiceCore(choice) {
+  G.decisionsCount++;
+  G.lastSceneId = playQueue[queueIdx] ? playQueue[queueIdx].id : '';
+  G.lastSceneLog = choice.log || 'result';
+
+  const fx = scaledFx(choice.fx || {});
+  // Apply difficulty multiplier to threat changes (on top of year pressure)
+  if (fx.threat !== undefined) {
+    fx.threat = Math.round(fx.threat * (fx.threat > 0 ? G.threatMult : 1));
+  }
+
+  applyFx(fx);
+
+  // Team effects
+  if (choice.removeTeam) {
+    const m = G.team.find(t=>t.id===choice.removeTeam);
+    if (m) m.status = 'down';
+    G.incidentsFailed++;
+  }
+  if (choice.teamBusy) {
+    const ids = Array.isArray(choice.teamBusy) ? choice.teamBusy : [choice.teamBusy];
+    ids.forEach(id => { const m=G.team.find(t=>t.id===id); if(m) m.status='busy'; });
+  }
+  if (choice.needsTeam) {
+    const ids = Array.isArray(choice.needsTeam) ? choice.needsTeam : [choice.needsTeam];
+    ids.forEach(id => {
+      const m = G.team.find(t=>t.id===id);
+      if (m && m.status==='down') {
+        addLog('⚠ Miembro no disponible — penalización aplicada','warning');
+        G.threat = Math.min(100, G.threat + 8);
+      }
+    });
+  }
+  if (choice.addTool && !G.tools.includes(choice.addTool)) G.tools.push(choice.addTool);
+  if (choice.addPolicy && !G.policies.find(p=>p.name===choice.addPolicy))
+    G.policies.push({id: choice.addPolicy.toLowerCase().replace(/[^a-z0-9]/g,'_'), name: choice.addPolicy, year: G.year});
+  if (choice.requiresTech) {
+    const ids = Array.isArray(choice.requiresTech) ? choice.requiresTech : [choice.requiresTech];
+    const activeIds = new Set(activeTechStack().map(t=>t.id));
+    const missing = ids.filter(id => !activeIds.has(id));
+    if (missing.length > 0) {
+      const names = missing.map(id => TECH_CATALOG.find(t=>t.id===id)?.name || id);
+      applyFx({threat:+12, reputation:-6});
+      addLog(`⚠ TECNOLOGÍA AUSENTE — Sin ${names.join(', ')}. Penalización: Amenaza +12 | Rep −6`, 'danger');
+      updateStats();
+    }
+  }
+  if (choice.addTeam && !G.team.find(t=>t.id===choice.addTeam.id)) G.team.push({...choice.addTeam,status:'ok'});
+
+  // Stakeholder effects
+  updateStakeholders(choice);
+
+  // Track metrics
+  if (choice.log === 'success') { G.incidentsHandled++; sfxSuccess(); flashBody('green'); }
+  else if (choice.log === 'danger') { G.incidentsFailed++; sfxFail(); flashBody('red'); }
+
+  const resultText = typeof choice.result === 'function' ? choice.result(G) : choice.result;
+  addLog('◆ ' + choice.text, 'system');
+  addLog(resultText, choice.log || 'result');
+
+  const deltas = [];
+  if (fx.budget     !== undefined) deltas.push('Presupuesto ' + (fx.budget>=0?'+':'') + fmtNum(fx.budget) + ' → ' + fmtBudget());
+  if (fx.reputation !== undefined) deltas.push('Reputación ' + (fx.reputation>=0?'+':'') + fx.reputation + ' → ' + G.reputation);
+  if (fx.threat     !== undefined) deltas.push('Amenaza ' + (fx.threat>=0?'+':'') + fx.threat + ' → ' + G.threat);
+  if (deltas.length) addLog('[ ' + deltas.join(' | ') + ' ]', 'system');
+
+  setTimeout(() => { G.team.forEach(m=>{if(m.status==='busy')m.status='ok';}); }, 1800);
+  updateStats(); renderTeam(); renderThreats(); renderSidebar(); renderMetrics();
+
+  // Show AI analysis button
+
+  if (G.budget <= 0)     { setTimeout(()=>showGameOver('bancarrota'),1400); return; }
+  if (G.reputation <= 0) { setTimeout(()=>showGameOver('despedido'),1400);  return; }
+  if (G.threat >= 100)   { setTimeout(()=>showGameOver('brecha'),1400);     return; }
+  if (choice.isEnding)   { setTimeout(()=>showEnding(),1600); return; }
+
+  queueIdx++;
+  setTimeout(() => {
+
+    const div = document.getElementById('choices-area');
+    div.innerHTML = '';
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.style.borderColor = 'var(--green2)'; btn.style.color = 'var(--green)';
+    btn.innerHTML = 'Continuar &rarr; <span style="color:var(--muted);font-size:9px">Siguiente escenario</span>';
+    btn.onclick = () => {
+      sfxClick();
+      btn.disabled = true;
+      btn.innerHTML = '';
+      btn.style.cssText += 'border-color:var(--cyan);cursor:default;display:flex;align-items:center;gap:10px;';
+      if (!document.getElementById('ldot-style')) {
+        const s = document.createElement('style');
+        s.id = 'ldot-style';
+        s.textContent = '@keyframes ldot{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.3)}}';
+        document.head.appendChild(s);
+      }
+      btn.innerHTML = `
+        <span style="display:flex;gap:5px;align-items:center;">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block;animation:ldot .7s ease-in-out 0s infinite;"></span>
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block;animation:ldot .7s ease-in-out .18s infinite;"></span>
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block;animation:ldot .7s ease-in-out .36s infinite;"></span>
+        </span>
+        <span style="color:var(--cyan);font-size:11px;letter-spacing:2px;">CARGANDO ESCENARIO...</span>
+      `;
+      setTimeout(() => playScene(), 700);
+    };
+    div.appendChild(btn);
+  }, 900);
+}
+
+function applyFx(fx) {
+  if (fx.budget     !== undefined) G.budget     = Math.max(0, G.budget + fx.budget);
+  if (fx.reputation !== undefined) G.reputation = Math.min(100, Math.max(0, G.reputation + fx.reputation));
+  if (fx.threat     !== undefined) G.threat     = Math.min(100, Math.max(0, G.threat + fx.threat));
+  checkReputationCut();
+}
+
+function checkReputationCut() {
+  const cuts = [
+    { threshold: 30, pct: 0.15, label: '15%' },
+    { threshold: 15, pct: 0.25, label: '25%' },
+  ];
+  cuts.forEach(({ threshold, pct, label }) => {
+    if (G.reputation <= threshold && !G.repCutFired.includes(threshold)) {
+      G.repCutFired.push(threshold);
+      const cut = Math.round(G.budget * pct);
+      G.budget = Math.max(0, G.budget - cut);
+      // Update CFO trust
+      G.stakeholders.cfo = Math.max(0, G.stakeholders.cfo - 1);
+      sfxFail();
+      addLog(`✂️ RECORTE PRESUPUESTARIO — Reputación en ${G.reputation}. El CFO recorta ${label} del presupuesto. −${fmtNum(cut)} operativos.`, 'danger');
+      updateStats();
+      // Show toast with red border
+      const box = document.getElementById('rand-event');
+      document.getElementById('re-icon').textContent = '✂️';
+      document.getElementById('re-text').innerHTML =
+        `<strong style="color:var(--red)">RECORTE PRESUPUESTARIO</strong> — Tu reputación cayó a ${G.reputation}. El CFO recortó −${label} del presupuesto operativo. Disponible: ${fmtNum(G.budget)}.`;
+      const btnsDiv = document.getElementById('re-btns');
+      if (btnsDiv) btnsDiv.innerHTML = '';
+      box.style.borderColor = 'var(--red)';
+      box.style.background = 'rgba(255,50,50,.08)';
+      box.style.display = 'flex';
+      setTimeout(() => {
+        box.style.display = 'none';
+        box.style.borderColor = '';
+        box.style.background = '';
+      }, 4500);
+    }
+  });
+}
+
+function updateStakeholders(choice) {
+  const sh = G.stakeholders;
+  const log = choice.log || 'result';
+  const text = choice.text.toLowerCase();
+  // CEO cares about reputation and business continuity
+  if (log==='success') sh.ceo = Math.min(5, sh.ceo+1);
+  if (log==='danger')  sh.ceo = Math.max(0, sh.ceo-1);
+  // CFO cares about budget
+  const fx = choice.fx || {};
+  if (fx.budget < -50000) sh.cfo = Math.max(0, sh.cfo-1);
+  if (fx.budget > 30000)  sh.cfo = Math.min(5, sh.cfo+1);
+  // Regulator cares about compliance
+  if (text.includes('regulador')||text.includes('legal')||text.includes('notificar'))
+    sh.reg = Math.min(5, sh.reg+1);
+  if (log==='danger' && (text.includes('ignorar')||text.includes('esperar')))
+    sh.reg = Math.max(0, sh.reg-1);
+  // Team cares about support
+  if (choice.addTeam || (choice.addPolicy&&choice.addPolicy.includes('Balance')))
+    sh.team = Math.min(5, sh.team+1);
+  if (choice.removeTeam) sh.team = Math.max(0, sh.team-2);
+}
+
+
+// =====================================================================
+// UI RENDERS
+// =====================================================================
+function clearLog() { document.getElementById('log-area').innerHTML = ''; }
+
+function addLog(text, type) {
+  const div = document.getElementById('log-area');
+  const e = document.createElement('div');
+  e.className = 'log-entry ' + (type||'scene');
+  e.innerHTML = text;
+  div.appendChild(e);
+  div.scrollTop = div.scrollHeight;
+}
+
+function fmtBudget() {
+  const b = G.budget||0;
+  if (Math.abs(b)>=1000000) return '$'+(b/1000000).toFixed(2)+'M';
+  if (Math.abs(b)>=1000)    return '$'+Math.floor(b/1000)+'K';
+  return '$'+b;
+}
+function fmtNum(n) {
+  if (Math.abs(n)>=1000) return '$'+Math.floor(n/1000)+'K';
+  return String(n);
+}
+
+function updateStats() {
+  document.getElementById('sv-budget').textContent = fmtBudget();
+  document.getElementById('sv-rep').textContent    = G.reputation;
+  const active = G.team.filter(m=>m.status!=='down').length;
+  document.getElementById('sv-team').textContent   = active+'/'+G.team.length;
+
+  const tl = ['MUY BAJO','BAJO','MODERADO','ALTO','CRÍTICO'];
+  const ti = Math.min(4, Math.floor(G.threat/21));
+  const el = document.getElementById('sv-threat');
+  el.textContent = tl[ti];
+  el.style.color = G.threat>75?'var(--critical)':G.threat>50?'var(--red)':G.threat>30?'var(--orange)':'var(--green)';
+
+  document.getElementById('sb-budget').style.width = Math.min(100,G.budget/G.maxBudget*100)+'%';
+  document.getElementById('sb-rep').style.width    = G.reputation+'%';
+  document.getElementById('sb-team').style.width   = (active/G.team.length*100)+'%';
+  const sb = document.getElementById('sb-threat');
+  sb.style.width = G.threat+'%';
+  sb.style.background = G.threat>75?'var(--critical)':G.threat>50?'var(--red)':G.threat>30?'var(--orange)':'var(--green)';
+
+  // Stakeholders
+  ['ceo','cfo','reg','team'].forEach(k => {
+    const el = document.getElementById('sh-'+k);
+    el.innerHTML = '';
+    for (let i=0;i<5;i++) {
+      const d = document.createElement('div');
+      const v = G.stakeholders[k];
+      d.className = 'sh-dot' + (i<v ? (v>=4?' filled':v>=2?' warn':' crit') : '');
+      el.appendChild(d);
+    }
+  });
+}
+
+// =====================================================================
+// POLICY SHOP
+// =====================================================================
+
+// Policies/tech with no catalog entry (narrative addPolicy) get expiresAfter:99 (never expire)
+function activePolicies() {
+  return G.policies.filter(p => {
+    const cat = POLICY_CATALOG.find(c => c.id === p.id);
+    return G.year <= p.year + (cat ? cat.expiresAfter : 99);
+  });
+}
+function activeTechStack() {
+  return G.techStack.filter(t => {
+    const cat = TECH_CATALOG.find(c => c.id === t.id);
+    return G.year <= t.year + (cat ? cat.expiresAfter : 99);
+  });
+}
+
+function _catalogShopRows(catalog, ownedArr, buyFn, nameColor) {
+  const ownedMap = new Map(ownedArr.map(p => [p.id, p]));
+  const activeFn = catalog === POLICY_CATALOG ? activePolicies : activeTechStack;
+  const activeIds = new Set(activeFn().map(p => p.id));
+  return catalog.map(p => {
+    const ownedRec = ownedMap.get(p.id);
+    const isOwned  = !!ownedRec;
+    const isActive = activeIds.has(p.id);
+    const isExpired = isOwned && !isActive;
+    const expiresYear = ownedRec ? ownedRec.year + p.expiresAfter : null;
+    const expiringSoon = isActive && expiresYear !== null && (expiresYear - G.year) <= 1;
+    if (isActive && !expiringSoon) return null;
+    const renewMult = catalog === POLICY_CATALOG ? 0.7 : 0.5;
+    const cost = isExpired ? Math.round(p.cost * renewMult) : p.cost;
+    const canAfford = G.budget >= cost;
+    const fxText = Object.entries(p.fx).map(([k,v]) => {
+      const lbl = k==='threat'?'Amenaza':k==='reputation'?'Reputaci\u00f3n':'Presupuesto';
+      return lbl + ' ' + (v>0?'+':'') + v;
+    }).join(' | ');
+    const reqNote = p.reqYear > 0
+      ? `<span style="font-size:9px;color:var(--orange);"> \u2022 Req a\u00f1o ${p.reqYear}+</span>` : '';
+    let statusBadge = '', btnLabel = `\u2212${fmtNum(cost)}`,
+        nc = canAfford ? `var(--${nameColor})` : 'var(--muted)',
+        bc = canAfford ? 'var(--border)' : '#1a1a1a';
+    if (isExpired) {
+      statusBadge = `<span style="font-size:9px;color:var(--red);margin-left:5px;">\u25cf EXPIRADA</span>`;
+      btnLabel = `RENOVAR \u2212${fmtNum(cost)}`;
+      nc = canAfford ? 'var(--orange)' : 'var(--muted)'; bc = canAfford ? 'var(--orange)' : '#1a1a1a';
+    } else if (expiringSoon) {
+      statusBadge = `<span style="font-size:9px;color:var(--yellow);margin-left:5px;">\u26a0 EXPIRA A\u00d1O ${expiresYear}</span>`;
+      btnLabel = `RENOVAR \u2212${fmtNum(cost)}`;
+      nc = 'var(--yellow)'; bc = 'var(--yellow)';
+    }
+    return `<div class="ps-item${canAfford?'':' unaffordable'}" style="border-color:${bc};">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+        <div style="min-width:0;">
+          <div class="ps-name" style="color:${nc}">${p.name}${statusBadge}${reqNote}</div>
+          <div class="ps-desc">${p.desc}</div>
+          <div class="ps-fx">${fxText}</div>
+        </div>
+        <button class="ps-buy" onclick="${buyFn}('${p.id}')" ${canAfford?'':'disabled'}
+          style="border-color:${canAfford?bc:'var(--border)'};color:${canAfford?nc:'var(--muted)'};cursor:${canAfford?'pointer':'not-allowed'};">
+          ${btnLabel}
+        </button>
+      </div>
+    </div>`;
+  }).filter(Boolean);
+}
+
+function showPolicyCatalog() {
+  if (document.getElementById('main').style.display === 'none') return;
+  document.getElementById('ps-budget').textContent = fmtBudget();
+  const rows = _catalogShopRows(POLICY_CATALOG, G.policies, 'buyPolicy', 'green');
+  const listDiv = document.getElementById('policy-catalog-list');
+  listDiv.innerHTML = rows.length
+    ? rows.join('')
+    : '<div style="color:var(--muted);font-size:11px;text-align:center;padding:20px;">\u2713 Todas las pol\u00edticas est\u00e1n activas y vigentes.</div>';
+  document.getElementById('policy-shop-backdrop').style.display = 'block';
+  document.getElementById('policy-shop').style.display = 'block';
+}
+
+function closePolicyCatalog() {
+  document.getElementById('policy-shop').style.display = 'none';
+  document.getElementById('policy-shop-backdrop').style.display = 'none';
+}
+
+function buyPolicy(id) {
+  const p = POLICY_CATALOG.find(x => x.id === id);
+  if (!p) return;
+  const existing = G.policies.findIndex(x => x.id === id);
+  const cost = existing >= 0 ? Math.round(p.cost * 0.7) : p.cost;
+  if (G.budget < cost) return;
+  sfxSuccess();
+  applyFx({budget: -cost, ...p.fx});
+  const rec = {id: p.id, name: p.name, year: G.year};
+  if (existing >= 0) G.policies[existing] = rec; else G.policies.push(rec);
+  const action = existing >= 0 ? 'RENOVADA' : 'IMPLEMENTADA';
+  addLog(`\ud83d\udee1 POL\u00cdTICA ${action} \u2014 "${p.name}". Costo: \u2212${fmtNum(cost)}. Vigente hasta a\u00f1o ${G.year + p.expiresAfter}.`, 'success');
+  updateStats(); renderTeam(); renderSidebar(); renderMetrics();
+  showPolicyCatalog();
+}
+
+// =====================================================================
+// TECH SHOP
+// =====================================================================
+function showTechCatalog() {
+  if (document.getElementById('main').style.display === 'none') return;
+  document.getElementById('ts-budget').textContent = fmtBudget();
+  const rows = _catalogShopRows(TECH_CATALOG, G.techStack, 'buyTech', 'cyan');
+  const listDiv = document.getElementById('tech-catalog-list');
+  listDiv.innerHTML = rows.length
+    ? rows.join('')
+    : '<div style="color:var(--muted);font-size:11px;text-align:center;padding:20px;">\u2713 Todo el stack tecnol\u00f3gico est\u00e1 activo y vigente.</div>';
+  document.getElementById('tech-shop-backdrop').style.display = 'block';
+  document.getElementById('tech-shop').style.display = 'block';
+}
+
+function closeTechCatalog() {
+  document.getElementById('tech-shop').style.display = 'none';
+  document.getElementById('tech-shop-backdrop').style.display = 'none';
+}
+
+function buyTech(id) {
+  const p = TECH_CATALOG.find(x => x.id === id);
+  if (!p) return;
+  const existing = G.techStack.findIndex(x => x.id === id);
+  const cost = existing >= 0 ? Math.round(p.cost * 0.5) : p.cost;
+  if (G.budget < cost) return;
+  sfxSuccess();
+  applyFx({budget: -cost, ...p.fx});
+  const rec = {id: p.id, name: p.name, year: G.year};
+  if (existing >= 0) G.techStack[existing] = rec; else G.techStack.push(rec);
+  const action = existing >= 0 ? 'RENOVADA' : 'IMPLEMENTADA';
+  addLog(`\ud83d\udcbb TECNOLOG\u00cdA ${action} \u2014 "${p.name}". Costo: \u2212${fmtNum(cost)}. Licencia hasta a\u00f1o ${G.year + p.expiresAfter}.`, 'success');
+  updateStats(); renderTeam(); renderSidebar(); renderMetrics();
+  showTechCatalog();
+}
+
+function checkTechAudit(year) {
+  if (year < 2) return;
+  const activeIds = new Set(activeTechStack().map(t => t.id));
+  const req2 = ['siem','edr','ngfw','backup_dr'];
+  const req3 = ['siem','edr','waf','vuln_scan'];
+  const required = year >= 3 ? req3 : req2;
+  const missing = required.filter(id => !activeIds.has(id));
+  if (missing.length > 0) {
+    const names = missing.map(id => TECH_CATALOG.find(t=>t.id===id)?.name || id);
+    const fine  = year >= 3 ? 50000 : 30000;
+    const repHit = year >= 3 ? 10 : 7;
+    G.budget     = Math.max(0, G.budget - fine);
+    G.reputation = Math.max(0, G.reputation - repHit);
+    G.stakeholders.reg = Math.max(0, G.stakeholders.reg - 1);
+    updateStats(); sfxFail();
+    addLog(`\ud83c\udfe6 AUDITOR\u00cdA TECNOL\u00d3GICA A\u00d1O ${year} \u2014 Faltan: ${names.join(', ')}. Multa: \u2212${fmtNum(fine)} | Rep \u2212${repHit}`, 'danger');
+  } else {
+    if (year >= 2) G.stakeholders.reg = Math.min(5, G.stakeholders.reg + 1);
+    addLog(`\ud83c\udfe6 AUDITOR\u00cdA TECNOL\u00d3GICA A\u00d1O ${year} \u2014 Stack en regla. El regulador valora positivamente.`, 'success');
+  }
+}
+
+function renderTeam() {
+  document.getElementById('team-list').innerHTML = G.team.map(m => `
+    <div class="team-member">
+      <div class="member-avatar" style="background:${m.status==='down'?'#200':'#0a1a10'}">${m.avatar}</div>
+      <div class="member-info"><div class="member-name">${m.name}</div><div class="member-role">${m.role}</div></div>
+      <div class="member-status ${m.status==='ok'?'status-ok':m.status==='busy'?'status-busy':'status-down'}">
+        ${m.status==='ok'?'●OK':m.status==='busy'?'◎OCUP':'✕BAJA'}
+      </div>
+    </div>`).join('');
+}
+
+function renderSidebar() {
+  // Tools (narrative)
+  const tl = document.getElementById('tools-list');
+  tl.innerHTML = G.tools.length ? G.tools.map(t=>`<div class="tech-item">${t}</div>`).join('') :
+    '<div style="font-size:10px;color:var(--muted)">Sin herramientas</div>';
+  // Technologies (catalog)
+  const activeT = new Set(activeTechStack().map(t=>t.id));
+  const techEl  = document.getElementById('tech-list');
+  if (!G.techStack.length) {
+    techEl.innerHTML = '<div style="font-size:10px;color:var(--muted)">Sin tecnologías</div>';
+  } else {
+    techEl.innerHTML = G.techStack.map(t => {
+      const exp = !activeT.has(t.id);
+      const cat = TECH_CATALOG.find(c=>c.id===t.id);
+      const yr  = cat ? t.year + cat.expiresAfter : null;
+      const soon = !exp && yr !== null && (yr - G.year) <= 1;
+      const col  = exp ? 'var(--red)' : soon ? 'var(--yellow)' : 'var(--cyan)';
+      const badge = exp ? ' ✕' : soon ? ` ⚠${yr}` : '';
+      return `<div class="tech-item" style="color:${col}">${t.name}${badge}</div>`;
+    }).join('');
+  }
+  // Policies
+  const activeP = new Set(activePolicies().map(p=>p.id));
+  const pl = document.getElementById('policies-list');
+  if (!G.policies.length) {
+    pl.innerHTML = '<div style="font-size:10px;color:var(--muted)">Sin políticas</div>';
+  } else {
+    pl.innerHTML = G.policies.map(p => {
+      const exp  = !activeP.has(p.id);
+      const cat  = POLICY_CATALOG.find(c=>c.id===p.id);
+      const yr   = cat ? p.year + cat.expiresAfter : null;
+      const soon = !exp && yr !== null && (yr - G.year) <= 1;
+      const col  = exp ? 'var(--red)' : soon ? 'var(--yellow)' : 'var(--purple)';
+      const badge = exp ? ' ✕' : soon ? ` ⚠${yr}` : '';
+      return `<div class="policy-item" style="color:${col}">${p.name}${badge}</div>`;
+    }).join('');
+  }
+}
+
+function renderThreats() {
+  let name, lvl, lbl;
+  if      (G.threat > 75) { name = 'APT Activo';         lvl = 'tl-crit'; lbl = 'CRÍTICO';  }
+  else if (G.threat > 50) { name = 'Amenaza Alta';        lvl = 'tl-high'; lbl = 'ALTO';     }
+  else if (G.threat > 30) { name = 'Amenaza Moderada';    lvl = 'tl-med';  lbl = 'MODERADO'; }
+  else if (G.threat > 10) { name = 'Perímetro Estable';   lvl = 'tl-low';  lbl = 'BAJO';     }
+  else                    { name = 'Sin Amenazas Activas'; lvl = 'tl-low';  lbl = 'MUY BAJO'; }
+  document.getElementById('threat-list').innerHTML =
+    `<div class="threat-item"><span style="color:var(--text);font-size:10px">${name}</span>
+     <span class="threat-level ${lvl}">${lbl}</span></div>
+     <div style="font-size:9px;color:var(--muted);margin-top:4px;">Nivel: ${G.threat}/100</div>`;
+}
+
+function renderMetrics() {
+  const mttr = G.mttr.length ? Math.round(G.mttr.reduce((a,b)=>a+b,0)/G.mttr.length)+'h' : 'N/A';
+  document.getElementById('metrics-list').innerHTML = `
+    <div>📅 Día: <span style="color:var(--green)">${G.day}</span></div>
+    <div>✅ Resueltos: <span style="color:var(--green)">${G.incidentsHandled}</span></div>
+    <div>❌ Fallidos: <span style="color:var(--red)">${G.incidentsFailed}</span></div>
+    <div>🔧 Herramientas: <span style="color:var(--cyan)">${G.tools.length}</span></div>
+    <div>📜 Políticas activas: <span style="color:var(--yellow)">${activePolicies().length}/${G.policies.length}</span></div>
+    <div>💻 Stack tecnológico: <span style="color:var(--cyan)">${activeTechStack().length}/${G.techStack.length}</span></div>
+    <div>🎲 Eventos rnd: <span style="color:var(--purple)">${G.randEventsCount}</span></div>
+    <div>🎯 Decisiones: <span style="color:var(--text)">${G.decisionsCount}</span></div>
+    <div>👥 CEO: <span style="color:var(--cyan)">${'★'.repeat(G.stakeholders.ceo)}${'☆'.repeat(5-G.stakeholders.ceo)}</span></div>
+    <div>💰 CFO: <span style="color:var(--yellow)">${'★'.repeat(G.stakeholders.cfo)}${'☆'.repeat(5-G.stakeholders.cfo)}</span></div>`;
+}
+
+function flashBody(color) {
+  document.body.classList.remove('flash-red','flash-green');
+  void document.body.offsetWidth;
+  document.body.classList.add('flash-'+color);
+  setTimeout(()=>document.body.classList.remove('flash-red','flash-green'),400);
+}
+
+// =====================================================================
+// END STATES
+// =====================================================================
+function hideGame() {
+  ['main','stats-bar','stakeholders','event-alert','progress-bar','rand-event'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('endscreen').style.display = 'flex';
+  stopAmbient();
+}
+
+function showGameOver(reason) {
+  hideGame();
+  sfxFail();
+  const penalties = { bancarrota:0.60, despedido:0.50, brecha:0.40 };
+  const sc = calcFinalScore(penalties[reason]);
+  const { grade, color: gradeColor } = scoreGrade(sc.total);
+  const reasons = {
+    bancarrota:{title:'💸 SIN PRESUPUESTO',color:'var(--yellow)',
+      desc:'El presupuesto fue agotado. El CFO congela todas las operaciones de seguridad.',
+      narrative:`Tu mandato como CISO terminó en crisis financiera. Sin recursos para defender la empresa, los sistemas quedaron expuestos. El regulador abrió investigación formal. La empresa contrató un CISO de emergencia con un presupuesto de emergencia de $1.2M — tres veces lo que costaba prevenir esto.`},
+    despedido:{title:'🚪 CONTRATO TERMINADO',color:'var(--red)',
+      desc:'La reputación cayó a niveles inaceptables. El board prescinde de tus servicios.',
+      narrative:`El board perdió la confianza en tu liderazgo. La acumulación de incidentes mal manejados, la relación deteriorada con el directorio, y el impacto en la marca llegaron a un punto de quiebre. Tu sucesor heredará una empresa con cicatrices visibles.`},
+    brecha:{title:'💀 BRECHA CATASTRÓFICA',color:'var(--critical)',
+      desc:'El nivel de amenaza alcanzó el punto crítico. Acceso total comprometido.',
+      narrative:`Los atacantes obtuvieron acceso completo a los sistemas. Datos de 800,000 clientes exfiltrados. El regulador, los medios y los abogados de clientes llaman simultáneamente. La empresa enfrenta multas de hasta el 4% del revenue anual y demandas colectivas. Una brecha que costará entre $15M y $40M.`},
+  };
+  const r = reasons[reason];
+  document.getElementById('end-title').textContent = r.title;
+  document.getElementById('end-title').style.color = r.color;
+  document.getElementById('end-desc').textContent = r.desc;
+  document.getElementById('final-narrative').textContent = r.narrative;
+  showFinalStats(gradeColor, sc, grade, true);
+  showRunInfo();
+}
+
+// ----- SCORE ENGINE -----
+function calcFinalScore(penaltyMult) {
+  penaltyMult = (penaltyMult != null) ? penaltyMult : 1;
+  const repPts    = Math.round(G.reputation * 1.5);
+  const budgetPts = Math.round((G.budget / G.maxBudget) * 80);
+  const threatPts = Math.round(Math.max(0, 100 - G.threat) * 0.6);
+  const incPts    = Math.max(0, G.incidentsHandled * 10 - G.incidentsFailed * 12);
+  const polPts    = activePolicies().length * 6;
+  const techPts   = activeTechStack().length * 8;
+  const shPts     = (G.stakeholders.ceo + G.stakeholders.cfo + G.stakeholders.reg + G.stakeholders.team) * 5;
+  const base      = Math.max(0, repPts + budgetPts + threatPts + incPts + polPts + techPts + shPts);
+  const yearMult  = parseFloat((1 + (G.year - 1) * 0.10).toFixed(2));
+  const total     = Math.max(0, Math.round(base * yearMult * penaltyMult));
+  return { total, repPts, budgetPts, threatPts, incPts, polPts, techPts, shPts, base, yearMult, penaltyMult };
+}
+function scoreGrade(total) {
+  if (total >= 600) return { grade:'⭐ CISO LEGENDARIO',      color:'var(--yellow)' };
+  if (total >= 430) return { grade:'✅ CISO ÉLITE',           color:'var(--green)'  };
+  if (total >= 250) return { grade:'👍 BUEN CISO',            color:'var(--cyan)'   };
+  if (total >= 120) return { grade:'⚠️ CISO EN DESARROLLO',  color:'var(--orange)' };
+  return               { grade:'😰 AÑO DIFÍCIL',             color:'var(--red)'    };
+}
+// ----- END SCORE ENGINE -----
+
+function showEnding() {
+  hideGame();
+  const sc = calcFinalScore(1);
+  const { grade, color } = scoreGrade(sc.total);
+
+  let narrative;
+  if (sc.total >= 600) {
+    narrative=`Resultados extraordinarios. El board aprueba un aumento del 30%, contrato de 4 años, y te nominan para el panel de CISOs del Foro Económico Mundial. Tu empresa es citada como referente de seguridad en la industria. Construiste una cultura de seguridad real, no solo compliance de papel.`;
+  } else if (sc.total >= 430) {
+    narrative=`Excelente año. El board renueva tu contrato con aumento del 20% y amplía tu presupuesto. Manejaste ${G.incidentsHandled} incidentes exitosamente y construiste una infraestructura de seguridad sólida. La empresa es notablemente más resiliente que hace 12 meses.`;
+  } else if (sc.total >= 250) {
+    narrative=`Año sólido con resultados mixtos. El board renueva tu contrato con los mismos términos. Tienes oportunidades claras de mejora en gestión de stakeholders y reducción del nivel de amenaza. El camino hacia CISO élite está abierto.`;
+  } else if (sc.total >= 120) {
+    narrative=`Sobreviviste el año, pero los resultados están por debajo de las expectativas. El board aprueba renovación de 6 meses condicional con KPIs claros. Necesitas demostrar mejora en gestión de riesgos y relación con el directorio.`;
+  } else {
+    narrative=`El año fue muy complicado. Varios incidentes mal manejados dejaron cicatrices en la empresa. El board aprueba renovación trimestral con revisión mensual. Estás en modo de recuperación.`;
+  }
+
+  if (sc.total >= 430) sfxSuccess();
+  document.getElementById('end-title').textContent = grade;
+  document.getElementById('end-title').style.color = color;
+  document.getElementById('end-desc').textContent = `Dificultad: ${DIFF_CONFIG[G.difficulty].label} • Año ${G.year} • ${G.decisionsCount} decisiones`;
+  document.getElementById('final-narrative').textContent = narrative;
+  showFinalStats(color, sc, grade, false);
+  showRunInfo();
+}
+
+function showFinalStats(color, sc, grade, isGameOver) {
+  const penText = isGameOver ? ` ×${sc.penaltyMult.toFixed(1)} penalización` : '';
+  document.getElementById('final-stats').innerHTML =
+    `<div class="fs-item"><div class="fs-num" style="color:${color};font-size:34px;">${sc.total}</div><div class="fs-label">PUNTUACIÓN FINAL</div></div>` +
+    `<div class="fs-item"><div class="fs-num" style="color:var(--green)">${G.year}</div><div class="fs-label">AÑO ALCANZADO</div></div>` +
+    `<div class="fs-item"><div class="fs-num" style="color:var(--cyan)">${G.reputation}</div><div class="fs-label">REPUTACIÓN</div></div>` +
+    `<div class="fs-item"><div class="fs-num" style="color:var(--yellow)">${fmtBudget()}</div><div class="fs-label">PRESUPUESTO</div></div>` +
+    `<div class="fs-item"><div class="fs-num" style="color:${G.threat>60?'var(--red)':'var(--green)'}">${G.threat}</div><div class="fs-label">AMENAZA</div></div>` +
+    `<div class="fs-item"><div class="fs-num" style="color:var(--green)">${G.incidentsHandled}</div><div class="fs-label">RESUELTOS</div></div>` +
+    `<div class="fs-item"><div class="fs-num" style="color:var(--red)">${G.incidentsFailed}</div><div class="fs-label">FALLIDOS</div></div>`;
+
+  const breakdown = [
+    `Rep +${sc.repPts}`,
+    `Budget +${sc.budgetPts}`,
+    `Amenaza +${sc.threatPts}`,
+    `Inc +${sc.incPts}`,
+    `Políticas +${sc.polPts}`,
+    `Tech +${sc.techPts}`,
+    `SH +${sc.shPts}`,
+  ].join(' | ');
+  document.getElementById('score-breakdown').innerHTML =
+    `<span style="color:var(--muted)">${breakdown}</span><br>` +
+    `<span style="color:var(--text)">= base ${sc.base} × ${sc.yearMult} (año ${G.year})${penText} = </span>` +
+    `<span style="color:${color};font-weight:700;">${sc.total} pts — ${grade}</span>`;
+}
+
+function showRunInfo() {
+  const names = playQueue.filter(s=>s.id!=='intro'&&s.id!=='endgame')
+    .map(s=>s.title.replace(/^[^—]+—\s*/,'')).join(' → ');
+  document.getElementById('end-run-info').textContent = 'Recorrido: ' + names;
+}
+
+// =====================================================================
+// INTRO & FINAL SCENES
+// =====================================================================
+// =====================================================================
+// BOOT — show start screen, wait for user
+// =====================================================================
+// Hide all game UI until user clicks INICIAR
+function hideGameUIBeforeStart() {
+  ['stats-bar','stakeholders','progress-bar','event-alert','rand-event','main','endscreen'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+hideGameUIBeforeStart();
