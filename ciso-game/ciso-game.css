@@ -119,9 +119,14 @@ h1{font-family:'Orbitron',monospace;font-size:clamp(14px,3.5vw,22px);color:var(-
 }
 .choice-btn:disabled{opacity:.3;cursor:default;}
 .choice-btn.timed{border-color:var(--orange);}
-.cost-tag{float:right;font-size:9px;padding:1px 5px;border-radius:2px;margin-top:1px;}
+.cost-tag{float:right;font-size:9px;padding:1px 5px;border-radius:2px;margin-top:1px;margin-left:4px;}
 .cost-money{background:rgba(255,215,0,.15);color:var(--yellow);}
 .cost-risk{background:rgba(255,51,85,.15);color:var(--red);}
+.dept-tag{float:right;font-size:9px;padding:1px 5px;border-radius:2px;margin-top:1px;margin-left:4px;}
+.dept-free     {background:rgba(0,255,136,.12);color:#00ff88;}
+.dept-mid      {background:rgba(255,215,0,.12); color:var(--yellow);}
+.dept-overloaded{background:rgba(255,51,85,.15);color:var(--red);}
+.dept-no-capacity{background:rgba(120,120,120,.15);color:var(--muted);}
 /* POLICY SHOP MODAL */
 #policy-shop-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:998;}
 #policy-shop{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);

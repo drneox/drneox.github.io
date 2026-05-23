@@ -2882,9 +2882,10 @@
               "dept": "gov",
               "tech": 10,
               "mgmt": 30,
-              "months": 1
+              "months": 3
             }
-          ]
+          ],
+          "taskName": "Workshop actualización matriz de riesgos"
         },
         {
           "text": "Actualizar la matriz tú mismo en los próximos 3 días",
@@ -2899,9 +2900,10 @@
               "dept": "gov",
               "tech": 5,
               "mgmt": 25,
-              "months": 1
+              "months": 2
             }
-          ]
+          ],
+          "taskName": "Actualización individual matriz de riesgos"
         },
         {
           "text": "Argumentar que la metodología actual es válida y suficiente",

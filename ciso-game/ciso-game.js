@@ -891,6 +891,38 @@ function renderChoices(choices, timed) {
     if (c.cost) inner += '<span class="cost-tag ' +
       (c.cost.startsWith('$')||c.cost.startsWith('~') ? 'cost-money' : 'cost-risk') +
       '">' + c.cost + '</span>';
+    if (c.needsDept) {
+      const reqs = [].concat(c.needsDept);
+      reqs.forEach(req => {
+        const dept  = typeof req === 'string' ? req : req.dept;
+        const months = (typeof req === 'object' ? req.months : null) ?? 1;
+        const skill  = DEPT_SKILL[dept] || 'tech';
+        const avail  = (G.team || []).filter(m => m.dept === dept && m.status !== 'down');
+        let badge, cls;
+        if (avail.length === 0) {
+          badge = dept.toUpperCase() + ' ✕SIN PERSONAL';
+          cls   = 'dept-tag dept-no-capacity';
+        } else {
+          avail.sort((a,b) => (b[skill]||0) - (a[skill]||0));
+          const best  = avail[0];
+          const cap   = (best[skill] || 0);
+          const used  = skill === 'tech' ? (best.techLoad||0) : (best.mgmtLoad||0);
+          const freePct = cap > 0 ? Math.round((1 - used/cap)*100) : 0;
+          const durTxt = months > 1 ? ' ×'+months+'m' : '';
+          if (freePct <= 20) {
+            badge = dept.toUpperCase() + ' ⊗'+freePct+'%'+durTxt;
+            cls   = 'dept-tag dept-overloaded';
+          } else if (freePct <= 60) {
+            badge = dept.toUpperCase() + ' ◑'+freePct+'%'+durTxt;
+            cls   = 'dept-tag dept-mid';
+          } else {
+            badge = dept.toUpperCase() + ' ●'+freePct+'%'+durTxt;
+            cls   = 'dept-tag dept-free';
+          }
+        }
+        inner += '<span class="'+cls+'">👥 '+badge+'</span>';
+      });
+    }
     btn.innerHTML = inner;
     btn.onclick = () => { sfxClick(); stopTimer(); makeChoice(c); };
     div.appendChild(btn);
