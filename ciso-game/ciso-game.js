@@ -1014,15 +1014,33 @@ function applyNeedsDept(choice) {
     const deptName = DEPT_META[dept]?.name || dept.toUpperCase();
     const available = G.team.filter(m => m.dept === dept && m.status !== 'down');
     if (available.length === 0) {
-      addLog(`⚠ Sin personal de ${deptName} disponible — la acción no pudo ejecutarse correctamente. Exposición +8`, 'warning');
+      addLog(`⚠ Sin personal de ${deptName} — la acción no pudo ejecutarse correctamente. Exposición +8`, 'warning');
       G.threatBase = Math.min(150, G.threatBase + 8);
       G.threat = computeExposure();
     } else {
-      available.sort((a,b) => (b[skill]||0) - (a[skill]||0));
+      // Ordenar por capacidad libre descendente (priorizar el menos cargado)
+      available.sort((a, b) => {
+        const freeA = (a[skill]||0) - (skill==='tech' ? (a.techLoad||0) : (a.mgmtLoad||0));
+        const freeB = (b[skill]||0) - (skill==='tech' ? (b.techLoad||0) : (b.mgmtLoad||0));
+        return freeB - freeA;
+      });
       const m   = available[0];
       const idx = G.team.indexOf(m);
+      const cap         = m[skill] || 0;
+      const usedBefore  = skill === 'tech' ? (m.techLoad||0) : (m.mgmtLoad||0);
+      const addLoad     = skill === 'tech' ? techLoad : mgmtLoad;
       m.techLoad = (m.techLoad || 0) + techLoad;
       m.mgmtLoad = (m.mgmtLoad || 0) + mgmtLoad;
+      // Penalización si el miembro queda sobrecargado
+      if (cap > 0 && (usedBefore + addLoad) > cap) {
+        addLog(`🔴 ${m.name} (${deptName}) supera su capacidad — calidad en riesgo. Exposición +6`, 'danger');
+        G.threatBase = Math.min(150, G.threatBase + 6);
+        G.threat = computeExposure();
+      } else if (cap > 0 && (usedBefore + addLoad) > cap * 0.8) {
+        addLog(`⚠ ${m.name} (${deptName}) está al límite de carga — posibles errores. Exposición +3`, 'warning');
+        G.threatBase = Math.min(150, G.threatBase + 3);
+        G.threat = computeExposure();
+      }
       if (!G.tasks) G.tasks = [];
       const label = choice.taskName || choice.text.substring(0, 40);
       G.tasks.push({
