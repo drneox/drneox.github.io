@@ -183,6 +183,16 @@ h1{font-family:'Orbitron',monospace;font-size:clamp(14px,3.5vw,22px);color:var(-
 .side-title{font-size:8px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;
   margin-bottom:7px;border-bottom:1px solid var(--border);padding-bottom:3px;}
 .team-member{display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:10px;}
+/* DEPARTMENT HEADERS in team panel */
+.dept-hdr{display:flex;align-items:center;gap:5px;padding:3px 6px;margin:6px 0 2px;
+  background:rgba(255,255,255,.03);border-radius:0 2px 2px 0;}
+.dept-hire-btn{margin-left:auto;background:transparent;border:1px solid var(--green2);color:var(--green2);
+  font-size:12px;cursor:pointer;padding:0 5px;border-radius:2px;line-height:1.4;font-family:inherit;}
+.dept-hire-btn:hover{background:rgba(0,255,136,.1);}
+/* DEPT FILTER TABS in hire catalog */
+.dept-filter-tab{background:transparent;border:1px solid var(--border);color:var(--muted);
+  font-size:9px;padding:2px 8px;cursor:pointer;border-radius:2px;font-family:inherit;margin:0 3px 4px 0;}
+.dept-filter-tab:hover{border-color:var(--text);color:var(--text);}
 .member-avatar{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;
   font-size:12px;border:1px solid var(--border);flex-shrink:0;}
 .member-info{flex:1;}.member-name{color:var(--text);font-size:10px;}.member-role{color:var(--muted);font-size:9px;}

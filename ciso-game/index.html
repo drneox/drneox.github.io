@@ -128,10 +128,10 @@
       <div id="team-list"></div>
     </div>
     <div id="tasks-card" class="side-card" style="display:none"><div class="side-title">&#9656; En Progreso</div><div id="tasks-list"></div></div>
-    <div class="side-card"><div class="side-title">&#9656; Herramientas</div><div id="tools-list"></div></div>
     <div class="side-card">
-      <div class="side-title" style="display:flex;justify-content:space-between;align-items:center;">&#9656; Tecnología<button onclick="showTechCatalog()" style="font-size:9px;padding:1px 6px;border:1px solid var(--cyan);color:var(--cyan);background:transparent;cursor:pointer;border-radius:2px;font-family:inherit;">⊕ NUEVA</button></div>
+      <div class="side-title" style="display:flex;justify-content:space-between;align-items:center;">&#9656; Tecnologías &amp; Herramientas<button onclick="showTechCatalog()" style="font-size:9px;padding:1px 6px;border:1px solid var(--cyan);color:var(--cyan);background:transparent;cursor:pointer;border-radius:2px;font-family:inherit;">⊕ NUEVA</button></div>
       <div id="tech-list"></div>
+      <div id="tools-list"></div>
     </div>
     <div class="side-card">
       <div class="side-title" style="display:flex;justify-content:space-between;align-items:center;">&#9656; Políticas<button onclick="showPolicyCatalog()" style="font-size:9px;padding:1px 6px;border:1px solid var(--purple);color:var(--purple);background:transparent;cursor:pointer;border-radius:2px;font-family:inherit;">⊕ NUEVA</button></div>
@@ -149,7 +149,8 @@
     <div style="font-family:'Orbitron',monospace;font-size:12px;letter-spacing:3px;color:var(--green);">&#128101; CONTRATAR ESPECIALISTA</div>
     <button onclick="closeHireCatalog()" style="background:transparent;border:none;color:var(--muted);font-size:16px;cursor:pointer;">&#10005;</button>
   </div>
-  <div style="font-size:10px;color:var(--muted);margin-bottom:12px;">Presupuesto disponible: <span id="hs-budget" style="color:var(--green);"></span> &nbsp;&#183;&nbsp; N&#243;mina proyectada: <span id="hs-payroll" style="color:var(--yellow);"></span>/a&#241;o</div>
+  <div style="font-size:10px;color:var(--muted);margin-bottom:8px;">Presupuesto disponible: <span id="hs-budget" style="color:var(--green);"></span> &nbsp;&#183;&nbsp; N&#243;mina proyectada: <span id="hs-payroll" style="color:var(--yellow);"></span>/a&#241;o</div>
+  <div id="hs-filter-tabs" style="margin-bottom:8px;"></div>
   <div id="hire-catalog-list"></div>
 </div>
 

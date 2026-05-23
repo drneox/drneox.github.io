@@ -89,11 +89,22 @@ function toggleSound() {
 // GAME STATE
 // =====================================================================
 const TEAM_ROSTER = [
-  {id:'ana',   name:'Ana Vega',    role:'Analista SOC',     avatar:'👩‍💻', status:'ok', load:0},
-  {id:'carlos',name:'Carlos Ríos', role:'Pen Tester',       avatar:'🧑‍💻', status:'ok', load:0},
-  {id:'maria', name:'Maria Torres',role:'Resp. Incidentes', avatar:'👩‍🔬', status:'ok', load:0},
-  {id:'luis',  name:'Luis Pena',   role:'Arq. Cloud',       avatar:'👨‍🔧', status:'ok', load:0},
+  {id:'ana',   name:'Ana Vega',    role:'Analista SOC',     avatar:'👩‍💻', status:'ok', tech:75, mgmt:35, techLoad:0, mgmtLoad:0, level:'mid', dept:'soc'},
+  {id:'carlos',name:'Carlos Ríos', role:'Pen Tester',       avatar:'🧑‍💻', status:'ok', tech:85, mgmt:20, techLoad:0, mgmtLoad:0, level:'mid', dept:'red'},
+  {id:'maria', name:'Maria Torres',role:'Resp. Incidentes', avatar:'👩‍🔬', status:'ok', tech:65, mgmt:70, techLoad:0, mgmtLoad:0, level:'mid', dept:'gov'},
+  {id:'luis',  name:'Luis Pena',   role:'Arq. Cloud',       avatar:'👨‍🔧', status:'ok', tech:80, mgmt:55, techLoad:0, mgmtLoad:0, level:'mid', dept:'cloud'},
 ];
+
+// Capacidad total de un miembro (tech + mgmt)
+function memberCapacity(m) {
+  return (m.tech || 0) + (m.mgmt || 0);
+}
+// Carga efectiva como % del total (para compat display)
+function memberLoadPct(m) {
+  const cap = memberCapacity(m);
+  if (cap === 0) return 0;
+  return Math.round(((m.techLoad||0) + (m.mgmtLoad||0)) / cap * 100);
+}
 
 const DIFF_CONFIG = {
   junior: {budget:700000, threatMult:0.7, startRep:75, label:'JUNIOR'},
@@ -357,7 +368,7 @@ function grantAnnualBudget(year) {
 // =====================================================================
 // RANDOM EVENT between scenes
 // =====================================================================
-function showEventScenario(ev, callback) {
+function showEventScenario(ev, callback, mitigation) {
   const box = document.getElementById('rand-event');
   box.style.display = 'none';
   document.getElementById('scene-icon').textContent = ev.icon;
@@ -368,6 +379,7 @@ function showEventScenario(ev, callback) {
   document.getElementById('event-alert').style.display = 'none';
   clearLog();
   typewriteLog(ev.text, 'scene', () => {
+    if (mitigation) addLog('🛡 POSTURA ACTIVA — ' + mitigation, 'success');
     addLog('──────────────────────────────────────', 'system');
     const div = document.getElementById('choices-area');
     div.innerHTML = '';
@@ -376,11 +388,13 @@ function showEventScenario(ev, callback) {
       btn.className = 'choice-btn';
       let inner = c.text;
       if (c.cost) inner += '<span class="cost-tag ' + (c.cost.startsWith('$') || c.cost.startsWith('~') ? 'cost-money' : 'cost-risk') + '">' + c.cost + '</span>';
+      if (mitigation) inner += '<span style="font-size:8px;color:var(--green2);margin-left:6px;">🛡−70%</span>';
       btn.innerHTML = inner;
       btn.onclick = () => {
         sfxClick();
         document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
-        const sfx = scaledFx(c.fx);
+        const raw = mitigation ? mitigateFx(c.fx) : c.fx;
+        const sfx = scaledFx(raw);
         applyFx(sfx);
         addLog('◆ ' + c.text, 'system');
         addLog(c.result, c.log || 'result');
@@ -414,13 +428,57 @@ function showEventScenario(ev, callback) {
 
 function maybeFireRandomEvent(callback) {
   if (queueIdx === 0 || Math.random() > 0.45) { callback(); return; }
-  const ev = RANDOM_EVENTS[Math.floor(Math.random()*RANDOM_EVENTS.length)];
+
+  // Eventos positivos gateados (hasPolicy/hasTech): sólo aparecen si tienes el prerequisito
+  function isEligible(ev) {
+    const c = ev.condition;
+    if (!c) return true;
+    const activePol  = new Set((activePolicies()  || []).map(p => p.id));
+    const activeTech = new Set((activeTechStack() || []).map(t => t.id));
+    if (c.hasPolicy && !activePol.has(c.hasPolicy))  return false;
+    if (c.hasTech   && !activeTech.has(c.hasTech))   return false;
+    return true;
+  }
+
+  // Detecta si la postura actual MITIGA el impacto del evento (Modelo B)
+  function checkMitigation(ev) {
+    const c = ev.condition;
+    if (!c) return null;
+    const activePol  = new Set((activePolicies()  || []).map(p => p.id));
+    const activeTech = new Set((activeTechStack() || []).map(t => t.id));
+    if (c.missingPolicy && activePol.has(c.missingPolicy)) {
+      const cat = POLICY_CATALOG.find(p => p.id === c.missingPolicy);
+      return `${cat ? cat.name : c.missingPolicy} activa — impacto reducido al 30%`;
+    }
+    if (c.missingTech && activeTech.has(c.missingTech)) {
+      const cat = TECH_CATALOG.find(t => t.id === c.missingTech);
+      return `${cat ? cat.name : c.missingTech} activo — impacto reducido al 30%`;
+    }
+    if (c.threatAbove !== undefined && G.threat <= c.threatAbove) {
+      return `Exposición controlada (${G.threat}/100) — impacto reducido al 30%`;
+    }
+    return null;
+  }
+
+  const eligible = RANDOM_EVENTS.filter(isEligible);
+  const pool     = eligible.length > 0 ? eligible : RANDOM_EVENTS;
+  const ev = pool[Math.floor(Math.random() * pool.length)];
+  const mitigation = checkMitigation(ev);
+
   G.randEventsCount++;
   const box = document.getElementById('rand-event');
-  box.style.borderColor = '';
-  box.style.background = '';
+  if (mitigation) {
+    box.style.borderColor = 'var(--green2)';
+    box.style.background  = 'rgba(0,200,100,.04)';
+  } else {
+    box.style.borderColor = '';
+    box.style.background  = '';
+  }
   document.getElementById('re-icon').textContent = ev.icon;
-  document.getElementById('re-text').innerHTML = '<strong>EVENTO ALEATORIO:</strong> ' + ev.text;
+  const mitBanner = mitigation
+    ? `<div style="font-size:9px;color:var(--green2);margin-bottom:4px;">🛡 ${mitigation}</div>`
+    : '';
+  document.getElementById('re-text').innerHTML = mitBanner + '<strong>EVENTO ALEATORIO:</strong> ' + ev.text;
 
   const btnsDiv = document.getElementById('re-btns');
   btnsDiv.innerHTML = '';
@@ -433,9 +491,10 @@ function maybeFireRandomEvent(callback) {
   btnAttend.onclick = () => {
     sfxClick();
     if (ev.choices && ev.choices.length > 0) {
-      showEventScenario(ev, callback);
+      showEventScenario(ev, callback, mitigation);
     } else {
-      const sfx = scaledFx(ev.fx);
+      const raw = mitigation ? mitigateFx(ev.fx) : ev.fx;
+      const sfx = scaledFx(raw);
       applyFx(sfx);
       const deltas = [];
       if (sfx.budget     !== undefined) deltas.push('Presupuesto ' + (sfx.budget>=0?'+':'') + fmtNum(sfx.budget) + ' → ' + fmtBudget());
@@ -608,58 +667,59 @@ function timeoutChoice(scene) {
 // =====================================================================
 function startTask(itemName, icon, slotDefs, months, isRenewal, itemId) {
   if (!G.tasks) G.tasks = [];
-  // Las renovaciones son más rápidas: 40% del tiempo, 1 persona
   if (isRenewal) {
     months = Math.max(1, Math.round(months * 0.4));
     slotDefs = [slotDefs[0]].filter(Boolean);
   }
 
-  // Detectar si hay especialistas disponibles para este item
-  const experts = itemId ? G.team.reduce((acc, m, i) => {
+  // Especialistas para este item
+  const expertIdxs = itemId ? G.team.reduce((acc, m, i) => {
     if (m.status !== 'down' && (m.expertise || []).includes(itemId)) acc.push(i);
     return acc;
   }, []) : [];
 
+  // Función de score dual: qué tan bien cubre un miembro el slot (tech+mgmt)
+  function scoreFor(m, i, slot) {
+    if (m.status === 'down') return -Infinity;
+    if (!slot) return -Infinity;
+    const freeTech = Math.max(0, (m.tech || 0) - (m.techLoad || 0));
+    const freeMgmt = Math.max(0, (m.mgmt || 0) - (m.mgmtLoad || 0));
+    const needTech  = slot.tech || 0;
+    const needMgmt  = slot.mgmt || 0;
+    // Cobertura mínima de ambas dimensiones (bottleneck)
+    const coverT = needTech > 0 ? freeTech / needTech : 1;
+    const coverM = needMgmt > 0 ? freeMgmt / needMgmt : 1;
+    let score = Math.min(coverT, coverM);
+    if (expertIdxs.includes(i)) score += 0.3; // experto: mejor score
+    return score;
+  }
+
   const assigned = [];
   for (const slot of (slotDefs || [])) {
-    // Preferir especialistas disponibles primero
-    let best = null, bestFree = -1, isExpert = false;
-    // Primero: buscar especialista con capacidad suficiente
-    experts.forEach(i => {
-      if (assigned.some(a => a.memberIdx === i)) return;
-      const free = 100 - (G.team[i].load || 0);
-      if (free >= slot.pct && free > bestFree) { best = i; bestFree = free; isExpert = true; }
+    let best = -1, bestScore = -Infinity;
+    G.team.forEach((m, i) => {
+      if (assigned.some(a => a.memberIdx === i)) return; // ya asignado
+      const s = scoreFor(m, i, slot);
+      if (s > bestScore) { best = i; bestScore = s; }
     });
-    // Si no: cualquier persona con capacidad suficiente
-    if (best === null) {
-      G.team.forEach((m, i) => {
-        if (m.status === 'down' || assigned.some(a => a.memberIdx === i)) return;
-        const free = 100 - (m.load || 0);
-        if (free >= slot.pct && free > bestFree) { best = i; bestFree = free; isExpert = false; }
-      });
-    }
-    // Fallback: cualquiera con algo de capacidad (overtime)
-    if (best === null) {
-      G.team.forEach((m, i) => {
-        if (m.status === 'down' || assigned.some(a => a.memberIdx === i)) return;
-        const free = 100 - (m.load || 0);
-        if (free > 0 && free > bestFree) { best = i; bestFree = free; isExpert = false; }
-      });
-    }
-    if (best !== null) {
-      G.team[best].load = Math.min(100, (G.team[best].load || 0) + slot.pct);
-      assigned.push({memberIdx: best, pct: slot.pct, expert: isExpert});
+    if (best >= 0) {
+      const m      = G.team[best];
+      const needT  = slot.tech || 0;
+      const needM  = slot.mgmt || 0;
+      const freeT  = Math.max(0, (m.tech || 0) - (m.techLoad || 0));
+      const freeM  = Math.max(0, (m.mgmt || 0) - (m.mgmtLoad || 0));
+      const overflow = (needT > freeT) || (needM > freeM);
+      m.techLoad = (m.techLoad || 0) + needT;
+      m.mgmtLoad = (m.mgmtLoad || 0) + needM;
+      assigned.push({memberIdx: best, tech: needT, mgmt: needM,
+        expert: expertIdxs.includes(best), overflow});
     }
   }
 
-  // Bonus de especialista: si hay ≥1 especialista asignado, 30% menos tiempo
-  const hasExpert = assigned.some(a => a.expert);
-
-  // Si faltan personas, extender duración proporcionalmente
-  const needed = (slotDefs || []).length;
-  const isOvertime = assigned.length < needed;
-  let actualMonths = isOvertime
-    ? Math.ceil(months * (1 + (needed - assigned.length) / Math.max(needed, 1) * 0.7))
+  const hasExpert  = assigned.some(a => a.expert);
+  const hasOverflow = assigned.some(a => a.overflow) || assigned.length < (slotDefs||[]).length;
+  let actualMonths = hasOverflow
+    ? Math.ceil(months * 1.5)
     : months;
   if (hasExpert) actualMonths = Math.max(1, Math.ceil(actualMonths * 0.7));
 
@@ -668,13 +728,16 @@ function startTask(itemName, icon, slotDefs, months, isRenewal, itemId) {
   G.threat = computeExposure();
 
   if (assigned.length === 0) {
-    addLog(`⚠ SOBRECARGA — "${itemName}" sin recursos. ${actualMonths} mes${actualMonths>1?'es':''} en overtime.`, 'warning');
+    addLog(`⚠ SIN RECURSOS — "${itemName}" en cola. ${actualMonths} mes${actualMonths>1?'es':''}  sin asignación.`, 'warning');
   } else {
-    const detail = assigned.map(x =>
-      `${G.team[x.memberIdx].name.split(' ')[0]} ${x.pct}%${x.expert?' ⚡':''}`
-    ).join(', ');
-    const expertNote = hasExpert ? ` ⚡ especialista — ${actualMonths}m` : ` — ${actualMonths}m`;
-    addLog(`📋 EN PROGRESO — "${itemName}" → ${detail}${expertNote}.`, 'system');
+    const detail = assigned.map(x => {
+      const nm = G.team[x.memberIdx].name.split(' ')[0];
+      return `${nm} T${x.tech}/M${x.mgmt}${x.expert?' ⚡':''}${x.overflow?' ⚠':''}`;
+    }).join(', ');
+    const note = hasExpert
+      ? ` ⚡ especialista → ${actualMonths}m`
+      : hasOverflow ? ` ⚠ overtime → ${actualMonths}m` : ` → ${actualMonths}m`;
+    addLog(`📋 EN PROGRESO — "${itemName}" → ${detail}${note}.`, 'system');
   }
   updateStats(); renderTeam(); renderTasks();
 }
@@ -688,8 +751,12 @@ function tickTasks() {
     return true;
   });
   completed.forEach(task => {
-    task.slots.forEach(({memberIdx, pct}) => {
-      if (G.team[memberIdx]) G.team[memberIdx].load = Math.max(0, (G.team[memberIdx].load || 0) - pct);
+    task.slots.forEach(({memberIdx, tech, mgmt}) => {
+      const m = G.team[memberIdx];
+      if (m) {
+        m.techLoad = Math.max(0, (m.techLoad || 0) - (tech || 0));
+        m.mgmtLoad = Math.max(0, (m.mgmtLoad || 0) - (mgmt || 0));
+      }
     });
     const names = task.slots.map(s => G.team[s.memberIdx]?.name?.split(' ')[0]).filter(Boolean).join(', ');
     setTimeout(() => {
@@ -715,7 +782,8 @@ function renderTasks() {
   list.innerHTML = G.tasks.map(task => {
     const pct = Math.round((1 - task.monthsLeft / task.totalMonths) * 100);
     const assignees = task.slots
-      .map(s => G.team[s.memberIdx] ? `${G.team[s.memberIdx].name.split(' ')[0]} ${s.pct}%` : null)
+      .map(s => G.team[s.memberIdx]
+        ? `${G.team[s.memberIdx].name.split(' ')[0]} T${s.tech||0}/M${s.mgmt||0}${s.expert?' ⚡':''}${s.overflow?' ⚠':''}` : null)
       .filter(Boolean).join(' · ');
     return `
       <div class="task-item">
@@ -816,7 +884,9 @@ function computeExposure() {
   const techDef = (typeof activeTechStack === 'function' ? activeTechStack() : []).length * 5;
   const teamDef = (G.team || []).reduce((sum, m) => {
     if (m.status === 'down') return sum;
-    return sum + Math.max(0, 100 - (m.load || 0)) / 100 * 2;
+    const freeTech = Math.max(0, (m.tech || 0) - (m.techLoad || 0));
+    const freeMgmt = Math.max(0, (m.mgmt || 0) - (m.mgmtLoad || 0));
+    return sum + (freeTech + freeMgmt) / 55; // ~2 pts por miembro mid-level libre
   }, 0);
   const budRatio = G.maxBudget > 0 ? G.budget / G.maxBudget : 0;
   const budDef  = budRatio > 0.6 ? 8 : budRatio > 0.3 ? 4 : 0;
@@ -829,6 +899,16 @@ function scaledFx(fx) {
   if (out.budget     !== undefined && out.budget < 0)     out.budget     = Math.round(out.budget * p);
   if (out.reputation !== undefined && out.reputation < 0) out.reputation = Math.round(out.reputation * p);
   if (out.threat     !== undefined && out.threat > 0)     out.threat     = Math.round(out.threat * p);
+  return out;
+}
+
+// Reduce efectos negativos al 30% cuando el jugador tiene cobertura (Modelo B)
+function mitigateFx(fx) {
+  if (!fx) return fx;
+  const out = {};
+  for (const [k, v] of Object.entries(fx)) {
+    out[k] = (typeof v === 'number' && v < 0) ? Math.round(v * 0.3) : v;
+  }
   return out;
 }
 
@@ -857,8 +937,11 @@ function makeChoiceCore(choice) {
     const slots = ids.map(id => {
       const idx = G.team.findIndex(t => t.id === id);
       if (idx >= 0 && G.team[idx].status !== 'down') {
-        G.team[idx].load = Math.min(100, (G.team[idx].load || 0) + 80);
-        return {memberIdx: idx, pct: 80};
+        const m = G.team[idx];
+        // Respuesta operativa: consume 50 tech + 30 mgmt
+        m.techLoad = (m.techLoad || 0) + 50;
+        m.mgmtLoad = (m.mgmtLoad || 0) + 30;
+        return {memberIdx: idx, tech: 50, mgmt: 30};
       }
       return null;
     }).filter(Boolean);
@@ -1233,41 +1316,95 @@ function closeTechCatalog() {
 // =====================================================================
 // HIRE CATALOG — Contratar especialistas
 // =====================================================================
-function showHireCatalog() {
+
+// Calcula costo pro-rateado del año actual (meses restantes × salario/12)
+function hireProrated(salary) {
+  const monthsElapsed = (G.totalMonths || 0) % 12;
+  const remaining     = Math.max(1, 12 - monthsElapsed);
+  return Math.round(salary * remaining / 12);
+}
+
+let _currentHireDept = ''; // rastrea el filtro de dept activo en el catálogo
+
+function showHireCatalog(filterDept) {
   if (document.getElementById('main').style.display === 'none') return;
+  if (filterDept !== undefined) _currentHireDept = filterDept || '';
+  const fd = _currentHireDept;
+
+  const DEPT_LABELS = {soc:'SOC',red:'Ofensiva',vuln:'Vuln Mgmt',gov:'GRC',cloud:'Cloud',iam:'IAM'};
+  const DEPT_COLORS = {soc:'#00e5ff',red:'#ff4455',vuln:'#ff8c00',gov:'#c77dff',cloud:'#56aaff',iam:'#00ff88'};
+
   const annualPayroll = G.team.reduce((s, m) => s + (m.salary || 0), 0);
   document.getElementById('hs-budget').textContent  = fmtBudget();
   document.getElementById('hs-payroll').textContent = fmtNum(annualPayroll);
 
-  const hiredIds = new Set(G.team.map(m => m.id));
-  const rows = (HIRE_CATALOG || []).map(r => {
-    const isHired = hiredIds.has(r.id);
-    const canAfford = (G.budget >= 0); // no hay costo upfront, solo nómina anual
+  // Tabs de filtro por departamento
+  const deptIds = ['','soc','red','vuln','gov','cloud','iam'];
+  const tabs = deptIds.map(d => {
+    const active = fd === d;
+    const label  = d ? (DEPT_LABELS[d] || d) : 'Todos';
+    const color  = d ? DEPT_COLORS[d] : 'var(--text)';
+    const activeStyle = active ? `border-color:${color};color:${color};background:rgba(255,255,255,.06);` : '';
+    return `<button class="dept-filter-tab" style="${activeStyle}" onclick="showHireCatalog(${d ? "'" + d + "'" : "''"})">${label}</button>`;
+  }).join('');
+  document.getElementById('hs-filter-tabs').innerHTML = tabs;
+
+  const candidates = fd ? (HIRE_CATALOG || []).filter(r => r.dept === fd) : (HIRE_CATALOG || []);
+  const rows = candidates.map(r => {
+    const hiredCount = G.team.filter(m => m._catalogId === r.id).length;
+    const upfront    = hireProrated(r.salary);
+    const canAfford  = G.budget >= upfront;
     const expTags = r.expertise.map(id => {
       const p = POLICY_CATALOG.find(x=>x.id===id);
       const t = TECH_CATALOG.find(x=>x.id===id);
       return (p||t)?.name || id;
     }).join(', ');
+    const lvlColor = r.level==='senior' ? 'var(--yellow)' : r.level==='junior' ? 'var(--muted)' : 'var(--green2)';
+    const lvlLabel = r.level==='senior' ? '★ Senior' : r.level==='junior' ? '◦ Junior' : '● Mid';
+    const deptColor = DEPT_COLORS[r.dept] || 'var(--muted)';
+    const deptBadge = r.dept
+      ? `<span style="font-size:8px;padding:1px 4px;border-radius:2px;background:rgba(255,255,255,.07);color:${deptColor};margin-left:4px;">${DEPT_LABELS[r.dept]||r.dept}</span>`
+      : '';
+    const capBar = (label, val, color) =>
+      `<div style="display:flex;align-items:center;gap:3px;">
+        <span style="font-size:8px;color:${color};width:12px">${label}</span>
+        <div style="width:80px;height:3px;background:rgba(255,255,255,.07);border-radius:2px;">
+          <div style="width:${val}%;height:100%;background:${color};border-radius:2px;"></div>
+        </div>
+        <span style="font-size:8px;color:var(--muted)">${val}</span>
+      </div>`;
+    const hiredBadge = hiredCount > 0
+      ? `<span style="font-size:8px;color:var(--green2);margin-left:6px;">✓ ${hiredCount} activo${hiredCount>1?'s':''}</span>`
+      : '';
+    const costLabel = `<span style="font-size:9px;color:${canAfford?'var(--green)':'var(--red)'}">
+      Ahora: ${fmtNum(upfront)} (${12-((G.totalMonths||0)%12)} meses)
+    </span>`;
     return `
-      <div class="hs-item${isHired?' hired':''}">
+      <div class="hs-item${!canAfford?' unaffordable':''}">
         <div class="hs-avatar">${r.avatar}</div>
         <div class="hs-body">
-          <div class="hs-name">${r.name}</div>
+          <div class="hs-name">${r.name}${deptBadge} <span style="font-size:9px;color:${lvlColor}">${lvlLabel}</span>${hiredBadge}</div>
           <div class="hs-role">${r.role}</div>
+          <div style="display:flex;gap:8px;margin:3px 0;">
+            ${capBar('T', r.tech||0, 'var(--cyan)')}
+            ${capBar('M', r.mgmt||0, 'var(--purple)')}
+          </div>
           <div class="hs-bio">${r.bio}</div>
           <div class="hs-exp">⚡ Especialidad: ${expTags}</div>
           <div class="hs-footer">
-            <span class="hs-salary">${fmtNum(r.salary)}<span style="font-size:9px;color:var(--muted)">/año</span></span>
-            <button class="hs-btn" onclick="hireMember('${r.id}')"
-              ${isHired || !canAfford ? 'disabled' : ''}>
-              ${isHired ? '✓ CONTRATADO' : '⊕ CONTRATAR'}
+            <div>
+              <span class="hs-salary">${fmtNum(r.salary)}<span style="font-size:9px;color:var(--muted)">/año</span></span>
+              ${costLabel}
+            </div>
+            <button class="hs-btn" onclick="hireMember('${r.id}')" ${!canAfford ? 'disabled' : ''}>
+              ${canAfford ? '⊕ CONTRATAR' : '✗ SIN FONDOS'}
             </button>
           </div>
         </div>
       </div>`;
   });
   document.getElementById('hire-catalog-list').innerHTML = rows.join('') ||
-    '<div style="color:var(--muted);font-size:11px;text-align:center;padding:20px;">No hay roles disponibles.</div>';
+    '<div style="color:var(--muted);font-size:11px;text-align:center;padding:20px;">No hay candidatos en este departamento.</div>';
   document.getElementById('hire-shop-backdrop').style.display = 'block';
   document.getElementById('hire-shop').style.display = 'block';
 }
@@ -1280,13 +1417,27 @@ function closeHireCatalog() {
 function hireMember(id) {
   const r = (HIRE_CATALOG || []).find(x => x.id === id);
   if (!r) return;
-  if (G.team.find(m => m.id === id)) return; // ya contratado
+
+  const upfront = hireProrated(r.salary);
+  if (G.budget < upfront) {
+    sfxAlert();
+    addLog(`✗ FONDOS INSUFICIENTES — Contratar a ${r.name} requiere ${fmtNum(upfront)} (${12-((G.totalMonths||0)%12)} meses restantes). Disponible: ${fmtNum(G.budget)}.`, 'warning');
+    return;
+  }
+
+  // Permitir contratar la misma especialidad varias veces; añadir sufijo al nombre
+  const sameRole = G.team.filter(m => m._catalogId === id).length;
+  const suffixes = ['', ' II', ' III', ' IV', ' V'];
+  const suffix   = sameRole < suffixes.length ? suffixes[sameRole] : ` (${sameRole + 1})`;
+  const uid      = id + '_' + sameRole;
+
   sfxSuccess();
-  G.team.push({...r, status: 'ok', load: 0});
+  G.budget -= upfront;
+  G.team.push({...r, id: uid, _catalogId: id, name: r.name + suffix, status: 'ok', techLoad: 0, mgmtLoad: 0});
   const payroll = G.team.reduce((s, m) => s + (m.salary || 0), 0);
-  addLog(`👤 CONTRATADO — ${r.name} (${r.role}). Nómina proyectada: ${fmtNum(payroll)}/año. Expertise: ${r.expertise.join(', ')}.`, 'success');
+  addLog(`👤 CONTRATADO — ${r.name}${suffix} (${r.role}) [T:${r.tech} M:${r.mgmt}]. Costo inmediato: −${fmtNum(upfront)}. Nómina anual: ${fmtNum(payroll)}/año.`, 'success');
   updateStats(); renderTeam(); renderSidebar();
-  showHireCatalog(); // refrescar para marcar como contratado
+  showHireCatalog(_currentHireDept); // refrescar manteniendo filtro activo
 }
 
 function buyTech(id) {
@@ -1330,38 +1481,82 @@ function checkTechAudit(year) {
 }
 
 function renderTeam() {
-  document.getElementById('team-list').innerHTML = G.team.map(m => {
-    const load = m.load || 0;
-    const isDown = m.status === 'down';
-    const sc = isDown ? 'status-down' : load >= 80 ? 'status-busy' : load >= 40 ? 'status-partial' : 'status-ok';
-    const st = isDown ? '✕BAJA' : load >= 80 ? `⊗${load}%` : load > 0 ? `◑${load}%` : '●OK';
-    const barColor = isDown ? 'var(--red)' : load >= 80 ? 'var(--orange)' : load >= 40 ? 'var(--yellow)' : 'var(--green2)';
-    const loadBar = load > 0 && !isDown
-      ? `<div style="margin-top:2px;height:2px;background:rgba(255,255,255,0.07);border-radius:1px;"><div style="width:${load}%;height:100%;background:${barColor};border-radius:1px;transition:width .4s;"></div></div>`
+  const DEPT_ORDER = ['soc','red','vuln','gov','cloud','iam'];
+  const DEPT_META  = {
+    soc:  {name:'SOC & Detección',            color:'#00e5ff'},
+    red:  {name:'Ofensiva / Red Team',         color:'#ff4455'},
+    vuln: {name:'Gestión de Vulnerabilidades', color:'#ff8c00'},
+    gov:  {name:'Gobierno / GRC',              color:'#c77dff'},
+    cloud:{name:'Cloud & Infra',               color:'#56aaff'},
+    iam:  {name:'Identidad & Accesos',         color:'#00ff88'},
+  };
+  function memberCard(m) {
+    const isDown  = m.status === 'down';
+    const tech    = m.tech || 0;
+    const mgmt    = m.mgmt || 0;
+    const tLoad   = Math.min(tech, m.techLoad || 0);
+    const mLoad   = Math.min(mgmt, m.mgmtLoad || 0);
+    const tPct    = tech > 0 ? Math.round(tLoad / tech * 100) : 0;
+    const mPct    = mgmt > 0 ? Math.round(mLoad / mgmt * 100) : 0;
+    const maxUtil = Math.max(tPct, mPct);
+    const sc = isDown ? 'status-down' : maxUtil >= 80 ? 'status-busy' : maxUtil >= 40 ? 'status-partial' : 'status-ok';
+    const st = isDown ? '✕BAJA' : maxUtil >= 80 ? `⊗${maxUtil}%` : maxUtil > 0 ? `◑${maxUtil}%` : '●OK';
+    const levelBadge = m.level ? `<span style="font-size:8px;color:var(--muted);margin-left:3px">${m.level==='senior'?'⭐':''}${m.level==='junior'?'○':''}</span>` : '';
+    const barRow = (label, pct, used, max, color) =>
+      `<div style="display:flex;align-items:center;gap:3px;margin-bottom:1px;">
+        <span style="font-size:8px;color:${color};width:12px;text-align:center;font-weight:bold">${label}</span>
+        <div style="flex:1;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;">
+          <div style="width:${pct}%;height:100%;background:${pct>=80?'var(--orange)':pct>=40?'var(--yellow)':color};border-radius:2px;transition:width .4s;"></div>
+        </div>
+        <span style="font-size:8px;color:var(--muted);width:28px;text-align:right">${used}/${max}</span>
+      </div>`;
+    const bars = !isDown && (tech > 0 || mgmt > 0)
+      ? `<div style="margin-top:3px;">
+          ${barRow('T', tPct, tLoad, tech, 'var(--cyan)')}
+          ${barRow('M', mPct, mLoad, mgmt, 'var(--purple)')}
+        </div>`
       : '';
     return `
       <div class="team-member">
         <div class="member-avatar" style="background:${isDown?'#200':'#0a1a10'}">${m.avatar}</div>
         <div class="member-info">
-          <div class="member-name">${m.name}</div>
+          <div class="member-name">${m.name}${levelBadge}</div>
           <div class="member-role">${m.role}</div>
-          ${loadBar}
+          ${bars}
         </div>
         <div class="member-status ${sc}">${st}</div>
       </div>`;
-  }).join('');
+  }
+  let html = '';
+  for (const deptId of DEPT_ORDER) {
+    const members = G.team.filter(m => (m.dept || '') === deptId);
+    if (!members.length) continue;
+    const d = DEPT_META[deptId];
+    const avgLoad = Math.round(members.reduce((s, m) => {
+      const cap = (m.tech||0) + (m.mgmt||0);
+      return s + (cap > 0 ? ((m.techLoad||0)+(m.mgmtLoad||0))/cap*100 : 0);
+    }, 0) / members.length);
+    html += `<div class="dept-hdr" style="border-left:2px solid ${d.color}">
+      <span style="color:${d.color}">${d.name}</span>
+      <span style="font-size:8px;color:var(--muted)">${members.length}p · ${avgLoad}%</span>
+      <button class="dept-hire-btn" onclick="showHireCatalog('${deptId}')">＋</button>
+    </div>`;
+    html += members.map(memberCard).join('');
+  }
+  const noDept = G.team.filter(m => !DEPT_ORDER.includes(m.dept || ''));
+  if (noDept.length) {
+    html += `<div class="dept-hdr" style="border-left:2px solid var(--muted)"><span style="color:var(--muted)">Sin departamento</span><button class="dept-hire-btn" onclick="showHireCatalog()">＋</button></div>`;
+    html += noDept.map(memberCard).join('');
+  }
+  document.getElementById('team-list').innerHTML = html;
 }
 
 function renderSidebar() {
-  // Tools (narrative)
-  const tl = document.getElementById('tools-list');
-  tl.innerHTML = G.tools.length ? G.tools.map(t=>`<div class="tech-item">${t}</div>`).join('') :
-    '<div style="font-size:10px;color:var(--muted)">Sin herramientas</div>';
-  // Technologies (catalog)
+  // Technologies (catalog) — se muestran primero con etiqueta 💻
   const activeT = new Set(activeTechStack().map(t=>t.id));
   const techEl  = document.getElementById('tech-list');
   if (!G.techStack.length) {
-    techEl.innerHTML = '<div style="font-size:10px;color:var(--muted)">Sin tecnologías</div>';
+    techEl.innerHTML = '<div style="font-size:10px;color:var(--muted)">Sin tecnologías instaladas</div>';
   } else {
     techEl.innerHTML = G.techStack.map(t => {
       const exp = !activeT.has(t.id);
@@ -1372,6 +1567,18 @@ function renderSidebar() {
       const badge = exp ? ' ✕' : soon ? ` ⚠${yr}` : '';
       return `<div class="tech-item" style="color:${col}">${t.name}${badge}</div>`;
     }).join('');
+  }
+  // Herramientas narrativas (adquiridas por escenas) — debajo de las tecnologías del catálogo
+  const tl = document.getElementById('tools-list');
+  if (G.tools && G.tools.length > 0) {
+    const sep = G.techStack.length
+      ? '<div style="border-top:1px solid rgba(255,255,255,.06);margin:4px 0;"></div>'
+      : '';
+    tl.innerHTML = sep + G.tools.map(t =>
+      `<div class="tech-item" style="color:var(--green2);font-size:10px">🔧 ${t}</div>`
+    ).join('');
+  } else {
+    tl.innerHTML = '';
   }
   // Policies
   const activeP = new Set(activePolicies().map(p=>p.id));

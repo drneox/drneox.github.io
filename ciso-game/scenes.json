@@ -1836,7 +1836,10 @@
           "log": "warning",
           "result": "Confianza injustificada. Un empleado cae en una prueba interna días después."
         }
-      ]
+      ],
+      "condition": {
+        "threatAbove": 15
+      }
     },
     {
       "icon": "🏆",
@@ -1872,7 +1875,10 @@
           "log": "result",
           "result": "Modestia valorada por el board. Consistencia ante el reconocimiento externo."
         }
-      ]
+      ],
+      "condition": {
+        "hasPolicy": "iam"
+      }
     },
     {
       "icon": "💼",
@@ -1950,7 +1956,10 @@
           "log": "warning",
           "result": "El auditor no acepta el argumento. Escala el hallazgo al board. Reputación afectada."
         }
-      ]
+      ],
+      "condition": {
+        "missingPolicy": "risk_mgmt"
+      }
     },
     {
       "icon": "🌍",
@@ -2067,7 +2076,10 @@
           "log": "warning",
           "result": "Acción mínima. La falta de documentación podría ser un problema en la próxima auditoría."
         }
-      ]
+      ],
+      "condition": {
+        "missingPolicy": "mfa"
+      }
     },
     {
       "icon": "⚖️",
@@ -2148,7 +2160,10 @@
           "log": "result",
           "result": "Decisión conservadora. Perdemos visibilidad pero mantenemos control total."
         }
-      ]
+      ],
+      "condition": {
+        "hasTech": "siem"
+      }
     },
     {
       "icon": "🔥",
@@ -2189,7 +2204,10 @@
           "log": "warning",
           "result": "El board pide un plan de acción formal. No queda convencido con la respuesta pasiva."
         }
-      ]
+      ],
+      "condition": {
+        "threatAbove": 30
+      }
     },
     {
       "icon": "💰",
@@ -2284,7 +2302,10 @@
           "log": "warning",
           "result": "La analista acepta otra oferta. Perdemos a una candidata excelente."
         }
-      ]
+      ],
+      "condition": {
+        "hasTech": "siem"
+      }
     },
     {
       "icon": "📉",
@@ -2389,7 +2410,8 @@
         "months": 2,
         "slots": [
           {
-            "pct": 60
+            "tech": 30,
+            "mgmt": 40
           }
         ]
       }
@@ -2407,7 +2429,8 @@
         "months": 1,
         "slots": [
           {
-            "pct": 30
+            "tech": 15,
+            "mgmt": 30
           }
         ]
       }
@@ -2426,7 +2449,8 @@
         "months": 2,
         "slots": [
           {
-            "pct": 50
+            "tech": 45,
+            "mgmt": 20
           }
         ]
       }
@@ -2445,10 +2469,12 @@
         "months": 4,
         "slots": [
           {
-            "pct": 70
+            "tech": 15,
+            "mgmt": 65
           },
           {
-            "pct": 50
+            "tech": 10,
+            "mgmt": 40
           }
         ]
       }
@@ -2466,10 +2492,12 @@
         "months": 4,
         "slots": [
           {
-            "pct": 80
+            "tech": 65,
+            "mgmt": 25
           },
           {
-            "pct": 60
+            "tech": 40,
+            "mgmt": 20
           }
         ]
       }
@@ -2488,10 +2516,12 @@
         "months": 3,
         "slots": [
           {
-            "pct": 60
+            "tech": 30,
+            "mgmt": 55
           },
           {
-            "pct": 40
+            "tech": 20,
+            "mgmt": 35
           }
         ]
       }
@@ -2510,7 +2540,8 @@
         "months": 2,
         "slots": [
           {
-            "pct": 50
+            "tech": 25,
+            "mgmt": 45
           }
         ]
       }
@@ -2529,10 +2560,12 @@
         "months": 4,
         "slots": [
           {
-            "pct": 70
+            "tech": 15,
+            "mgmt": 65
           },
           {
-            "pct": 50
+            "tech": 10,
+            "mgmt": 45
           }
         ]
       }
@@ -2550,7 +2583,8 @@
         "months": 1,
         "slots": [
           {
-            "pct": 40
+            "tech": 20,
+            "mgmt": 35
           }
         ]
       }
@@ -2569,7 +2603,8 @@
         "months": 2,
         "slots": [
           {
-            "pct": 50
+            "tech": 45,
+            "mgmt": 35
           }
         ]
       }
@@ -2588,7 +2623,8 @@
         "months": 2,
         "slots": [
           {
-            "pct": 40
+            "tech": 15,
+            "mgmt": 50
           }
         ]
       }
@@ -2607,10 +2643,12 @@
         "months": 4,
         "slots": [
           {
-            "pct": 70
+            "tech": 55,
+            "mgmt": 30
           },
           {
-            "pct": 50
+            "tech": 35,
+            "mgmt": 20
           }
         ]
       }
@@ -2632,10 +2670,12 @@
         "months": 4,
         "slots": [
           {
-            "pct": 90
+            "tech": 85,
+            "mgmt": 20
           },
           {
-            "pct": 70
+            "tech": 65,
+            "mgmt": 15
           }
         ]
       }
@@ -2654,7 +2694,8 @@
         "months": 2,
         "slots": [
           {
-            "pct": 60
+            "tech": 55,
+            "mgmt": 15
           }
         ]
       }
@@ -2673,7 +2714,8 @@
         "months": 1,
         "slots": [
           {
-            "pct": 50
+            "tech": 50,
+            "mgmt": 10
           }
         ]
       }
@@ -2693,7 +2735,8 @@
         "months": 2,
         "slots": [
           {
-            "pct": 50
+            "tech": 45,
+            "mgmt": 20
           }
         ]
       }
@@ -2712,7 +2755,8 @@
         "months": 1,
         "slots": [
           {
-            "pct": 40
+            "tech": 40,
+            "mgmt": 10
           }
         ]
       }
@@ -2732,10 +2776,12 @@
         "months": 3,
         "slots": [
           {
-            "pct": 70
+            "tech": 65,
+            "mgmt": 20
           },
           {
-            "pct": 50
+            "tech": 40,
+            "mgmt": 15
           }
         ]
       }
@@ -2755,10 +2801,12 @@
         "months": 3,
         "slots": [
           {
-            "pct": 70
+            "tech": 65,
+            "mgmt": 15
           },
           {
-            "pct": 50
+            "tech": 45,
+            "mgmt": 15
           }
         ]
       }
@@ -2777,7 +2825,8 @@
         "months": 1,
         "slots": [
           {
-            "pct": 30
+            "tech": 30,
+            "mgmt": 10
           }
         ]
       }
@@ -2796,7 +2845,8 @@
         "months": 1,
         "slots": [
           {
-            "pct": 40
+            "tech": 40,
+            "mgmt": 10
           }
         ]
       }
@@ -2816,10 +2866,12 @@
         "months": 4,
         "slots": [
           {
-            "pct": 80
+            "tech": 75,
+            "mgmt": 25
           },
           {
-            "pct": 60
+            "tech": 55,
+            "mgmt": 15
           }
         ]
       }
@@ -2839,7 +2891,8 @@
         "months": 2,
         "slots": [
           {
-            "pct": 50
+            "tech": 50,
+            "mgmt": 15
           }
         ]
       }
@@ -2859,10 +2912,12 @@
         "months": 3,
         "slots": [
           {
-            "pct": 70
+            "tech": 65,
+            "mgmt": 20
           },
           {
-            "pct": 50
+            "tech": 45,
+            "mgmt": 15
           }
         ]
       }
@@ -2936,7 +2991,11 @@
         "vuln_mgmt",
         "cspm",
         "vuln_scan"
-      ]
+      ],
+      "tech": 80,
+      "mgmt": 40,
+      "level": "mid",
+      "dept": "vuln"
     },
     {
       "id": "identity",
@@ -2951,7 +3010,11 @@
         "idp_sso",
         "mfa",
         "passwords"
-      ]
+      ],
+      "tech": 75,
+      "mgmt": 45,
+      "level": "mid",
+      "dept": "iam"
     },
     {
       "id": "datasec",
@@ -2966,7 +3029,11 @@
         "dlp_tool",
         "backup_dr",
         "vendors"
-      ]
+      ],
+      "tech": 70,
+      "mgmt": 60,
+      "level": "mid",
+      "dept": "gov"
     },
     {
       "id": "architect",
@@ -2983,7 +3050,11 @@
         "bcp",
         "ir_plan",
         "ngfw"
-      ]
+      ],
+      "tech": 85,
+      "mgmt": 80,
+      "level": "senior",
+      "dept": "cloud"
     },
     {
       "id": "grc",
@@ -2999,7 +3070,11 @@
         "phishing",
         "passwords",
         "vuln_mgmt"
-      ]
+      ],
+      "tech": 30,
+      "mgmt": 85,
+      "level": "mid",
+      "dept": "gov"
     },
     {
       "id": "cloudsec",
@@ -3015,7 +3090,11 @@
         "backup_dr",
         "idp_sso",
         "email_sec"
-      ]
+      ],
+      "tech": 80,
+      "mgmt": 50,
+      "level": "mid",
+      "dept": "cloud"
     },
     {
       "id": "threati",
@@ -3031,6 +3110,93 @@
         "email_sec",
         "phishing",
         "ir_plan"
+      ],
+      "tech": 75,
+      "mgmt": 40,
+      "level": "mid",
+      "dept": "soc"
+    },
+    {
+      "id": "soc_jr",
+      "name": "Alex Mora",
+      "role": "Analista SOC Jr",
+      "avatar": "🧑‍💻",
+      "tech": 50,
+      "mgmt": 15,
+      "level": "junior",
+      "dept": "soc",
+      "salary": 40000,
+      "bio": "Junior con experiencia en SIEM y alertas. Necesita mentoring.",
+      "expertise": [
+        "siem",
+        "edr"
+      ]
+    },
+    {
+      "id": "appsec_jr",
+      "name": "Sam Torres",
+      "role": "Analista AppSec Jr",
+      "avatar": "👨‍💻",
+      "tech": 55,
+      "mgmt": 15,
+      "level": "junior",
+      "dept": "red",
+      "salary": 42000,
+      "bio": "Recién certificado en OWASP. Fuerte en escaneo y revisión de código.",
+      "expertise": [
+        "vuln_scan",
+        "waf"
+      ]
+    },
+    {
+      "id": "grc_jr",
+      "name": "Mia Chen",
+      "role": "Analista GRC Jr",
+      "avatar": "👩‍💼",
+      "tech": 20,
+      "mgmt": 55,
+      "level": "junior",
+      "dept": "gov",
+      "salary": 38000,
+      "bio": "Background en auditoría. Fuerte en documentación y gestión de riesgos.",
+      "expertise": [
+        "risk_mgmt",
+        "vendors",
+        "phishing"
+      ]
+    },
+    {
+      "id": "cloud_jr",
+      "name": "Leo Park",
+      "role": "Cloud Security Jr",
+      "avatar": "👨‍🔧",
+      "tech": 55,
+      "mgmt": 20,
+      "level": "junior",
+      "dept": "cloud",
+      "salary": 44000,
+      "bio": "Certificado Cloud Practitioner. Especialidad en hardening y CSPM.",
+      "expertise": [
+        "cspm",
+        "ngfw",
+        "backup_dr"
+      ]
+    },
+    {
+      "id": "vuln_jr",
+      "name": "Inés Díaz",
+      "role": "Analista de Vulnerabilidades",
+      "avatar": "👩‍🔬",
+      "tech": 60,
+      "mgmt": 30,
+      "level": "junior",
+      "dept": "vuln",
+      "salary": 45000,
+      "bio": "Especialista en vulnerability management y remediación. Conoce Tenable y Qualys.",
+      "expertise": [
+        "vuln_mgmt",
+        "vuln_scan",
+        "patching"
       ]
     }
   ]
