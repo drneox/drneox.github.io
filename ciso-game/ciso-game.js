@@ -1027,7 +1027,7 @@ function applyNeedsDept(choice) {
       G.threatBase = Math.min(150, G.threatBase + 8);
       G.threat = computeExposure();
       const delta = G.threat - prevT;
-      const deltaStr = delta > 0 ? ` Exposición +${delta} → ${G.threat}` : ` (exposición ya en límite)`;
+      const deltaStr = delta > 0 ? ` Exposición +${delta} → ${G.threat}` : G.threat >= 100 ? ` (exposición en límite máximo)` : ` (riesgo interno +8, absorbido por defensas)`;
       addLog(`⚠ Sin personal de ${deptName} — la acción no pudo ejecutarse correctamente.${deltaStr}`, 'warning');
     } else {
       // Ordenar por capacidad libre descendente (priorizar el menos cargado)
@@ -1049,14 +1049,14 @@ function applyNeedsDept(choice) {
         G.threatBase = Math.min(150, G.threatBase + 6);
         G.threat = computeExposure();
         const delta = G.threat - prevT;
-        const deltaStr = delta > 0 ? ` Exposición +${delta} → ${G.threat}` : ` (exposición ya en límite)`;
+        const deltaStr = delta > 0 ? ` Exposición +${delta} → ${G.threat}` : G.threat >= 100 ? ` (exposición en límite máximo)` : ` (riesgo interno +6, absorbido por defensas)`;
         addLog(`🔴 ${m.name} (${deptName}) supera su capacidad — calidad en riesgo.${deltaStr}`, 'danger');
       } else if (cap > 0 && (usedBefore + addLoad) > cap * 0.8) {
         const prevT = G.threat;
         G.threatBase = Math.min(150, G.threatBase + 3);
         G.threat = computeExposure();
         const delta = G.threat - prevT;
-        const deltaStr = delta > 0 ? ` Exposición +${delta} → ${G.threat}` : ` (exposición ya en límite)`;
+        const deltaStr = delta > 0 ? ` Exposición +${delta} → ${G.threat}` : G.threat >= 100 ? ` (exposición en límite máximo)` : ` (riesgo interno +3, absorbido por defensas)`;
         addLog(`⚠ ${m.name} (${deptName}) está al límite de carga — posibles errores.${deltaStr}`, 'warning');
       }
       if (!G.tasks) G.tasks = [];
