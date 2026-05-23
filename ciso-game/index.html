@@ -1231,16 +1231,25 @@ function updateProgress() {
 }
 
 function grantAnnualBudget(year) {
-  const injection = Math.round(G.maxBudget * 0.30);
-  G.budget += injection;
+  // Efficiency bonus: leftover budget converts to reputation (each $50K = +1 rep, cap +5)
+  const leftover = Math.max(0, G.budget);
+  const effBonus = Math.min(5, Math.floor(leftover / 50000));
+  // Reset budget to full annual allocation
+  G.budget = G.maxBudget;
+  if (effBonus > 0) {
+    G.reputation = Math.min(100, G.reputation + effBonus);
+  }
   updateStats();
   sfxSuccess();
-  addLog(`💰 PRESUPUESTO AÑO ${year} APROBADO — El CFO libera +${fmtNum(injection)} como presupuesto anual de seguridad.`, 'success');
+  const effMsg = effBonus > 0
+    ? ` El CFO felicitó tu eficiencia (+${effBonus} reputación por $${fmtNum(leftover)} no gastados).`
+    : '';
+  addLog(`💰 PRESUPUESTO AÑO ${year} RENOVADO — Presupuesto reiniciado a ${fmtNum(G.maxBudget)}.${effMsg}`, 'success');
   // Show toast notification in yellow
   const box = document.getElementById('rand-event');
   document.getElementById('re-icon').textContent = '💰';
   document.getElementById('re-text').innerHTML =
-    `<strong style="color:var(--yellow)">PRESUPUESTO AÑO ${year} APROBADO</strong> — +${fmtNum(injection)} inyectados por el CFO como presupuesto anual de seguridad.`;
+    `<strong style="color:var(--yellow)">PRESUPUESTO AÑO ${year} RENOVADO</strong> — Reiniciado a ${fmtNum(G.maxBudget)}.${effMsg ? `<br><span style="color:var(--green)">${effMsg}</span>` : ''}`;
   const btnsDiv = document.getElementById('re-btns');
   if (btnsDiv) btnsDiv.innerHTML = '';
   box.style.borderColor = 'var(--yellow)';
