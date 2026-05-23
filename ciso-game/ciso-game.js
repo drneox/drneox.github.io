@@ -132,15 +132,16 @@ function memberLoadPct(m) {
 }
 
 const DIFF_CONFIG = {
-  junior: {budget:700000, threatMult:0.7, startRep:75, label:'JUNIOR'},
-  senior: {budget:500000, threatMult:1.0, startRep:70, label:'SENIOR'},
-  crisis: {budget:200000, threatMult:1.4, startRep:40, label:'EN CRISIS'},
+  junior:   {budget:700000, threatMult:0.7, startRep:75, label:'JUNIOR'},
+  senior:   {budget:500000, threatMult:1.0, startRep:70, label:'SENIOR'},
+  avanzado: {budget:350000, threatMult:1.2, startRep:55, label:'AVANZADO'},
+  crisis:   {budget:200000, threatMult:1.4, startRep:40, label:'EN CRISIS'},
 };
 
 let G = {};
 let playQueue = [];
 let queueIdx = 0;
-let currentDiff = 'senior';
+let currentDiff = 'avanzado';
 let timerInterval = null;
 let timerSeconds = 0;
 let lastChoiceId = '';
@@ -197,7 +198,7 @@ function startGame() {
   const cfg = DIFF_CONFIG[currentDiff];
   G = {
     budget: cfg.budget, maxBudget: cfg.budget,
-    reputation: cfg.startRep, threatBase: currentDiff==='crisis'?65:currentDiff==='senior'?45:25, threat: 0,
+    reputation: cfg.startRep, threatBase: currentDiff==='crisis'?65:currentDiff==='avanzado'?55:currentDiff==='senior'?45:25, threat: 0,
     day: 1, year: 1, cycle: 1,
     incidentsHandled: 0, incidentsFailed: 0, decisionsCount: 0,
     team: TEAM_ROSTER.map(m => ({...m})),
