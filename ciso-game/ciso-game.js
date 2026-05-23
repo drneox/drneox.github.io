@@ -976,6 +976,42 @@ function mitigateFx(fx) {
   return out;
 }
 
+// Helper compartido: procesa needsDept, asigna carga al equipo y crea tarea
+function applyNeedsDept(choice) {
+  if (!choice.needsDept) return;
+  const reqs = [].concat(choice.needsDept);
+  reqs.forEach(req => {
+    const dept     = typeof req === 'string' ? req : req.dept;
+    const techLoad = (typeof req === 'object' ? req.tech   : null) ?? 25;
+    const mgmtLoad = (typeof req === 'object' ? req.mgmt   : null) ?? 15;
+    const months   = (typeof req === 'object' ? req.months : null) ?? 1;
+    const skill    = DEPT_SKILL[dept] || 'tech';
+    const deptName = DEPT_META[dept]?.name || dept.toUpperCase();
+    const available = G.team.filter(m => m.dept === dept && m.status !== 'down');
+    if (available.length === 0) {
+      addLog(`⚠ Sin personal de ${deptName} disponible — la acción no pudo ejecutarse correctamente. Exposición +8`, 'warning');
+      G.threatBase = Math.min(150, G.threatBase + 8);
+      G.threat = computeExposure();
+    } else {
+      available.sort((a,b) => (b[skill]||0) - (a[skill]||0));
+      const m   = available[0];
+      const idx = G.team.indexOf(m);
+      m.techLoad = (m.techLoad || 0) + techLoad;
+      m.mgmtLoad = (m.mgmtLoad || 0) + mgmtLoad;
+      if (!G.tasks) G.tasks = [];
+      const label = choice.taskName || choice.text.substring(0, 40);
+      G.tasks.push({
+        name: label,
+        icon: choice.taskIcon || (skill === 'tech' ? '⚙️' : '📋'),
+        slots: [{memberIdx: idx, tech: techLoad, mgmt: mgmtLoad}],
+        monthsLeft: months,
+        totalMonths: months
+      });
+      G.threat = computeExposure();
+    }
+  });
+}
+
 function makeChoiceCore(choice) {
   G.decisionsCount++;
   G.lastSceneId = playQueue[queueIdx] ? playQueue[queueIdx].id : '';
@@ -997,39 +1033,7 @@ function makeChoiceCore(choice) {
     G.incidentsFailed++;
   }
   // Sistema unificado de consumo de recursos por departamento
-  if (choice.needsDept) {
-    const reqs = [].concat(choice.needsDept);
-    reqs.forEach(req => {
-      const dept     = typeof req === 'string' ? req : req.dept;
-      const techLoad = (typeof req === 'object' ? req.tech  : null) ?? 25;
-      const mgmtLoad = (typeof req === 'object' ? req.mgmt  : null) ?? 15;
-      const months   = (typeof req === 'object' ? req.months : null) ?? 1;
-      const skill    = DEPT_SKILL[dept] || 'tech';
-      const deptName = DEPT_META[dept]?.name || dept.toUpperCase();
-      const available = G.team.filter(m => m.dept === dept && m.status !== 'down');
-      if (available.length === 0) {
-        addLog(`⚠ Sin personal de ${deptName} disponible — la acción no pudo ejecutarse correctamente. Exposición +8`, 'warning');
-        G.threatBase = Math.min(150, G.threatBase + 8);
-        G.threat = computeExposure();
-      } else {
-        available.sort((a,b) => (b[skill]||0) - (a[skill]||0));
-        const m   = available[0];
-        const idx = G.team.indexOf(m);
-        m.techLoad = (m.techLoad || 0) + techLoad;
-        m.mgmtLoad = (m.mgmtLoad || 0) + mgmtLoad;
-        if (!G.tasks) G.tasks = [];
-        const label = choice.taskName || choice.text.substring(0, 40);
-        G.tasks.push({
-          name: label,
-          icon: choice.taskIcon || (skill === 'tech' ? '⚙️' : '📋'),
-          slots: [{memberIdx: idx, tech: techLoad, mgmt: mgmtLoad}],
-          monthsLeft: months,
-          totalMonths: months
-        });
-        G.threat = computeExposure();
-      }
-    });
-  }
+  applyNeedsDept(choice);
   // Defenses compromised by attack
   if (choice.removeTech) {
     const ids = Array.isArray(choice.removeTech) ? choice.removeTech : [choice.removeTech];
