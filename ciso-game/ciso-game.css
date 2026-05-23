@@ -151,6 +151,21 @@ h1{font-family:'Orbitron',monospace;font-size:clamp(14px,3.5vw,22px);color:var(-
   font-family:inherit;white-space:nowrap;flex-shrink:0;}
 #tech-shop .ps-buy:disabled{border-color:var(--border);color:var(--muted);cursor:not-allowed;}
 
+/* HIRE SHOP */
+#hire-shop .hs-item{border:1px solid var(--border);border-radius:4px;padding:10px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;}
+#hire-shop .hs-item.hired{border-color:var(--green2);opacity:.55;}
+#hire-shop .hs-avatar{font-size:26px;flex-shrink:0;width:32px;text-align:center;}
+#hire-shop .hs-body{flex:1;}
+#hire-shop .hs-name{font-size:12px;color:var(--green);font-weight:bold;}
+#hire-shop .hs-role{font-size:10px;color:var(--cyan);margin-bottom:3px;}
+#hire-shop .hs-bio{font-size:10px;color:var(--muted);line-height:1.4;margin-bottom:5px;}
+#hire-shop .hs-exp{font-size:9px;color:var(--yellow);margin-bottom:6px;}
+#hire-shop .hs-footer{display:flex;justify-content:space-between;align-items:center;}
+#hire-shop .hs-salary{font-family:'Orbitron',monospace;font-size:11px;color:var(--text);}
+#hire-shop .hs-btn{font-size:10px;padding:5px 12px;border:1px solid var(--green2);
+  color:var(--green);background:transparent;cursor:pointer;border-radius:3px;font-family:inherit;}
+#hire-shop .hs-btn:disabled{border-color:var(--border);color:var(--muted);cursor:not-allowed;}
+
 /* TIMER BAR */
 #timer-bar{height:3px;background:var(--border);margin:0 13px 4px;border-radius:2px;display:none;}
 #timer-fill{height:100%;background:var(--orange);border-radius:2px;transition:width .1s linear;width:100%;}
@@ -172,7 +187,16 @@ h1{font-family:'Orbitron',monospace;font-size:clamp(14px,3.5vw,22px);color:var(-
   font-size:12px;border:1px solid var(--border);flex-shrink:0;}
 .member-info{flex:1;}.member-name{color:var(--text);font-size:10px;}.member-role{color:var(--muted);font-size:9px;}
 .member-status{font-size:9px;margin-left:auto;}
-.status-ok{color:var(--green)}.status-busy{color:var(--orange)}.status-down{color:var(--red)}
+.status-ok{color:var(--green)}.status-partial{color:var(--yellow)}.status-busy{color:var(--orange)}.status-down{color:var(--red)}
+
+/* TASK PROGRESS CARDS */
+.task-item{margin:5px 0 7px;}
+.task-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
+.task-nm{color:var(--green2);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;}
+.task-mo{color:var(--yellow);font-family:'Orbitron',monospace;font-size:9px;letter-spacing:1px;flex-shrink:0;}
+.task-bar-bg{background:rgba(255,255,255,0.06);height:3px;border-radius:2px;margin-bottom:3px;}
+.task-bar-fill{background:var(--cyan);height:100%;border-radius:2px;transition:width .5s ease;}
+.task-asn{font-size:9px;color:var(--muted);}
 .threat-item{display:flex;justify-content:space-between;align-items:center;
   font-size:10px;margin-bottom:4px;padding:3px 5px;border-radius:2px;border:1px solid var(--border);}
 .threat-level{font-size:9px;padding:1px 4px;border-radius:2px;}
