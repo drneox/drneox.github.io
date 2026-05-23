@@ -796,6 +796,8 @@ function tickTasks() {
   if (!G.tasks || G.tasks.length === 0) return;
   const completed = [];
   G.tasks = G.tasks.filter(task => {
+    // No tickear tareas creadas en esta misma decisión
+    if (task.createdAtDecision === G.decisionsCount) return true;
     task.monthsLeft--;
     if (task.monthsLeft <= 0) { completed.push(task); return false; }
     return true;
@@ -1048,7 +1050,8 @@ function applyNeedsDept(choice) {
         icon: choice.taskIcon || (skill === 'tech' ? '⚙️' : '📋'),
         slots: [{memberIdx: idx, tech: techLoad, mgmt: mgmtLoad}],
         monthsLeft: months,
-        totalMonths: months
+        totalMonths: months,
+        createdAtDecision: G.decisionsCount
       });
       G.threat = computeExposure();
     }
