@@ -146,13 +146,6 @@ function refillQueue() {
 function returnToStartScreen() {
   document.getElementById('endscreen').style.display = 'none';
   hideGameUIBeforeStart();
-// Load game data from scenes.json, then optionally signal ready
-loadData().catch(err => {
-  console.error('Error al cargar scenes.json:', err);
-  const ss = document.getElementById('start-screen');
-  if (ss) ss.insertAdjacentHTML('beforeend',
-    '<p style="color:var(--red);margin-top:12px;font-size:11px;">⚠ Error cargando datos. Recarga la página.</p>');
-});
   document.getElementById('start-screen').style.display = 'block';
   stopAmbient();
   sfxClick();
@@ -1254,3 +1247,9 @@ function hideGameUIBeforeStart() {
   });
 }
 hideGameUIBeforeStart();
+loadData().catch(err => {
+  console.error('Error al cargar scenes.json:', err);
+  const ss = document.getElementById('start-screen');
+  if (ss) ss.insertAdjacentHTML('beforeend',
+    '<p style="color:var(--red);margin-top:12px;font-size:11px;">⚠ Error cargando datos. Recarga la página.</p>');
+});
