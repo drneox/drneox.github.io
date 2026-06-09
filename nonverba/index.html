@@ -25,12 +25,25 @@ function newPersonState(){
           smBuf:{stress:[],disinterest:[],enthusiasm:[],discomfort:[],dominance:[]},
           sess:{stress:[],disinterest:[],enthusiasm:[],discomfort:[],dominance:[]},
           hist:{stress:[],disinterest:[],enthusiasm:[],discomfort:[],dominance:[]},
-          lastCenter:null, active:false, lastSeen:0};
+          lastCenter:null, faceSignature:null, active:false, lastSeen:0};
 }
 let persons=[newPersonState(),newPersonState()];
 let multiMode=false; // true cuando hay 2+ caras
 const offC=document.createElement('canvas');
 const offX=offC.getContext('2d',{willReadFrequently:true});
+const sceneC=document.createElement('canvas');
+const sceneX=sceneC.getContext('2d',{willReadFrequently:true});
+let prevSceneFrame=null;
+
+function resetTrackingState(){
+  persons=[newPersonState(),newPersonState()];
+  multiMode=false;
+  selectedPerson=0;
+  prevPts=null;
+  prevFrame=null;
+  prevSceneFrame=null;
+  faceBox=null;
+}
 
 // ── STATUS ──────────────────────────────────────────────
 function setSt(t,s='idle'){
@@ -151,6 +164,7 @@ function switchTab(t){
 // ── CAMERA ───────────────────────────────────────────────
 async function startCam(){
   try{
+    resetTrackingState();
     const selectedCamera=document.getElementById('camFacing')?.value||'facing:user';
     const videoConstraints={width:640,height:480};
     if(selectedCamera.startsWith('device:'))videoConstraints.deviceId={exact:selectedCamera.slice(7)};
@@ -171,6 +185,7 @@ async function startCam(){
 // ── VIDEO ────────────────────────────────────────────────
 function loadVid(ev){
   const file=ev.target.files[0];if(!file)return;
+  resetTrackingState();
   const v=document.getElementById('upV');
   v.src=URL.createObjectURL(file);v.style.display='block';
   document.getElementById('ph').style.display='none';
@@ -245,6 +260,26 @@ function clearOvl(){
   const c=document.getElementById('overlay');
   c.getContext('2d').clearRect(0,0,c.width,c.height);
 }
+
+function detectSceneCut(vid){
+  const W=32,H=18;
+  sceneC.width=W;sceneC.height=H;
+  sceneX.drawImage(vid,0,0,W,H);
+  const cur=sceneX.getImageData(0,0,W,H).data;
+  if(!prevSceneFrame){
+    prevSceneFrame=new Uint8ClampedArray(cur);
+    return false;
+  }
+  let diff=0;
+  for(let i=0;i<cur.length;i+=4){
+    diff+=Math.abs(cur[i]-prevSceneFrame[i]);
+    diff+=Math.abs(cur[i+1]-prevSceneFrame[i+1]);
+    diff+=Math.abs(cur[i+2]-prevSceneFrame[i+2]);
+  }
+  prevSceneFrame=new Uint8ClampedArray(cur);
+  return diff/(W*H*3) > 28;
+}
+
 window.addEventListener('resize',resizeOvl);
 
 // ── LOOP ─────────────────────────────────────────────────
@@ -258,6 +293,7 @@ function beginLoop(vid){
     frames++;sess.frames++;
     document.getElementById('fcnt').textContent=frames+' frames';
     updateFPS();updateElapsed();
+    if(detectSceneCut(vid))resetTrackingState();
     const m = (mpReady && faceLandmarker) ? analyzeMP(vid) : analyzePixels(vid);
     updateUI(m);
     drawTimeline();
@@ -292,6 +328,31 @@ function boxFor(landmarks, idxs, vw, vh){
   return {x:minX*vw,y:minY*vh,w:(maxX-minX)*vw,h:(maxY-minY)*vh};
 }
 
+function createFaceSignature(lm){
+  const faceW=Math.max(0.001,Math.abs(lm[454].x-lm[234].x));
+  const faceH=Math.max(0.001,Math.abs(lm[152].y-lm[10].y));
+  const leftOpen=Math.abs(lm[LM.leftLidTop].y-lm[LM.leftLidBot].y)/faceH;
+  const rightOpen=Math.abs(lm[LM.rightLidTop].y-lm[LM.rightLidBot].y)/faceH;
+  const mouthW=Math.abs(lm[LM.mouthR].x-lm[LM.mouthL].x)/faceW;
+  const mouthOpen=Math.abs(lm[LM.mouthBot].y-lm[LM.mouthTop].y)/faceH;
+  const noseX=((lm[LM.noseTip].x-lm[234].x)/faceW);
+  const noseY=((lm[LM.noseTip].y-lm[10].y)/faceH);
+  const chinNose=Math.abs(lm[LM.chinBot].y-lm[LM.noseTip].y)/faceH;
+  return [leftOpen,rightOpen,mouthW,mouthOpen,noseX,noseY,chinNose];
+}
+
+function signatureDistance(a,b){
+  if(!a||!b||a.length!==b.length)return Infinity;
+  let sum=0;
+  for(let i=0;i<a.length;i++)sum+=Math.abs(a[i]-b[i]);
+  return sum/a.length;
+}
+
+function blendSignature(previous,next){
+  if(!previous)return next;
+  return previous.map((value,idx)=>value*0.65+next[idx]*0.35);
+}
+
 function analyzeMP(vid){
   let res;
   try{
@@ -315,7 +376,7 @@ function analyzeMP(vid){
   // ── Limitar a MAXP caras ──
   const detected = faces.slice(0, MAXP).map(lm=>{
     const noseTip=lm[LM.noseTip];
-    return { lm, center:{x:noseTip.x*vw, y:noseTip.y*vh} };
+    return { lm, center:{x:noseTip.x*vw, y:noseTip.y*vh}, signature:createFaceSignature(lm) };
   });
 
   updateMultiMode(detected.length);
@@ -358,16 +419,20 @@ function trackFaces(detected){
   const used=new Set();
   // 1) Asignar a personas que ya tenían posición previa, por cercanía
   persons.forEach((p,idx)=>{
-    if(!p.lastCenter) return;
-    let best=-1, bestD=Infinity;
+    if(!p.lastCenter && !p.faceSignature) return;
+    let best=-1, bestScore=Infinity;
     detected.forEach((d,di)=>{
       if(used.has(di))return;
-      const dist=Math.hypot(d.center.x-p.lastCenter.x, d.center.y-p.lastCenter.y);
-      if(dist<bestD){bestD=dist;best=di;}
+      const centerDist=p.lastCenter?Math.hypot(d.center.x-p.lastCenter.x, d.center.y-p.lastCenter.y):220;
+      const sigDist=signatureDistance(d.signature,p.faceSignature);
+      const score=(isFinite(sigDist)?sigDist*3.2:1.2)+Math.min(centerDist/220,1.8);
+      if(score<bestScore){bestScore=score;best=di;}
     });
-    if(best>=0 && bestD<300){ // umbral: si está razonablemente cerca, es la misma persona
+    if(best>=0 && bestScore<1.75){
       result[idx]=detected[best];
       p.lastCenter=detected[best].center;
+      p.faceSignature=blendSignature(p.faceSignature,detected[best].signature);
+      p.lastSeen=frames;
       used.add(best);
     }
   });
@@ -378,6 +443,8 @@ function trackFaces(detected){
       if(!result[idx]){
         result[idx]=d;
         persons[idx].lastCenter=d.center;
+        persons[idx].faceSignature=d.signature;
+        persons[idx].lastSeen=frames;
         used.add(di);
         break;
       }
