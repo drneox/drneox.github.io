@@ -140,11 +140,18 @@ function loadVid(ev){
 
 // ── STOP ─────────────────────────────────────────────────
 function stopAll(){
+  const hasResults = sess.frames>0;
   running=false;
   if(ticker){clearInterval(ticker);ticker=null;}
   if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
   ['camV','upV'].forEach(id=>{
     const v=document.getElementById(id);
+    if(typeof v.pause==='function')v.pause();
+    if(id==='upV'){
+      try{v.currentTime=0;}catch(e){}
+      if(v.removeAttribute)v.removeAttribute('src');
+      if(typeof v.load==='function')v.load();
+    }
     v.style.display='none';
     if(v.srcObject)v.srcObject=null;
   });
@@ -154,8 +161,13 @@ function stopAll(){
   document.getElementById('fpsBadge').style.display='none';
   const wrap=document.getElementById('vwrap');
   wrap.style.height='';wrap.style.maxWidth='';wrap.style.marginLeft='';wrap.style.marginRight='';
-  clearOvl();setSt('Detenido');
+  clearOvl();
   sess.t1=Date.now();
+  if(hasResults){
+    showFinalAverages();
+    return;
+  }
+  setSt('Detenido');
 }
 
 // ── CANVAS ───────────────────────────────────────────────
