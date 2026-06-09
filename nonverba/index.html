@@ -1,4 +1,4 @@
-<!doctype html> <html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1"> <meta name="description" content="nonverbal language analyzer"> <title>nonverba</title> <style>:root{--bg:#FAFAFB;--surface:#FFFFFF;--surface-2:#F4F4F7;--border:#EAEAEF;--border-2:#E0E0E8;--accent:#6366F1;--accent-soft:#EEF0FF;--text:#1A1A2E;--muted:#6B7280;--muted-2:#9CA3AF;--stress:#EF4444;--disinterest:#8B5CF6;--enthusiasm:#10B981;--discomfort:#F59E0B;--dominance:#EC4899;--shadow:0 1px 3px rgba(16,24,40,0.06),0 1px 2px rgba(16,24,40,0.04);--shadow-md:0 4px 12px rgba(16,24,40,0.08);--radius:14px;--radius-sm:10px;--font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:var(--surface);border-bottom:1px solid var(--border)}.logo{font-weight:700;font-size:1.25rem;color:var(--text);letter-spacing:-.02em;display:flex;align-items:center;gap:9px}.logo-wordmark{display:inline-flex;align-items:baseline;gap:0}.brand{display:flex;flex-direction:column;gap:3px;align-items:flex-start}.logo-meta{display:flex;align-items:center;gap:8px}.tagline{font-size:.62rem;color:var(--muted);letter-spacing:.03em;text-transform:none;line-height:1.2;margin-left:37px}.credit{font-size:.6rem;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;margin-left:0}.logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:inline-flex;align-items:center;justify-content:center}.logo-mark svg{width:22px;height:22px}.logo span{color:var(--accent)}.logo .logo-non{color:var(--text)}.logo .logo-verba{color:var(--accent)}.sbar{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted);font-weight:500}.dot{width:8px;height:8px;border-radius:50%;background:var(--muted-2);transition:all .3s}.dot.active{background:var(--enthusiasm);box-shadow:0 0 0 3px rgba(16,185,129,.15);animation:pulse 1.8s infinite}.dot.error{background:var(--stress)}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}main{position:relative;z-index:1;display:grid;grid-template-columns:1fr 380px;gap:20px;padding:20px 28px;align-items:start}.left{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.tabs{flex-shrink:0;display:flex;padding:8px;gap:6px;border-bottom:1px solid var(--border)}.tab{flex:1;padding:10px;background:0 0;border:none;border-radius:var(--radius-sm);color:var(--muted);font-family:var(--font);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}.tab.active{color:var(--accent);background:var(--accent-soft)}.tab:hover:not(.active){background:var(--surface-2)}.vwrap{flex:none;height:440px;position:relative;background:#0f1117;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:14px;border-radius:var(--radius-sm)}video{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:none}#overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2}.ph{display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--muted-2);text-align:center;padding:32px}.ph-ico{font-size:2.5rem;opacity:.5}.ph p{font-size:.85rem;line-height:1.6;color:var(--muted)}.notice{position:absolute;bottom:12px;left:12px;right:12px;background:rgba(255,255,255,.97);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-size:.76rem;color:var(--text);line-height:1.5;display:none;box-shadow:var(--shadow-md)}.notice.show{display:block}.fps{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.92);color:var(--accent);font-size:.68rem;font-weight:600;padding:4px 9px;border-radius:20px;display:none}.controls{flex-shrink:0;padding:14px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--border);flex-wrap:wrap}.btn{padding:10px 16px;border:1px solid var(--border-2);background:var(--surface);color:var(--text);font-family:var(--font);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;border-radius:var(--radius-sm);white-space:nowrap}.cam-select{padding:10px 12px;border:1px solid var(--border-2);background:var(--surface);color:var(--text);font-family:var(--font);font-size:.82rem;font-weight:600;border-radius:var(--radius-sm);min-width:112px}.btn:hover{background:var(--surface-2);border-color:var(--muted-2)}.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn.primary:hover{background:#5457e5}.btn.danger{background:#fff;border-color:#fca5a5;color:var(--stress)}.btn.danger:hover{background:#fef2f2}.btn:disabled{opacity:.45;cursor:not-allowed}.upzone{flex:1;border:1.5px dashed var(--border-2);border-radius:var(--radius-sm);padding:10px 14px;text-align:center;cursor:pointer;font-size:.78rem;color:var(--muted);font-weight:500;transition:border-color .2s,color .2s,background .2s}.upzone:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}.controls .cam-only{display:block}.controls .up-only{display:none}.controls.show-up .cam-only{display:none}.controls.show-up .up-only{display:block}#fileIn{display:none}.right{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;height:534px}.phdr{padding:16px 18px;border-bottom:1px solid var(--border);font-weight:600;font-size:.92rem;color:var(--text);display:flex;justify-content:space-between;align-items:center}.phdr #fcnt{font-size:.72rem;color:var(--muted-2);font-weight:500}.inds{padding:14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;flex:1}.ic{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;transition:all .25s}.ic.stress{--c:var(--stress)}.ic.disinterest{--c:var(--disinterest)}.ic.enthusiasm{--c:var(--enthusiasm)}.ic.discomfort{--c:var(--discomfort)}.ic.dominance{--c:var(--dominance)}.ic.lit{box-shadow:0 0 0 1px var(--c),var(--shadow);border-color:transparent}.ict{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.icn{font-weight:600;font-size:.86rem;color:var(--text);display:flex;align-items:center;gap:8px}.idot{width:9px;height:9px;border-radius:50%;background:var(--c)}.ival{font-weight:700;font-size:1.15rem;color:var(--c);letter-spacing:-.02em}.ibg{height:6px;background:var(--surface-2);border-radius:6px;overflow:hidden;margin-bottom:9px}.ibar{height:100%;background:var(--c);border-radius:6px;transition:width .5s cubic-bezier(.4,0,.2,1)}.itags{display:flex;flex-wrap:wrap;gap:4px}.itag{padding:3px 8px;border-radius:20px;font-size:.66rem;font-weight:500;background:var(--surface-2);color:var(--muted-2);transition:all .3s}.itag.on{background:var(--c);color:#fff}.ptab{transition:all .2s}.tl{grid-column:1/-1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;height:150px;display:flex;flex-direction:column;gap:8px}.tlh{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);font-weight:600}.tlh #elapsed{color:var(--muted-2);font-weight:500;font-variant-numeric:tabular-nums}#tlCanvas{flex:1;width:100%}.mbg{position:fixed;inset:0;background:rgba(26,26,46,.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}.mbg.open{display:flex}.modal{background:var(--surface);border-radius:var(--radius);width:100%;max-width:660px;max-height:90vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(16,24,40,.2)}.mtitle{font-weight:700;font-size:1.5rem;color:var(--text);letter-spacing:-.02em;margin-bottom:3px}.msub{font-size:.82rem;color:var(--muted);margin-bottom:22px}.rg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}.rc{background:var(--surface-2);border-radius:var(--radius-sm);padding:16px}.rcl{font-size:.72rem;color:var(--muted);font-weight:500;margin-bottom:5px}.rcv{font-weight:700;font-size:1.5rem;letter-spacing:-.02em}.rs{font-weight:600;font-size:.82rem;color:var(--muted);margin:20px 0 10px}.rrow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);gap:12px}.rname{font-weight:600;font-size:.86rem;color:var(--text);display:flex;align-items:center;gap:8px}.rstats{display:flex;gap:18px;font-size:.72rem;color:var(--muted)}.rstats strong{display:block;font-size:1rem;color:var(--text);font-weight:700}#rChartCanvas{height:170px;width:100%;margin:10px 0}.obs{background:var(--surface-2);border-radius:var(--radius-sm);padding:16px}.oi{font-size:.82rem;line-height:1.7;color:var(--text);padding:5px 0 5px 12px;border-left:2.5px solid var(--accent);margin-bottom:7px}.mf{display:flex;justify-content:flex-end;gap:8px;margin-top:20px;padding-top:18px;border-top:1px solid var(--border)}@media(max-width:900px){main{grid-template-columns:1fr;gap:16px;padding:16px}.vwrap{height:48vh;max-height:440px}.right{height:auto;max-height:420px}.tl{grid-column:1;height:130px}}@media(max-width:480px){header{padding:14px 16px}.logo{font-size:1.1rem}main{padding:12px;gap:12px}.vwrap{height:44vh;max-height:360px;margin:10px}.controls{padding:10px;gap:6px}.btn{padding:9px 12px;font-size:.78rem}.rg{grid-template-columns:1fr}.modal{padding:20px}.mtitle{font-size:1.25rem}.tl{height:120px}}.site-footer{text-align:center;padding:20px;color:var(--muted-2);font-size:.72rem;font-family:ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.03em;border-top:1px solid var(--border);margin-top:4px}.credit a,.foot a,.site-footer a{display:inline-flex;align-items:center;justify-content:center;color:inherit;text-decoration:underline;pointer-events:auto;cursor:pointer;position:relative;z-index:1}::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:0 0}::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:8px}::-webkit-scrollbar-thumb:hover{background:var(--muted-2)}</style> </head> <body> <header> <div class="brand"> <div class="logo-meta"><div class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8.5" cy="9" r="1.3" fill="#fff"/><circle cx="15.5" cy="9" r="1.3" fill="#fff"/><path d="M8 14.5c1.2 1.6 6.8 1.6 8 0" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg></span><span class="logo-wordmark"><span class="logo-non">Non</span><span class="logo-verba">Verba</span></span></div><div class="credit">Beta</div></div> <div class="tagline">nonverbal language analyzer</div> </div> <div class="sbar"><div class="dot" id="dot"></div><span id="stxt">Listo</span></div> </header> <main> <div class="left"> <div class="tabs"> <button class="tab active" id="tCam">📷 Cámara</button> <button class="tab" id="tUp">📁 Video</button> </div> <div class="vwrap" id="vwrap"> <video id="camV" autoplay muted playsinline></video> <video id="upV" controls playsinline webkit-playsinline></video> <canvas id="overlay"></canvas> <div class="ph" id="ph"><div class="ph-ico">🎥</div><p>Activa la cámara o sube<br>un video para comenzar</p></div> <div class="notice" id="notice"></div> <div class="fps" id="fpsBadge">-- FPS</div> </div> <div class="controls" id="controls"> <select class="cam-only cam-select" id="camFacing" aria-label="Seleccionar cámara"> <option value="user">Frontal</option> <option value="environment">Trasera</option> </select> <button class="btn primary cam-only" id="btnCam">▶ Iniciar cámara</button> <button class="btn danger" id="btnStop" style="display:none">■ Detener</button> <button class="btn" id="btnRep" disabled="disabled">📊 Reporte</button> <div class="upzone up-only" id="upzone">📁 Subir video</div> <input type="file" id="fileIn" accept="video/*"> </div> </div> <div class="right"> <div class="phdr"><span id="phdr-label">Señales no verbales</span><span id="fcnt" style="font-size:.58rem">0 frames</span></div> <div id="personTabs" style="display:none;border-bottom:1px solid var(--border)"> <div style="display:flex"> <button class="ptab active" id="ptab0" onclick="selectPerson(0)" style="flex:1;padding:9px;background:0 0;border:none;border-bottom:2px solid #6366f1;color:#6366f1;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:.08em">● Persona 1</button> <button class="ptab" id="ptab1" onclick="selectPerson(1)" style="flex:1;padding:9px;background:0 0;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:.08em">● Persona 2</button> </div> </div> <div class="inds"> <div class="ic stress" id="c-stress"> <div class="ict"><div class="icn"><div class="idot"></div>Estrés Agudo</div><div class="ival" id="v-stress">0%</div></div> <div class="ibg"><div class="ibar" id="b-stress" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-blink">Parpadeo alto</span><span class="itag" id="s-movfast">Movimiento rápido</span><span class="itag" id="s-asym">Asimetría facial</span><span class="itag" id="s-tense">Tensión</span></div> </div> <div class="ic disinterest" id="c-disinterest"> <div class="ict"><div class="icn"><div class="idot"></div>Desinterés</div><div class="ival" id="v-disinterest">0%</div></div> <div class="ibg"><div class="ibar" id="b-disinterest" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-gaze">Mirada desviada</span><span class="itag" id="s-still">Sin movimiento</span><span class="itag" id="s-mouthclosed">Boca cerrada</span><span class="itag" id="s-small">Postura alejada</span></div> </div> <div class="ic enthusiasm" id="c-enthusiasm"> <div class="ict"><div class="icn"><div class="idot"></div>Entusiasmo</div><div class="ival" id="v-enthusiasm">0%</div></div> <div class="ibg"><div class="ibar" id="b-enthusiasm" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-movmed">Gesticulación</span><span class="itag" id="s-mouthopen">Boca activa</span><span class="itag" id="s-eyeup">Ojos expresivos</span><span class="itag" id="s-near">Proximidad alta</span></div> </div> <div class="ic discomfort" id="c-discomfort"> <div class="ict"><div class="icn"><div class="idot"></div>Incomodidad</div><div class="ival" id="v-discomfort">0%</div></div> <div class="ibg"><div class="ibar" id="b-discomfort" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-fasym">Asimetría alta</span><span class="itag" id="s-avoid">Evita contacto</span><span class="itag" id="s-erratic">Mov. errático</span><span class="itag" id="s-micro">Tensión micro</span></div> </div> <div class="ic dominance" id="c-dominance"> <div class="ict"><div class="icn"><div class="idot"></div>Dominancia</div><div class="ival" id="v-dominance">0%</div></div> <div class="ibg"><div class="ibar" id="b-dominance" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-contact">Contacto visual</span><span class="itag" id="s-slow">Mov. deliberados</span><span class="itag" id="s-sym">Simetría</span><span class="itag" id="s-stable">Estabilidad</span></div> </div> </div> </div> <div class="tl"> <div class="tlh"><span>Evolución temporal</span><span id="elapsed">00:00</span></div> <canvas id="tlCanvas"></canvas> </div> </main> <div class="mbg" id="mbg"> <div class="modal"> <div id="reportContent"> <div class="mtitle">Reporte Final — Nonverbal Analyzer</div> <div class="msub" id="msub">—</div> <div class="rg" id="rgrid"></div> <div class="rs">Por indicador</div> <div id="rrows"></div> <div class="rs">Evolución</div> <canvas id="rChartCanvas"></canvas> <div class="rs">Observaciones</div> <div class="obs" id="robs"></div> </div> <div class="mf"> <button class="btn" onclick="closeReport()">Cerrar</button> <button class="btn" onclick="exportJSON()">💾 JSON</button> <button class="btn primary" onclick="exportPDF()">📄 Descargar PDF</button> </div> </div> </div> <footer class="site-footer"><a href="https://carlosganoza.com" target="_blank" rel="noopener noreferrer">./dev by Carlos Ganoza</a></footer> <script type="module"> // ── MEDIAPIPE + FALLBACK MODO MOVIMIENTO ──────────────
+<!doctype html> <html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1"> <meta name="description" content="nonverbal language analyzer"> <title>nonverba</title> <style>:root{--bg:#FAFAFB;--surface:#FFFFFF;--surface-2:#F4F4F7;--border:#EAEAEF;--border-2:#E0E0E8;--accent:#6366F1;--accent-soft:#EEF0FF;--text:#1A1A2E;--muted:#6B7280;--muted-2:#9CA3AF;--stress:#EF4444;--disinterest:#8B5CF6;--enthusiasm:#10B981;--discomfort:#F59E0B;--dominance:#EC4899;--shadow:0 1px 3px rgba(16,24,40,0.06),0 1px 2px rgba(16,24,40,0.04);--shadow-md:0 4px 12px rgba(16,24,40,0.08);--radius:14px;--radius-sm:10px;--font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:var(--surface);border-bottom:1px solid var(--border)}.logo{font-weight:700;font-size:1.25rem;color:var(--text);letter-spacing:-.02em;display:flex;align-items:center;gap:9px}.logo-wordmark{display:inline-flex;align-items:baseline;gap:0}.brand{display:flex;flex-direction:column;gap:3px;align-items:flex-start}.logo-meta{display:flex;align-items:center;gap:8px}.tagline{font-size:.62rem;color:var(--muted);letter-spacing:.03em;text-transform:none;line-height:1.2;margin-left:37px}.credit{font-size:.6rem;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;margin-left:0}.logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:inline-flex;align-items:center;justify-content:center}.logo-mark svg{width:22px;height:22px}.logo span{color:var(--accent)}.logo .logo-non{color:var(--text)}.logo .logo-verba{color:var(--accent)}.sbar{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted);font-weight:500}.dot{width:8px;height:8px;border-radius:50%;background:var(--muted-2);transition:all .3s}.dot.active{background:var(--enthusiasm);box-shadow:0 0 0 3px rgba(16,185,129,.15);animation:pulse 1.8s infinite}.dot.error{background:var(--stress)}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}main{position:relative;z-index:1;display:grid;grid-template-columns:1fr 380px;gap:20px;padding:20px 28px;align-items:start}.left{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.tabs{flex-shrink:0;display:flex;padding:8px;gap:6px;border-bottom:1px solid var(--border)}.tab{flex:1;padding:10px;background:0 0;border:none;border-radius:var(--radius-sm);color:var(--muted);font-family:var(--font);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}.tab.active{color:var(--accent);background:var(--accent-soft)}.tab:hover:not(.active){background:var(--surface-2)}.vwrap{flex:none;height:440px;position:relative;background:#0f1117;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:14px;border-radius:var(--radius-sm)}video{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:none}#overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2}.ph{display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--muted-2);text-align:center;padding:32px}.ph-ico{font-size:2.5rem;opacity:.5}.ph p{font-size:.85rem;line-height:1.6;color:var(--muted)}.notice{position:absolute;bottom:12px;left:12px;right:12px;background:rgba(255,255,255,.97);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-size:.76rem;color:var(--text);line-height:1.5;display:none;box-shadow:var(--shadow-md)}.notice.show{display:block}.fps{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.92);color:var(--accent);font-size:.68rem;font-weight:600;padding:4px 9px;border-radius:20px;display:none}.controls{flex-shrink:0;padding:14px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--border);flex-wrap:wrap}.btn{padding:10px 16px;border:1px solid var(--border-2);background:var(--surface);color:var(--text);font-family:var(--font);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;border-radius:var(--radius-sm);white-space:nowrap}.cam-select{padding:10px 12px;border:1px solid var(--border-2);background:var(--surface);color:var(--text);font-family:var(--font);font-size:.82rem;font-weight:600;border-radius:var(--radius-sm);min-width:112px}.btn:hover{background:var(--surface-2);border-color:var(--muted-2)}.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn.primary:hover{background:#5457e5}.btn.danger{background:#fff;border-color:#fca5a5;color:var(--stress)}.btn.danger:hover{background:#fef2f2}.btn:disabled{opacity:.45;cursor:not-allowed}.upzone{flex:1;border:1.5px dashed var(--border-2);border-radius:var(--radius-sm);padding:10px 14px;text-align:center;cursor:pointer;font-size:.78rem;color:var(--muted);font-weight:500;transition:border-color .2s,color .2s,background .2s}.upzone:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}.controls .cam-only{display:block}.controls .up-only{display:none}.controls.show-up .cam-only{display:none}.controls.show-up .up-only{display:block}#fileIn{display:none}.right{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;height:534px}.phdr{padding:16px 18px;border-bottom:1px solid var(--border);font-weight:600;font-size:.92rem;color:var(--text);display:flex;justify-content:space-between;align-items:center}.phdr #fcnt{font-size:.72rem;color:var(--muted-2);font-weight:500}.inds{padding:14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;flex:1}.ic{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;transition:all .25s}.ic.stress{--c:var(--stress)}.ic.disinterest{--c:var(--disinterest)}.ic.enthusiasm{--c:var(--enthusiasm)}.ic.discomfort{--c:var(--discomfort)}.ic.dominance{--c:var(--dominance)}.ic.lit{box-shadow:0 0 0 1px var(--c),var(--shadow);border-color:transparent}.ict{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.icn{font-weight:600;font-size:.86rem;color:var(--text);display:flex;align-items:center;gap:8px}.idot{width:9px;height:9px;border-radius:50%;background:var(--c)}.ival{font-weight:700;font-size:1.15rem;color:var(--c);letter-spacing:-.02em}.ibg{height:6px;background:var(--surface-2);border-radius:6px;overflow:hidden;margin-bottom:9px}.ibar{height:100%;background:var(--c);border-radius:6px;transition:width .5s cubic-bezier(.4,0,.2,1)}.itags{display:flex;flex-wrap:wrap;gap:4px}.itag{padding:3px 8px;border-radius:20px;font-size:.66rem;font-weight:500;background:var(--surface-2);color:var(--muted-2);transition:all .3s}.itag.on{background:var(--c);color:#fff}.ptab{transition:all .2s}.tl{grid-column:1/-1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;height:150px;display:flex;flex-direction:column;gap:8px}.tlh{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);font-weight:600}.tlh #elapsed{color:var(--muted-2);font-weight:500;font-variant-numeric:tabular-nums}#tlCanvas{flex:1;width:100%}.mbg{position:fixed;inset:0;background:rgba(26,26,46,.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}.mbg.open{display:flex}.modal{background:var(--surface);border-radius:var(--radius);width:100%;max-width:660px;max-height:90vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(16,24,40,.2)}.mtitle{font-weight:700;font-size:1.5rem;color:var(--text);letter-spacing:-.02em;margin-bottom:3px}.msub{font-size:.82rem;color:var(--muted);margin-bottom:22px}.rg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}.rc{background:var(--surface-2);border-radius:var(--radius-sm);padding:16px}.rcl{font-size:.72rem;color:var(--muted);font-weight:500;margin-bottom:5px}.rcv{font-weight:700;font-size:1.5rem;letter-spacing:-.02em}.rs{font-weight:600;font-size:.82rem;color:var(--muted);margin:20px 0 10px}.rrow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);gap:12px}.rname{font-weight:600;font-size:.86rem;color:var(--text);display:flex;align-items:center;gap:8px}.rstats{display:flex;gap:18px;font-size:.72rem;color:var(--muted)}.rstats strong{display:block;font-size:1rem;color:var(--text);font-weight:700}.rperson{border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;background:var(--surface);margin-top:12px}.rperson:first-child{margin-top:0}.rperson-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid var(--border)}.rperson-t{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.rperson-dot{width:10px;height:10px;border-radius:50%;display:inline-block}.rperson-sub{font-size:.72rem;color:var(--muted)}#rChartCanvas{height:170px;width:100%;margin:10px 0}.obs{background:var(--surface-2);border-radius:var(--radius-sm);padding:16px}.oi{font-size:.82rem;line-height:1.7;color:var(--text);padding:5px 0 5px 12px;border-left:2.5px solid var(--accent);margin-bottom:7px}.mf{display:flex;justify-content:flex-end;gap:8px;margin-top:20px;padding-top:18px;border-top:1px solid var(--border)}@media(max-width:900px){main{grid-template-columns:1fr;gap:16px;padding:16px}.vwrap{height:48vh;max-height:440px}.right{height:auto;max-height:420px}.tl{grid-column:1;height:130px}}@media(max-width:480px){header{padding:14px 16px}.logo{font-size:1.1rem}main{padding:12px;gap:12px}.vwrap{height:44vh;max-height:360px;margin:10px}.controls{padding:10px;gap:6px}.btn{padding:9px 12px;font-size:.78rem}.rg{grid-template-columns:1fr}.modal{padding:20px}.mtitle{font-size:1.25rem}.tl{height:120px}}.site-footer{text-align:center;padding:20px;color:var(--muted-2);font-size:.72rem;font-family:ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.03em;border-top:1px solid var(--border);margin-top:4px}.credit a,.foot a,.site-footer a{display:inline-flex;align-items:center;justify-content:center;color:inherit;text-decoration:underline;pointer-events:auto;cursor:pointer;position:relative;z-index:1}::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:0 0}::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:8px}::-webkit-scrollbar-thumb:hover{background:var(--muted-2)}</style> </head> <body> <header> <div class="brand"> <div class="logo-meta"><div class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8.5" cy="9" r="1.3" fill="#fff"/><circle cx="15.5" cy="9" r="1.3" fill="#fff"/><path d="M8 14.5c1.2 1.6 6.8 1.6 8 0" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg></span><span class="logo-wordmark"><span class="logo-non">Non</span><span class="logo-verba">Verba</span></span></div><div class="credit">Beta</div></div> <div class="tagline">nonverbal language analyzer</div> </div> <div class="sbar"><div class="dot" id="dot"></div><span id="stxt">Listo</span></div> </header> <main> <div class="left"> <div class="tabs"> <button class="tab active" id="tCam">📷 Cámara</button> <button class="tab" id="tUp">📁 Video</button> </div> <div class="vwrap" id="vwrap"> <video id="camV" autoplay muted playsinline></video> <video id="upV" controls playsinline webkit-playsinline></video> <canvas id="overlay"></canvas> <div class="ph" id="ph"><div class="ph-ico">🎥</div><p>Activa la cámara o sube<br>un video para comenzar</p></div> <div class="notice" id="notice"></div> <div class="fps" id="fpsBadge">-- FPS</div> </div> <div class="controls" id="controls"> <select class="cam-only cam-select" id="camFacing" aria-label="Seleccionar cámara"> <option value="user">Frontal</option> <option value="environment">Trasera</option> </select> <button class="btn primary cam-only" id="btnCam">▶ Iniciar cámara</button> <button class="btn danger" id="btnStop" style="display:none">■ Detener</button> <button class="btn" id="btnRep" disabled="disabled">📊 Reporte</button> <div class="upzone up-only" id="upzone">📁 Subir video</div> <input type="file" id="fileIn" accept="video/*"> </div> </div> <div class="right"> <div class="phdr"><span id="phdr-label">Señales no verbales</span><span id="fcnt" style="font-size:.58rem">0 frames</span></div> <div id="personTabs" style="display:none;border-bottom:1px solid var(--border)"> <div style="display:flex"> <button class="ptab active" id="ptab0" onclick="selectPerson(0)" style="flex:1;padding:9px;background:0 0;border:none;border-bottom:2px solid #6366f1;color:#6366f1;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:.08em">● Persona 1</button> <button class="ptab" id="ptab1" onclick="selectPerson(1)" style="flex:1;padding:9px;background:0 0;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:.08em">● Persona 2</button> </div> </div> <div class="inds"> <div class="ic stress" id="c-stress"> <div class="ict"><div class="icn"><div class="idot"></div>Estrés Agudo</div><div class="ival" id="v-stress">0%</div></div> <div class="ibg"><div class="ibar" id="b-stress" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-blink">Parpadeo alto</span><span class="itag" id="s-movfast">Movimiento rápido</span><span class="itag" id="s-asym">Asimetría facial</span><span class="itag" id="s-tense">Tensión</span></div> </div> <div class="ic disinterest" id="c-disinterest"> <div class="ict"><div class="icn"><div class="idot"></div>Desinterés</div><div class="ival" id="v-disinterest">0%</div></div> <div class="ibg"><div class="ibar" id="b-disinterest" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-gaze">Mirada desviada</span><span class="itag" id="s-still">Sin movimiento</span><span class="itag" id="s-mouthclosed">Boca cerrada</span><span class="itag" id="s-small">Postura alejada</span></div> </div> <div class="ic enthusiasm" id="c-enthusiasm"> <div class="ict"><div class="icn"><div class="idot"></div>Entusiasmo</div><div class="ival" id="v-enthusiasm">0%</div></div> <div class="ibg"><div class="ibar" id="b-enthusiasm" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-movmed">Gesticulación</span><span class="itag" id="s-mouthopen">Boca activa</span><span class="itag" id="s-eyeup">Ojos expresivos</span><span class="itag" id="s-near">Proximidad alta</span></div> </div> <div class="ic discomfort" id="c-discomfort"> <div class="ict"><div class="icn"><div class="idot"></div>Incomodidad</div><div class="ival" id="v-discomfort">0%</div></div> <div class="ibg"><div class="ibar" id="b-discomfort" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-fasym">Asimetría alta</span><span class="itag" id="s-avoid">Evita contacto</span><span class="itag" id="s-erratic">Mov. errático</span><span class="itag" id="s-micro">Tensión micro</span></div> </div> <div class="ic dominance" id="c-dominance"> <div class="ict"><div class="icn"><div class="idot"></div>Dominancia</div><div class="ival" id="v-dominance">0%</div></div> <div class="ibg"><div class="ibar" id="b-dominance" style="width:0%"></div></div> <div class="itags"><span class="itag" id="s-contact">Contacto visual</span><span class="itag" id="s-slow">Mov. deliberados</span><span class="itag" id="s-sym">Simetría</span><span class="itag" id="s-stable">Estabilidad</span></div> </div> </div> </div> <div class="tl"> <div class="tlh"><span>Evolución temporal</span><span id="elapsed">00:00</span></div> <canvas id="tlCanvas"></canvas> </div> </main> <div class="mbg" id="mbg"> <div class="modal"> <div id="reportContent"> <div class="mtitle">Reporte Final — Nonverbal Analyzer</div> <div class="msub" id="msub">—</div> <div class="rg" id="rgrid"></div> <div class="rs">Por indicador</div> <div id="rrows"></div> <div class="rs">Evolución</div> <canvas id="rChartCanvas"></canvas> <div class="rs">Observaciones</div> <div class="obs" id="robs"></div> </div> <div class="mf"> <button class="btn" onclick="closeReport()">Cerrar</button> <button class="btn" onclick="exportJSON()">💾 JSON</button> <button class="btn primary" onclick="exportPDF()">📄 Descargar PDF</button> </div> </div> </div> <footer class="site-footer"><a href="https://carlosganoza.com" target="_blank" rel="noopener noreferrer">./dev by Carlos Ganoza</a></footer> <script type="module"> // ── MEDIAPIPE + FALLBACK MODO MOVIMIENTO ──────────────
 const KEYS=['stress','disinterest','enthusiasm','discomfort','dominance'];
 const LABELS={stress:'Estrés Agudo',disinterest:'Desinterés',enthusiasm:'Entusiasmo',discomfort:'Incomodidad',dominance:'Dominancia'};
 const COLORS={stress:'#EF4444',disinterest:'#8B5CF6',enthusiasm:'#10B981',discomfort:'#F59E0B',dominance:'#EC4899'};
@@ -34,14 +34,25 @@ const offX=offC.getContext('2d',{willReadFrequently:true});
 const sceneC=document.createElement('canvas');
 const sceneX=sceneC.getContext('2d',{willReadFrequently:true});
 let prevSceneFrame=null;
+let sceneCutPending=false;
+let singleFaceSlot=-1;
+
+function assignTrackedFace(result, slotIndex, detection){
+  result[slotIndex]=detection;
+  persons[slotIndex].lastCenter=detection.center;
+  persons[slotIndex].faceSignature=blendSignature(persons[slotIndex].faceSignature,detection.signature);
+  persons[slotIndex].lastSeen=frames;
+}
 
 function resetTrackingState(){
   persons=[newPersonState(),newPersonState()];
   multiMode=false;
   selectedPerson=0;
+  singleFaceSlot=-1;
   prevPts=null;
   prevFrame=null;
   prevSceneFrame=null;
+  sceneCutPending=false;
   faceBox=null;
 }
 
@@ -51,9 +62,11 @@ function resetTransientTracking(){
     p.active=false;
     p.prevPt=null;
   });
+  singleFaceSlot=-1;
   prevPts=null;
   prevFrame=null;
   faceBox=null;
+  sceneCutPending=false;
 }
 
 function knownPersonCount(){
@@ -308,7 +321,10 @@ function beginLoop(vid){
     frames++;sess.frames++;
     document.getElementById('fcnt').textContent=frames+' frames';
     updateFPS();updateElapsed();
-    if(detectSceneCut(vid))resetTransientTracking();
+    if(detectSceneCut(vid)){
+      resetTransientTracking();
+      sceneCutPending=true;
+    }
     const m = (mpReady && faceLandmarker) ? analyzeMP(vid) : analyzePixels(vid);
     updateUI(m);
     drawTimeline();
@@ -363,6 +379,10 @@ function signatureDistance(a,b){
   return sum/a.length;
 }
 
+const FACE_SIGNATURE_STRICT_MATCH=0.075;
+const FACE_SIGNATURE_SOFT_MATCH=0.11;
+const FACE_SIGNATURE_SCENE_REUSE=0.05;
+
 function blendSignature(previous,next){
   if(!previous)return next;
   return previous.map((value,idx)=>value*0.65+next[idx]*0.35);
@@ -384,6 +404,7 @@ function analyzeMP(vid){
     setSt('Sin rostro detectado','idle');
     clearOvl();
     persons.forEach(p=>p.active=false);
+    singleFaceSlot=-1;
     updateMultiMode(0);
     return scores({g:0.1,mv:0,mo:0,as:0,br:0,fa:0,ic:false});
   }
@@ -398,7 +419,7 @@ function analyzeMP(vid){
   const assigned = trackFaces(detected);
   const activeIndexes = assigned.map((face,idx)=>face?idx:-1).filter(idx=>idx>=0);
   updateMultiMode(Math.max(detected.length,knownPersonCount()));
-  if(activeIndexes.length===1)selectedPerson=activeIndexes[0];
+  if(activeIndexes.length===1 && selectedPerson!==activeIndexes[0])selectPerson(activeIndexes[0]);
 
   // ── Limpiar overlay una vez, luego dibujar todas las caras ──
   const c=document.getElementById('overlay');
@@ -433,39 +454,91 @@ function analyzeMP(vid){
 function trackFaces(detected){
   const result=[null,null];
   const used=new Set();
+  const knownCount=knownPersonCount();
+  const emptySlotIndex=persons.findIndex(p=>!p.faceSignature);
+  if(detected.length===1){
+    const detection=detected[0];
+    if(sceneCutPending && knownCount===1 && emptySlotIndex!==-1){
+      const knownSlotIndex=persons.findIndex(p=>!!p.faceSignature);
+      const knownPerson=knownSlotIndex>=0?persons[knownSlotIndex]:null;
+      const sigDist=signatureDistance(detection.signature,knownPerson?.faceSignature);
+      if(sigDist>=FACE_SIGNATURE_SCENE_REUSE){
+        assignTrackedFace(result, emptySlotIndex, detection);
+        singleFaceSlot=emptySlotIndex;
+        if(sceneCutPending)sceneCutPending=false;
+        return result;
+      }
+    }
+
+    const candidates=persons
+      .map((person,idx)=>({
+        idx,
+        sigDist:signatureDistance(detection.signature,person.faceSignature),
+        centerDist:person.lastCenter?Math.hypot(detection.center.x-person.lastCenter.x, detection.center.y-person.lastCenter.y):Infinity,
+        isLocked:idx===singleFaceSlot
+      }))
+      .filter(candidate=>isFinite(candidate.sigDist))
+      .sort((a,b)=>a.sigDist-b.sigDist || a.centerDist-b.centerDist || Number(b.isLocked)-Number(a.isLocked));
+
+    if(candidates.length){
+      const best=candidates[0];
+      const canReuseLocked=best.isLocked && best.sigDist<FACE_SIGNATURE_SOFT_MATCH*1.35;
+      const canReuseKnown=best.sigDist<FACE_SIGNATURE_SOFT_MATCH || knownCount===MAXP;
+      if(canReuseLocked || canReuseKnown){
+        assignTrackedFace(result, best.idx, detection);
+        singleFaceSlot=best.idx;
+        if(sceneCutPending)sceneCutPending=false;
+        return result;
+      }
+    }
+
+    if(emptySlotIndex!==-1){
+      assignTrackedFace(result, emptySlotIndex, detection);
+      singleFaceSlot=emptySlotIndex;
+      if(sceneCutPending)sceneCutPending=false;
+      return result;
+    }
+  }
   // 1) Asignar a personas que ya tenían posición previa, por cercanía
   persons.forEach((p,idx)=>{
     if(!p.lastCenter && !p.faceSignature) return;
     let best=-1, bestScore=Infinity;
+    let bestSigDist=Infinity;
+    let bestCenterDist=Infinity;
     detected.forEach((d,di)=>{
       if(used.has(di))return;
       const centerDist=p.lastCenter?Math.hypot(d.center.x-p.lastCenter.x, d.center.y-p.lastCenter.y):220;
       const sigDist=signatureDistance(d.signature,p.faceSignature);
-      const score=(isFinite(sigDist)?sigDist*3.2:1.2)+Math.min(centerDist/220,1.8);
-      if(score<bestScore){bestScore=score;best=di;}
+      const score=(isFinite(sigDist)?sigDist*4.8:1.8)+Math.min(centerDist/260,1.2);
+      if(score<bestScore){bestScore=score;best=di;bestSigDist=sigDist;bestCenterDist=centerDist;}
     });
-    if(best>=0 && bestScore<1.75){
-      result[idx]=detected[best];
-      p.lastCenter=detected[best].center;
-      p.faceSignature=blendSignature(p.faceSignature,detected[best].signature);
-      p.lastSeen=frames;
+    if(sceneCutPending && detected.length===1 && knownCount===1 && emptySlotIndex!==-1 && idx!==emptySlotIndex && bestSigDist>FACE_SIGNATURE_SOFT_MATCH){
+      return;
+    }
+    const signatureLooksSame = bestSigDist<FACE_SIGNATURE_STRICT_MATCH || (bestSigDist<FACE_SIGNATURE_SOFT_MATCH && bestCenterDist<120);
+    if(best>=0 && signatureLooksSame){
+      assignTrackedFace(result, idx, detected[best]);
       used.add(best);
     }
   });
   // 2) Caras nuevas → asignar a slots libres
   detected.forEach((d,di)=>{
     if(used.has(di))return;
-    for(let idx=0;idx<persons.length;idx++){
-      if(!result[idx]){
-        result[idx]=d;
-        persons[idx].lastCenter=d.center;
-        persons[idx].faceSignature=d.signature;
-        persons[idx].lastSeen=frames;
-        used.add(di);
-        break;
-      }
+    const preferredSlots=[
+      ...persons.map((p,idx)=>({idx,priority:p.faceSignature?1:0,lastSeen:p.lastSeen||0})),
+    ]
+      .filter(slot=>!result[slot.idx])
+      .sort((a,b)=>a.priority-b.priority || a.lastSeen-b.lastSeen);
+
+    for(const slot of preferredSlots){
+      const idx=slot.idx;
+      assignTrackedFace(result, idx, d);
+      used.add(di);
+      break;
     }
   });
+  singleFaceSlot=detected.length===1?result.findIndex(Boolean):-1;
+  if(sceneCutPending)sceneCutPending=false;
   return result;
 }
 
@@ -932,22 +1005,79 @@ function updateElapsed(){
 function avg(a){return a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;}
 function pk(a){return a.length?Math.max(...a):0;}
 
+function personHasData(person){
+  return !!person && KEYS.some(k=>(person.sess[k]||[]).length>0);
+}
+
+function getReportSubjects(){
+  if(multiMode){
+    return persons
+      .map((person,idx)=>({
+        key:`p${idx+1}`,
+        label:`Persona ${idx+1}`,
+        sess:person.sess,
+        hist:person.hist,
+        accent:idx===0?'#6366F1':'#EC4899'
+      }))
+      .filter(subject=>personHasData({sess:subject.sess}));
+  }
+  return [{key:'session',label:'Sesión',sess,hist,accent:'#6366F1'}];
+}
+
+function getDominantIndicator(src){
+  return KEYS.map(k=>({k,v:avg(src[k]||[])})).sort((a,b)=>b.v-a.v)[0] || {k:'stress',v:0};
+}
+
+function buildObservationList(src,label){
+  const a={stress:avg(src.stress||[]),disinterest:avg(src.disinterest||[]),enthusiasm:avg(src.enthusiasm||[]),discomfort:avg(src.discomfort||[]),dominance:avg(src.dominance||[])};
+  const stressPeak=pk(src.stress||[]);
+  const prefix=label==='Sesión'?'':`${label}: `;
+  const observations=[];
+  if(a.stress>50)observations.push(`${prefix}estrés elevado sostenido. Movimiento inquieto y tensión frecuentes.`);
+  else if(a.stress>25)observations.push(`${prefix}estrés moderado. Momentos de tensión manejables.`);
+  else observations.push(`${prefix}nivel de estrés bajo. Postura tranquila durante la sesión.`);
+  if(a.enthusiasm>50)observations.push(`${prefix}alto entusiasmo. Gesticulación activa y proximidad positiva.`);
+  else if(a.enthusiasm<15)observations.push(`${prefix}bajo entusiasmo. Poca expresividad durante la sesión.`);
+  if(a.disinterest>40)observations.push(`${prefix}señales de desinterés. Poca actividad y posición alejada.`);
+  if(a.dominance>55)observations.push(`${prefix}postura dominante. Contacto visual estable y movimientos deliberados.`);
+  else if(a.dominance<20)observations.push(`${prefix}baja dominancia percibida. Poca presencia corporal.`);
+  if(a.discomfort>40)observations.push(`${prefix}incomodidad frecuente. Asimetría facial y evitación de contacto visual.`);
+  if(stressPeak>80)observations.push(`${prefix}pico de estrés muy alto (${stressPeak}%) detectado.`);
+  return observations;
+}
+
+function renderSubjectRows(subject){
+  const dominant=getDominantIndicator(subject.sess);
+  return `
+    <div class="rperson">
+      <div class="rperson-h">
+        <div class="rperson-t" style="color:${subject.accent}"><span class="rperson-dot" style="background:${subject.accent}"></span>${subject.label}</div>
+        <div class="rperson-sub">Dominante: ${LABELS[dominant.k]} · ${dominant.v}%</div>
+      </div>
+      ${KEYS.map(k=>`
+        <div class="rrow">
+          <div class="rname"><div style="width:7px;height:7px;border-radius:50%;background:${COLORS[k]}"></div>${LABELS[k]}</div>
+          <div class="rstats"><div><strong style="color:${COLORS[k]}">${avg(subject.sess[k]||[])}%</strong>Promedio</div><div><strong>${pk(subject.sess[k]||[])}%</strong>Pico</div></div>
+        </div>`).join('')}
+    </div>`;
+}
+
 function openReport(){
   sess.t1=Date.now();
   const dur=Math.floor(((sess.t1-sess.t0)||1)/1000);
   const mm=String(Math.floor(dur/60)).padStart(2,'0'),ss=String(dur%60).padStart(2,'0');
-  document.getElementById('msub').textContent=`Duración: ${mm}:${ss} · ${sess.frames} frames`;
-  const dom=KEYS.map(k=>({k,v:avg(sess[k])})).sort((a,b)=>b.v-a.v)[0];
+  const subjects=getReportSubjects();
+  document.getElementById('msub').textContent=`Duración: ${mm}:${ss} · ${sess.frames} frames${subjects.length>1?` · ${subjects.length} personas`:''}`;
+  const dominantCards=subjects.map(subject=>{
+    const dom=getDominantIndicator(subject.sess);
+    return `<div class="rc"><div class="rcl">Dominante ${subject.label}</div><div class="rcv" style="color:${COLORS[dom.k]}">${LABELS[dom.k]} · ${dom.v}%</div></div>`;
+  }).join('');
   document.getElementById('rgrid').innerHTML=`
-    <div class="rc"><div class="rcl">Indicador dominante</div><div class="rcv" style="color:${COLORS[dom.k]}">${LABELS[dom.k]}</div></div>
-    <div class="rc"><div class="rcl">Intensidad promedio</div><div class="rcv">${dom.v}%</div></div>
+    <div class="rc"><div class="rcl">${subjects.length>1?'Personas detectadas':'Indicador dominante'}</div><div class="rcv" style="color:${subjects.length>1?'#1A1A2E':COLORS[getDominantIndicator(subjects[0].sess).k]}">${subjects.length>1?subjects.length:LABELS[getDominantIndicator(subjects[0].sess).k]}</div></div>
     <div class="rc"><div class="rcl">Frames analizados</div><div class="rcv">${sess.frames}</div></div>
-    <div class="rc"><div class="rcl">Duración</div><div class="rcv">${mm}:${ss}</div></div>`;
-  document.getElementById('rrows').innerHTML=KEYS.map(k=>`
-    <div class="rrow">
-      <div class="rname"><div style="width:7px;height:7px;border-radius:50%;background:${COLORS[k]}"></div>${LABELS[k]}</div>
-      <div class="rstats"><div><strong style="color:${COLORS[k]}">${avg(sess[k])}%</strong>Promedio</div><div><strong>${pk(sess[k])}%</strong>Pico</div></div>
-    </div>`).join('');
+    <div class="rc"><div class="rcl">Duración</div><div class="rcv">${mm}:${ss}</div></div>
+    ${subjects.length>1?dominantCards:`<div class="rc"><div class="rcl">Intensidad promedio</div><div class="rcv">${getDominantIndicator(subjects[0].sess).v}%</div></div>`}`;
+  document.getElementById('rrows').innerHTML=subjects.map(renderSubjectRows).join('');
   drawReportChart();
   document.getElementById('robs').innerHTML=genObs().map(o=>`<div class="oi">${o}</div>`).join('');
   document.getElementById('mbg').classList.add('open');
@@ -956,6 +1086,7 @@ function openReport(){
 }
 
 function drawReportChart(){
+  const subjects=getReportSubjects();
   const c=document.getElementById('rChartCanvas');
   const ww=c.offsetWidth||c.parentElement.offsetWidth||600;
   c.width=ww;c.height=160;
@@ -963,15 +1094,22 @@ function drawReportChart(){
   x.clearRect(0,0,w,h);
   x.strokeStyle='rgba(234,234,239,0.9)';x.lineWidth=1;
   [25,50,75].forEach(p=>{const y=h-(p/100)*h;x.beginPath();x.moveTo(0,y);x.lineTo(w,y);x.stroke();});
-  KEYS.forEach(k=>{
-    const data=sess[k];if(data.length<2)return;
-    x.strokeStyle=COLORS[k];x.lineWidth=2;x.beginPath();
-    data.forEach((v,i)=>{
-      const px=(i/(data.length-1))*w,py=h-(v/100)*h;
-      i===0?x.moveTo(px,py):x.lineTo(px,py);
+  subjects.forEach((subject,subjectIndex)=>{
+    KEYS.forEach(k=>{
+      const data=subject.hist[k]||subject.sess[k]||[];if(data.length<2)return;
+      x.strokeStyle=COLORS[k];x.lineWidth=subjectIndex===0?2:1.6;
+      x.setLineDash(subjectIndex===0?[]:[5,4]);
+      x.globalAlpha=subjectIndex===0?0.95:0.55;
+      x.beginPath();
+      data.forEach((v,i)=>{
+        const px=(i/Math.max(1,data.length-1))*w,py=h-(v/100)*h;
+        i===0?x.moveTo(px,py):x.lineTo(px,py);
+      });
+      x.stroke();
     });
-    x.stroke();
   });
+  x.setLineDash([]);
+  x.globalAlpha=1;
   // Legend
   let lx=8;
   KEYS.forEach(k=>{
@@ -980,21 +1118,16 @@ function drawReportChart(){
     x.fillText(LABELS[k].split(' ')[0],lx+11,h-6);
     lx+=LABELS[k].split(' ')[0].length*6+20;
   });
+  if(subjects.length>1){
+    x.fillStyle='#6366F1';x.fillRect(lx+8,h-14,8,8);
+    x.fillStyle='#6B7280';x.fillText('P1',lx+20,h-6);
+    x.strokeStyle='#EC4899';x.lineWidth=1.5;x.setLineDash([5,4]);x.beginPath();x.moveTo(lx+46,h-10);x.lineTo(lx+62,h-10);x.stroke();
+    x.setLineDash([]);x.fillStyle='#6B7280';x.fillText('P2',lx+66,h-6);
+  }
 }
 
 function genObs(){
-  const a={stress:avg(sess.stress),disinterest:avg(sess.disinterest),enthusiasm:avg(sess.enthusiasm),discomfort:avg(sess.discomfort),dominance:avg(sess.dominance)};
-  const o=[];
-  if(a.stress>50)o.push('🔴 Estrés elevado sostenido. Movimiento inquieto y tensión frecuentes.');
-  else if(a.stress>25)o.push('🟡 Estrés moderado. Momentos de tensión manejables.');
-  else o.push('🟢 Nivel de estrés bajo. Postura tranquila durante la sesión.');
-  if(a.enthusiasm>50)o.push('🟢 Alto entusiasmo. Gesticulación activa y proximidad positiva.');
-  else if(a.enthusiasm<15)o.push('🔵 Bajo entusiasmo. Poca expresividad durante la sesión.');
-  if(a.disinterest>40)o.push('🔵 Señales de desinterés. Poca actividad y posición alejada.');
-  if(a.dominance>55)o.push('🟣 Postura dominante. Contacto visual estable y movimientos deliberados.');
-  else if(a.dominance<20)o.push('🟡 Baja dominancia percibida. Poca presencia corporal.');
-  if(a.discomfort>40)o.push('🟠 Incomodidad frecuente. Asimetría facial y evitación de contacto visual.');
-  if(pk(sess.stress)>80)o.push(`⚠️ Pico de estrés muy alto (${pk(sess.stress)}%) detectado.`);
+  const o=getReportSubjects().flatMap(subject=>buildObservationList(subject.sess,subject.label));
   if(!o.length)o.push('ℹ️ Graba por más tiempo para obtener observaciones más detalladas.');
   return o;
 }
@@ -1002,7 +1135,15 @@ function genObs(){
 function closeReport(){document.getElementById('mbg').classList.remove('open');}
 
 function exportJSON(){
-  const data={session:{start:new Date(sess.t0).toISOString(),end:new Date(sess.t1||Date.now()).toISOString(),frames:sess.frames},averages:Object.fromEntries(KEYS.map(k=>[k,avg(sess[k])])),peaks:Object.fromEntries(KEYS.map(k=>[k,pk(sess[k])])),timeSeries:Object.fromEntries(KEYS.map(k=>[k,sess[k]])),observations:genObs()};
+  const subjects=getReportSubjects();
+  const data={
+    session:{start:new Date(sess.t0).toISOString(),end:new Date(sess.t1||Date.now()).toISOString(),frames:sess.frames,subjects:subjects.map(subject=>subject.label)},
+    averages:Object.fromEntries(KEYS.map(k=>[k,avg(sess[k])])),
+    peaks:Object.fromEntries(KEYS.map(k=>[k,pk(sess[k])])),
+    timeSeries:Object.fromEntries(KEYS.map(k=>[k,sess[k]])),
+    people:subjects.length>1?Object.fromEntries(subjects.map(subject=>[subject.label,{averages:Object.fromEntries(KEYS.map(k=>[k,avg(subject.sess[k]||[])])),peaks:Object.fromEntries(KEYS.map(k=>[k,pk(subject.sess[k]||[])])),timeSeries:Object.fromEntries(KEYS.map(k=>[k,subject.sess[k]||[]]))}])):undefined,
+    observations:genObs()
+  };
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
   a.download='nonverbal-analyzer-'+Date.now()+'.json';a.click();
@@ -1038,6 +1179,12 @@ function exportPDF(){
     .rname{font-weight:600;font-size:0.9rem;display:flex;align-items:center;gap:8px;}
     .rstats{display:flex;gap:24px;font-size:0.72rem;color:#6B7280;text-align:right;}
     .rstats strong{display:block;font-size:1rem;color:#1A1A2E;}
+    .rperson{background:#FFFFFF;border:1px solid #EAEAEF;border-radius:14px;padding:16px 18px;margin-top:14px;break-inside:avoid;}
+    .rperson:first-child{margin-top:0;}
+    .rperson-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #EAEAEF;}
+    .rperson-t{display:flex;align-items:center;gap:8px;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+    .rperson-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+    .rperson-sub{font-size:0.74rem;color:#6B7280;}
     .obs{background:#F4F4F7;border-radius:10px;padding:16px;}
     .oi{font-size:0.86rem;line-height:1.7;padding:5px 0 5px 12px;border-left:2.5px solid #6366F1;margin-bottom:7px;}
     .chart{width:100%;margin:10px 0;border:1px solid #EAEAEF;border-radius:10px;}
