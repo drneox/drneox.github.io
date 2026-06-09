@@ -45,6 +45,21 @@ function resetTrackingState(){
   faceBox=null;
 }
 
+function resetTransientTracking(){
+  persons.forEach(p=>{
+    p.lastCenter=null;
+    p.active=false;
+    p.prevPt=null;
+  });
+  prevPts=null;
+  prevFrame=null;
+  faceBox=null;
+}
+
+function knownPersonCount(){
+  return persons.filter(p=>!!p.faceSignature).length;
+}
+
 // ── STATUS ──────────────────────────────────────────────
 function setSt(t,s='idle'){
   document.getElementById('stxt').textContent=t;
@@ -293,7 +308,7 @@ function beginLoop(vid){
     frames++;sess.frames++;
     document.getElementById('fcnt').textContent=frames+' frames';
     updateFPS();updateElapsed();
-    if(detectSceneCut(vid))resetTrackingState();
+    if(detectSceneCut(vid))resetTransientTracking();
     const m = (mpReady && faceLandmarker) ? analyzeMP(vid) : analyzePixels(vid);
     updateUI(m);
     drawTimeline();
@@ -379,10 +394,11 @@ function analyzeMP(vid){
     return { lm, center:{x:noseTip.x*vw, y:noseTip.y*vh}, signature:createFaceSignature(lm) };
   });
 
-  updateMultiMode(detected.length);
-
   // ── TRACKING: asignar cada cara a la persona más cercana del frame anterior ──
   const assigned = trackFaces(detected);
+  const activeIndexes = assigned.map((face,idx)=>face?idx:-1).filter(idx=>idx>=0);
+  updateMultiMode(Math.max(detected.length,knownPersonCount()));
+  if(activeIndexes.length===1)selectedPerson=activeIndexes[0];
 
   // ── Limpiar overlay una vez, luego dibujar todas las caras ──
   const c=document.getElementById('overlay');
@@ -802,7 +818,7 @@ let selectedPerson=0;
 
 function updateMultiMode(count){
   const wasMulti=multiMode;
-  multiMode = count>=2;
+  multiMode = count>=2 || knownPersonCount()>=2;
   const tabs=document.getElementById('personTabs');
   if(tabs) tabs.style.display = multiMode ? 'block' : 'none';
   if(!multiMode && selectedPerson!==0){ selectedPerson=0; }
