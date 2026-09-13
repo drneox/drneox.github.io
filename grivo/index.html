@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grivo — Política de Privacidad</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    h1 { border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
+    h2 { margin-top: 2rem; }
+    ul { padding-left: 1.5rem; }
+    a { color: #0366d6; }
+    .updated { color: #777; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Política de privacidad de Grivo</h1>
+  <p class="updated">Última actualización: 13 de septiembre de 2026</p>
+
+  <h2>1. Responsable y alcance</h2>
+  <p>Grivo es una aplicación para iOS desarrollada por Carlos Ganoza Plasencia, bajo la marca punkbot. Permite grabar, reproducir, transcribir y organizar audios, así como solicitar análisis opcionales mediante inteligencia artificial.</p>
+  <p>Responsable: Carlos Ganoza Plasencia.<br>
+  Contacto de privacidad: [REEMPLAZAR POR TU CORREO DE CONTACTO].</p>
+  <p>Esta política describe el tratamiento de datos de Grivo para iOS. La navegación en el sitio web donde se publica esta política puede estar sujeta a prácticas adicionales del sitio, independientes de la aplicación.</p>
+
+  <h2>2. Datos que utiliza Grivo</h2>
+  <p>Según las funciones que utilices, Grivo puede tratar:</p>
+  <ul>
+    <li>Grabaciones de audio y sus metadatos, como nombre, fecha, duración y tamaño.</li>
+    <li>Transcripciones, traducciones, informes de IA, categorías y nombres asignados a hablantes.</li>
+    <li>Perfiles de voz: nombres y representaciones numéricas de características vocales utilizados para sugerir coincidencias entre hablantes.</li>
+    <li>Preferencias, contadores de uso, saldos y datos de transacciones necesarios para gestionar compras y límites de funciones.</li>
+    <li>La clave API de OpenAI que introduzcas para utilizar servicios externos.</li>
+    <li>Datos técnicos de un grabador Bluetooth compatible, como identificador, nombre, señal, modelo, firmware, batería, almacenamiento y eventos de conexión.</li>
+  </ul>
+  <p>No necesitas crear una cuenta de Grivo para utilizar la aplicación. Grivo no incorpora publicidad ni seguimiento publicitario y no vende tus datos personales.</p>
+
+  <h2>3. Procesamiento y almacenamiento en el iPhone</h2>
+  <p>Las grabaciones, transcripciones, traducciones, informes y perfiles se guardan en el dispositivo. Grivo no ofrece un servidor propio donde se cargue automáticamente tu biblioteca.</p>
+  <p>La transcripción local, la separación local de hablantes, el reconocimiento mediante perfiles de voz, la reducción de ruido y la traducción local se realizan en el dispositivo cuando estas funciones están disponibles. Algunas necesitan descargar previamente modelos o recursos de sus proveedores; esas descargas implican una conexión a internet y pueden comunicar datos técnicos de conexión.</p>
+  <p>Los archivos utilizan los mecanismos de protección de datos de iOS. La clave API y determinados registros de uso se guardan en el Llavero de iOS. Estas medidas reducen riesgos, pero no constituyen una garantía absoluta de seguridad.</p>
+  <p>Los perfiles de voz se conservan localmente y no se envían como perfiles a OpenAI. Sin embargo, el audio enviado mediante transcripción cloud contiene voces y un texto enviado para análisis puede incluir nombres de hablantes. La identificación puede ser incorrecta y no se utiliza como método de autenticación.</p>
+
+  <h2>4. Funciones opcionales de OpenAI</h2>
+  <p>Cuando solicitas un análisis con IA, Grivo envía el texto necesario de la transcripción, incluidas las etiquetas o nombres de hablantes presentes, y las instrucciones de la plantilla a la API de OpenAI.</p>
+  <p>Si eliges transcripción o separación de hablantes mediante el servicio cloud y ejecutas esa función, se envía el audio correspondiente a OpenAI. La transcripción local no requiere este envío.</p>
+  <p>Las solicitudes se realizan mediante conexión cifrada y utilizando la clave API que configures. OpenAI recibe también los datos técnicos necesarios para atender la solicitud, como la dirección IP y la información de autenticación de tu cuenta API. El consumo de ese servicio se rige por las condiciones de tu cuenta de OpenAI.</p>
+  <p>El contenido no se anonimiza automáticamente antes del envío. Evita enviar datos que no quieras compartir con ese proveedor.</p>
+  <p>Según la documentación de OpenAI, los datos de la API no se utilizan para entrenar sus modelos de forma predeterminada, salvo participación voluntaria. La retención depende del servicio y de la configuración de la cuenta; determinados registros de prevención de abuso pueden conservarse hasta 30 días o más cuando lo exija la ley. No debe entenderse que todos los servicios conservan los mismos datos o durante el mismo plazo. Consulta los detalles vigentes en <a href="https://developers.openai.com/api/docs/guides/your-data">https://developers.openai.com/api/docs/guides/your-data</a> y su política en <a href="https://openai.com/policies/privacy-policy/">https://openai.com/policies/privacy-policy/</a>.</p>
+  <p>Puedes dejar de utilizar las funciones externas y eliminar la clave API desde la configuración de Grivo. Esto no elimina retroactivamente datos que el proveedor ya haya recibido. Las solicitudes relativas a tu cuenta y los datos conservados por OpenAI deben gestionarse también con ese proveedor.</p>
+
+  <h2>5. Grabadores externos y permisos</h2>
+  <p>Si utilizas un grabador compatible, Grivo se comunica directamente con él por Bluetooth. La sincronización automática puede transferir archivos del grabador al iPhone cuando está habilitada. Esa transferencia no equivale a un envío a OpenAI.</p>
+  <p>Grivo solicita acceso al micrófono para grabar desde el iPhone y a Bluetooth para conectar grabadores. Si activas el bloqueo biométrico, iOS realiza la autenticación; Grivo no recibe los datos biométricos de Face ID.</p>
+  <p>Puedes revisar o retirar permisos en los ajustes de iOS. Algunas funciones dejarán de estar disponibles si retiras el permiso necesario. Asegúrate de contar con las autorizaciones necesarias para grabar y tratar las voces o datos de otras personas.</p>
+
+  <h2>6. Compras, límites y diagnósticos</h2>
+  <p>Apple gestiona los pagos y las compras dentro de la app. Grivo utiliza información de transacciones y del estado de compra para verificar funciones Pro o conceder saldo. No recibe los datos completos de tu tarjeta.</p>
+  <p>Los contadores y registros de uso necesarios para aplicar límites y evitar aplicar dos veces una misma transacción se conservan localmente. Algunos registros del Llavero pueden permanecer tras desinstalar la aplicación.</p>
+  <p>Los diagnósticos disponibles en la app pueden incluir identificadores Bluetooth, nombres de archivos, fechas, estados y errores. Si decides copiarlos o enviarlos para recibir soporte, revisa su contenido antes de compartirlos. No incluyas claves API ni grabaciones sensibles si no son necesarias.</p>
+  <p>Si nos contactas, utilizaremos la información que envíes para atender tu solicitud y la conservaremos mientras sea necesaria para gestionarla o cumplir obligaciones legales.</p>
+
+  <h2>7. Conservación, eliminación y exportación</h2>
+  <p>El contenido local permanece hasta que lo elimines o deje de estar disponible en el almacenamiento del dispositivo. Puedes borrar grabaciones desde Grivo, eligiendo el iPhone, el grabador externo o ambos, cuando corresponda. Borrar una copia no implica borrar las otras.</p>
+  <p>Puedes gestionar y eliminar perfiles desde las opciones de perfiles de voz. Eliminar un perfil no necesariamente elimina los nombres que ya aparecen en transcripciones guardadas; estos pueden revisarse por separado.</p>
+  <p>Las funciones de compartir permiten exportar contenido a los destinos que elijas. Las copias exportadas, las copias de seguridad que pudieran existir y los datos recibidos por terceros deben gestionarse también en esos destinos. No asumimos que desinstalar Grivo borre todas esas copias.</p>
+  <p>El desarrollador no puede acceder ni eliminar remotamente los archivos que solo están en tu iPhone o en tu grabador.</p>
+
+  <h2>8. Proveedores, transferencias y tus derechos</h2>
+  <p>Apple, OpenAI y los proveedores de descargas de modelos pueden tratar datos técnicos o de servicio bajo sus propias condiciones. Los servicios externos pueden procesar información en países distintos al tuyo, de acuerdo con sus condiciones y mecanismos de protección aplicables.</p>
+  <p>Dependiendo de la legislación que corresponda, puedes solicitar acceso, corrección, eliminación, oposición, limitación o portabilidad respecto de datos personales tratados por el responsable, así como retirar el consentimiento cuando corresponda y presentar una reclamación ante la autoridad competente. Para ejercer estos derechos sobre información que nos hayas enviado, utiliza el contacto indicado al inicio. Para contenido exclusivamente local, utiliza las opciones de la app y del dispositivo.</p>
+  <p>Grivo no está dirigida específicamente a niños. Las funciones externas están sujetas también a las condiciones de edad de sus proveedores.</p>
+
+  <h2>9. Cambios en esta política</h2>
+  <p>Publicaremos las modificaciones en esta página y actualizaremos la fecha. Si un cambio requiere información adicional o una nueva autorización, se solicitará conforme corresponda antes de aplicar el nuevo tratamiento.</p>
+</body>
+</html>
