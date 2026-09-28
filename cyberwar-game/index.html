@@ -109,16 +109,39 @@ textarea,input{width:100%;background:var(--panel2);color:var(--ink);border:2px s
 #scanvid{width:100%;max-width:420px;border:2px solid var(--cyan)}
 .scanmsg{color:#fff}
 #scancancel{max-width:420px}
-@media (prefers-reduced-motion:reduce){.spr svg,.cell.tgt,#banner.on{animation:none!important}}
+#title{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;padding:calc(env(safe-area-inset-top,0px) + 12px) 16px calc(env(safe-area-inset-bottom,0px) + 12px);overflow-y:auto;box-shadow:inset 0 0 140px 30px #080613;transition:opacity .35s ease,visibility .35s}
+#title::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(59,54,112,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(59,54,112,.22) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+#title::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 1px,transparent 1px 3px);opacity:.55;pointer-events:none}
+#title.off{opacity:0;visibility:hidden;pointer-events:none}
+.tbox{position:relative;z-index:1;width:100%;max-width:420px;margin:auto;text-align:center;display:flex;flex-direction:column;gap:12px}
+#tboot{min-height:64px;text-align:left;font-size:11px;color:var(--dim);line-height:1.5}
+#tboot .ln{opacity:0;transform:translateY(2px);transition:opacity .15s}
+#tboot .ln.on{opacity:1;transform:none}
+#tboot .ln b{color:var(--cyan);font-weight:400}
+#tboot .ln .warn2{color:var(--mal)}
+#tmain{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;display:flex;flex-direction:column;gap:12px}
+#tmain.on{opacity:1;transform:none}
+.tduel{display:flex;align-items:flex-end;justify-content:center;gap:26px}
+.tspr.bl.lunge{animation:lungeR .32s ease-out}
+.tspr.rd.lunge{animation:lungeL .32s ease-out}
+.tvs{color:var(--ph);font-weight:700;font-size:13px;letter-spacing:.2em;animation:pulse 1.2s steps(2) infinite;padding-bottom:18px}
+.ttitle{margin:0;font-size:clamp(34px,11vw,52px);letter-spacing:.14em;line-height:1;font-weight:700;text-shadow:3px 3px 0 #2a2650}
+.ttitle span{color:var(--cyan)}
+.ttitle.tglitch{animation:glitch .5s steps(1)}
+.tsub{color:var(--dim);font-size:15px;letter-spacing:.6em;margin-right:-.6em}
+.tcur{font-style:normal;color:var(--cyan);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.tfoot{color:var(--dim);font-size:10px;opacity:.7;letter-spacing:.05em}
+@media (prefers-reduced-motion:reduce){.spr svg,.cell.tgt,#banner.on,#title .spr svg,.tcur,.tvs,.ttitle.tglitch,.tspr.lunge{animation:none!important}#tmain,#title,#tboot .ln{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="vs">
-      <div class="who"><div class="spr" id="sentinel"></div><span>Defensor<br>Sentinel</span></div>
+      <div class="who"><div class="spr" id="sentinel"></div><span id="pnblue">Defensor<br>Sentinel</span></div>
       <div class="mid"><b>CYBERWAR GAME</b><span id="turn">Turno 1</span><div class="tgs"><button class="tg" id="bsnd" data-act="snd">Sonido</button><button class="tg" id="bmus" data-act="mus">Música</button></div><div id="aust"></div></div>
-      <div class="who"><span style="text-align:right">Adversario<br>R00T</span><div class="spr" id="root"></div></div>
+      <div class="who"><span id="pnred" style="text-align:right">Adversario<br>R00T</span><div class="spr" id="root"></div></div>
     </div>
     <div id="stats"></div>
   </header>
@@ -136,6 +159,22 @@ textarea,input{width:100%;background:var(--panel2);color:var(--ink);border:2px s
     <p>El escáner revela dónde hay controles (2×2 cuesta 2, 3×3 cuesta 4 y 4×4 cuesta 7) y lo que muestra se ve hasta el final de tu siguiente turno. El análisis SOC (Defensor) y el insider (Adversario) revelan un activo completo de forma permanente.</p>
     <p>Con un amigo: uno crea la partida y muestra su QR, el otro lo escanea (o pega el código) y responde con otro QR. Cada teléfono guarda su propio tablero, pero el juego se basa en la honestidad de ambos.</p>
   </details>
+</div>
+<div id="title">
+  <div class="tbox">
+    <div id="tboot"></div>
+    <div id="tmain">
+      <div class="tduel">
+        <div class="spr tspr bl" id="tsent"></div>
+        <div class="tvs">VS</div>
+        <div class="spr tspr rd" id="troot"></div>
+      </div>
+      <h1 class="ttitle">CYBER<span>WAR</span></h1>
+      <div class="tsub">GAME<i class="tcur">_</i></div>
+      <button class="big" data-act="title-start">JUGAR</button>
+      <div class="tfoot">carlosganoza.com · v1.0 · sin servidor · P2P por QR</div>
+    </div>
+  </div>
 </div>
 <div id="scanov"><video id="scanvid" playsinline muted></video><div class="scanmsg">Apunta al código QR</div><button class="big" id="scancancel">Cancelar</button></div>
 <div id="overlay"><div class="box"><h2 id="ot"></h2><p id="op"></p><button class="big" data-act="restart">Reiniciar</button></div></div>
@@ -635,6 +674,9 @@ function updAudio(){
 }
 function render(){
   $('#turn').textContent=G.role?`${G.role==='blue'?'Defensor':'Adversario'} · turno ${G.turn}`:'Cyberwar';
+  const mpOn=G.mp&&G.mp.opNick&&G.role;
+  $('#pnblue').innerHTML='Defensor<br>'+esc(mpOn?(G.mp.role==='blue'?G.mp.nick:G.mp.opNick):'Sentinel');
+  $('#pnred').innerHTML='Adversario<br>'+esc(mpOn?(G.mp.role==='red'?G.mp.nick:G.mp.opNick):'R00T');
   const au=AU.state();$('#bsnd').classList.toggle('off',!au.s);$('#bmus').classList.toggle('off',!au.m);$('#aust').textContent='Audio: '+AU.stat();
   $('#stats').innerHTML=G.me?`<div><b>${G.me.budget}</b>Fondos</div><div><b>${G.me.access}</b>Inteligencia</div><div class="${G.rep<=4?'low':''}"><b>${G.rep}</b>Reputación</div><div class="${G.anon<=6?'low':''}"><b>${G.anon}</b>Anonimato</div>`:'';
   const lg=$('#log');lg.textContent=G.log;lg.className=G.warn?'warn':'';
@@ -647,8 +689,7 @@ function panel(){
   const p=$('#panel');let h='';
   const ae=document.activeElement,keep=ae&&(ae.id==='nick'||ae.id==='paste')?{id:ae.id,v:ae.value,a:ae.selectionStart,b:ae.selectionEnd}:null;
   if(G.phase==='menu'){
-    h=`<div class="hint">El Defensor protege su empresa y contraataca. El Adversario ataca desde su infraestructura criminal. Gana quien tome el activo central del rival: la base de datos del Defensor o el servidor C2 del Adversario.</div>
-       <div class="sec">${chip('menu-ai','Contra la IA','un jugador')}${chip('menu-mp','Con un amigo','conexión por QR')}</div>
+    h=`<div class="sec">${chip('menu-ai','Contra la IA','un jugador')}${chip('menu-mp','Con un amigo','conexión por QR')}</div>
        <div class="rec">${recLine(getRec())}</div>`;
   }else if(G.phase==='role'){
     h=`<div class="hint">Elige tu bando. La IA juega el otro.</div>
@@ -832,6 +873,7 @@ function onAct(d){
   const toggle=m=>{G.mode=G.mode===m?null:m;G.expA=null;G.sel=-1;render()};
   const list=G.role?ASSETS_OF(G.role):[];
   switch(d.act){
+    case 'title-start':hideTitle();AU.sfx('start');break;
     case 'restart':NET.close();newGame();break;
     case 'menu-ai':G.phase='role';render();break;
     case 'menu-mp':G.phase='mp';G.mp={step:'menu',nick:getNick(),opNick:'',status:'',code:'',paste:'',err:''};render();break;
@@ -1436,6 +1478,42 @@ document.addEventListener('focusin',e=>{if(e.target.classList&&e.target.classLis
 document.addEventListener('input',e=>{if(!G.mp)return;if(e.target.id==='paste')G.mp.paste=e.target.value;if(e.target.id==='nick')G.mp.nick=e.target.value});
 $('#sentinel').innerHTML=sprite(SENT,3);
 $('#root').innerHTML=sprite(ROOT,3);
+
+/* ---------- portada ---------- */
+$('#tsent').innerHTML=sprite(SENT,6);
+$('#troot').innerHTML=sprite(ROOT,6);
+const titleEl=$('#title');
+let bootT=[],lungeT=null,glitchT=null,bootDone=false;
+const BOOT=['> iniciando sentinelOS v2.6…','> verificando integridad del cartucho… <b>OK</b>','> enlace seguro establecido','> <span class="warn2">adversario detectado: R00T</span>'];
+function bootLine(i){
+  const d=document.createElement('div');d.className='ln';d.innerHTML=BOOT[i];$('#tboot').appendChild(d);
+  requestAnimationFrame(()=>d.classList.add('on'));
+}
+function bootFinish(){
+  if(bootDone)return;bootDone=true;
+  bootT.forEach(clearTimeout);bootT=[];
+  const tb=$('#tboot');
+  for(let i=tb.children.length;i<BOOT.length;i++)bootLine(i);
+  $('#tmain').classList.add('on');
+  lungeT=setInterval(()=>{
+    const el=Math.random()<.5?$('#tsent'):$('#troot');
+    if(!el)return;
+    el.classList.remove('lunge');void el.offsetWidth;el.classList.add('lunge');
+  },2600);
+  glitchT=setInterval(()=>{
+    const h=$('#title .ttitle');if(!h)return;
+    h.classList.remove('tglitch');void h.offsetWidth;h.classList.add('tglitch');
+  },4200);
+}
+if(reduce){bootFinish()}
+else BOOT.forEach((_,i)=>bootT.push(setTimeout(()=>{bootLine(i);if(i===BOOT.length-1)bootT.push(setTimeout(bootFinish,450))},280*(i+1))));
+titleEl.addEventListener('pointerdown',()=>{if(!bootDone)bootFinish()});
+function hideTitle(){
+  bootFinish();
+  clearInterval(lungeT);clearInterval(glitchT);
+  titleEl.classList.add('off');
+  setTimeout(()=>titleEl.remove(),420);
+}
 window.__aiSwap=async()=>{const sw=()=>{[G.P,G.A]=[G.A,G.P];[G.me,G.op]=[G.op,G.me];G.role=G.role==='blue'?'red':'blue';G.swapped=!G.swapped};sw();try{await aiTurn()}finally{sw()}};
 window.__NET=NET;window.__mp={connected:mpConnected,pack:packSDP,unpack:unpackSDP};window.__G=()=>G;window.__act=onAct;window.__cell=onCell;
 newGame();
