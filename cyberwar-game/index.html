@@ -18,53 +18,6 @@
   --ph:#f5a524;--mal:#ef4444;--ddos:#3b82f6;--sql:#a855f7;--good:#34d399;--bad:#ef4444;--cyan:#22d3ee;--cs:40px;
   color-scheme:dark;box-sizing:border-box;
 }
-
-// Decodifica un QR desde un archivo de imagen (input type=file).
-function scanQRFromFile(cb){
-  let inp=document.getElementById('mp-scan-file');
-  if(!inp){
-    inp=document.createElement('input');
-    inp.type='file';
-    inp.accept='image/*';
-    inp.id='mp-scan-file';
-    // Avoid display:none: some mobile browsers block programmatic click on hidden inputs.
-    inp.style.cssText='position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;z-index:1000;pointer-events:auto';
-    document.body.appendChild(inp);
-  }
-  inp.value='';
-  inp.onchange=async function(){
-    setLog('Procesando imagen...',0);render();
-    const f=this.files && this.files[0];
-    if(!f){cb(null);return}
-    try{
-      const img = new Image();
-      const url = URL.createObjectURL(f);
-      await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src=url});
-      // try BarcodeDetector first
-      if(window.BarcodeDetector){
-        try{
-          const det=new BarcodeDetector({formats:['qr_code']});
-          const resArr=await det.detect(img);
-          if(resArr&&resArr.length){URL.revokeObjectURL(url);cb(resArr[0].rawValue);return}
-        }catch(e){}
-      }
-      // fallback to canvas + jsQR
-      const c=document.createElement('canvas');
-      c.width=img.naturalWidth||img.width;
-      c.height=img.naturalHeight||img.height;
-      const cx=c.getContext('2d',{willReadFrequently:true});
-      cx.drawImage(img,0,0,c.width,c.height);
-      try{
-        const im=cx.getImageData(0,0,c.width,c.height);
-        const q=window.jsQR?jsQR(im.data,im.width,im.height):null;
-        URL.revokeObjectURL(url);
-        if(q){cb(q.data);return}else{setLog('No detecté QR en la imagen.',1);render();cb(null);return}
-      }catch(e){URL.revokeObjectURL(url);setLog('Error leyendo la imagen.',1);render();cb(null);return}
-    }catch(e){setLog('Error procesando la imagen.',1);render();cb(null);return}
-  };
-  // trigger file picker
-  try{inp.click()}catch(e){setLog('No pude abrir la galería desde aquí.',1);render();}
-}
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
 body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.35 ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
@@ -1467,6 +1420,52 @@ function copyText(t,label){
   }catch(e){}
   // 3) selección manual del cuadro visible que coincide con el texto
   manual();
+}
+// Decodifica un QR desde un archivo de imagen (input type=file).
+function scanQRFromFile(cb){
+  let inp=document.getElementById('mp-scan-file');
+  if(!inp){
+    inp=document.createElement('input');
+    inp.type='file';
+    inp.accept='image/*';
+    inp.id='mp-scan-file';
+    // Avoid display:none: some mobile browsers block programmatic click on hidden inputs.
+    inp.style.cssText='position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;z-index:1000;pointer-events:auto';
+    document.body.appendChild(inp);
+  }
+  inp.value='';
+  inp.onchange=async function(){
+    setLog('Procesando imagen...',0);render();
+    const f=this.files && this.files[0];
+    if(!f){cb(null);return}
+    try{
+      const img = new Image();
+      const url = URL.createObjectURL(f);
+      await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src=url});
+      // try BarcodeDetector first
+      if(window.BarcodeDetector){
+        try{
+          const det=new BarcodeDetector({formats:['qr_code']});
+          const resArr=await det.detect(img);
+          if(resArr&&resArr.length){URL.revokeObjectURL(url);cb(resArr[0].rawValue);return}
+        }catch(e){}
+      }
+      // fallback to canvas + jsQR
+      const c=document.createElement('canvas');
+      c.width=img.naturalWidth||img.width;
+      c.height=img.naturalHeight||img.height;
+      const cx=c.getContext('2d',{willReadFrequently:true});
+      cx.drawImage(img,0,0,c.width,c.height);
+      try{
+        const im=cx.getImageData(0,0,c.width,c.height);
+        const q=window.jsQR?jsQR(im.data,im.width,im.height):null;
+        URL.revokeObjectURL(url);
+        if(q){cb(q.data);return}else{setLog('No detecté QR en la imagen.',1);render();cb(null);return}
+      }catch(e){URL.revokeObjectURL(url);setLog('Error leyendo la imagen.',1);render();cb(null);return}
+    }catch(e){setLog('Error procesando la imagen.',1);render();cb(null);return}
+  };
+  // trigger file picker
+  try{inp.click()}catch(e){setLog('No pude abrir la galería desde aquí.',1);render();}
 }
 async function scanQR(cb){
   const ov=$('#scanov'),v=$('#scanvid');
