@@ -22,9 +22,18 @@
 // Decodifica un QR desde un archivo de imagen (input type=file).
 function scanQRFromFile(cb){
   let inp=document.getElementById('mp-scan-file');
-  if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='mp-scan-file';inp.style.display='none';document.body.appendChild(inp)}
+  if(!inp){
+    inp=document.createElement('input');
+    inp.type='file';
+    inp.accept='image/*';
+    inp.id='mp-scan-file';
+    // Avoid display:none: some mobile browsers block programmatic click on hidden inputs.
+    inp.style.cssText='position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;z-index:1000;pointer-events:auto';
+    document.body.appendChild(inp);
+  }
   inp.value='';
   inp.onchange=async function(){
+    setLog('Procesando imagen...',0);render();
     const f=this.files && this.files[0];
     if(!f){cb(null);return}
     try{
@@ -40,11 +49,21 @@ function scanQRFromFile(cb){
         }catch(e){}
       }
       // fallback to canvas + jsQR
-      const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;const cx=c.getContext('2d');cx.drawImage(img,0,0);
-      try{const im=cx.getImageData(0,0,c.width,c.height);const q=jsQR(im.data,im.width,im.height);URL.revokeObjectURL(url);if(q){cb(q.data);return}else{cb(null);return}}catch(e){URL.revokeObjectURL(url);cb(null);return}
-    }catch(e){cb(null);return}
+      const c=document.createElement('canvas');
+      c.width=img.naturalWidth||img.width;
+      c.height=img.naturalHeight||img.height;
+      const cx=c.getContext('2d',{willReadFrequently:true});
+      cx.drawImage(img,0,0,c.width,c.height);
+      try{
+        const im=cx.getImageData(0,0,c.width,c.height);
+        const q=window.jsQR?jsQR(im.data,im.width,im.height):null;
+        URL.revokeObjectURL(url);
+        if(q){cb(q.data);return}else{setLog('No detecté QR en la imagen.',1);render();cb(null);return}
+      }catch(e){URL.revokeObjectURL(url);setLog('Error leyendo la imagen.',1);render();cb(null);return}
+    }catch(e){setLog('Error procesando la imagen.',1);render();cb(null);return}
   };
-  inp.click();
+  // trigger file picker
+  try{inp.click()}catch(e){setLog('No pude abrir la galería desde aquí.',1);render();}
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
@@ -66,6 +85,8 @@ header.compact .mid b{display:none}
 .phav .ic{width:20px;height:20px}
 .spr{display:block;position:relative}
 .spr svg{display:block;animation:bob 1.6s ease-in-out infinite}
+/* Ensure sprites are vertically centered and use a consistent container height */
+.tduel .spr{display:flex;align-items:center;justify-content:center;height:110px;z-index:2}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 #sentinel.lunge{animation:lungeR .32s ease-out}
 #root.lunge{animation:lungeL .32s ease-out}
@@ -193,7 +214,7 @@ details p{margin:6px 0}
 .sc{background:var(--panel2);border:2px solid var(--line);padding:6px 4px;text-align:center;display:flex;flex-direction:column;gap:2px}
 .sc b{font-size:15px}.sc span{font-size:10px;color:var(--dim)}
 .rdots{display:flex;gap:4px;flex-wrap:wrap}
-.rd{font-style:normal;width:22px;height:22px;line-height:18px;text-align:center;font-size:11px;font-weight:700;border:2px solid}
+.rdots .rd{font-style:normal;width:22px;height:22px;line-height:18px;text-align:center;font-size:11px;font-weight:700;border:2px solid}
 .rd.w{color:var(--good);border-color:var(--good)}.rd.l{color:var(--bad);border-color:var(--bad)}
 .qr{display:block;width:min(100%,280px);height:auto;margin:0 auto;background:#fff;image-rendering:pixelated}
 textarea,input{width:100%;background:var(--panel2);color:var(--ink);border:2px solid var(--line);padding:6px;font:11px/1.3 ui-monospace,monospace;resize:none;border-radius:0}
@@ -224,11 +245,11 @@ textarea,input{width:100%;background:var(--panel2);color:var(--ink);border:2px s
 #tboot .ln .warn2{color:var(--mal)}
 #tmain{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;display:flex;flex-direction:column;gap:12px}
 #tmain.on{opacity:1;transform:none}
-.tduel{display:flex;align-items:flex-end;justify-content:center;gap:26px}
+  .tduel{display:flex;align-items:center;justify-content:center;gap:26px}
 .tspr.bl.lunge{animation:lungeR .32s ease-out}
 .tspr.rd.lunge{animation:lungeL .32s ease-out}
 .tvs{color:var(--ph);font-weight:700;font-size:13px;letter-spacing:.2em;animation:pulse 1.2s steps(2) infinite;padding-bottom:18px}
-.ttitle{margin:0;font-size:clamp(34px,11vw,52px);letter-spacing:.14em;line-height:1;font-weight:700;text-shadow:3px 3px 0 #2a2650}
+.ttitle{margin:0;font-size:clamp(34px,11vw,52px);letter-spacing:.14em;line-height:1;font-weight:700;text-shadow:3px 3px 0 #2a2650;position:relative;z-index:3}
 .ttitle span{color:var(--cyan)}
 .ttitle.tglitch{animation:glitch .5s steps(1)}
 .tsub{color:var(--dim);font-size:15px;letter-spacing:.6em;margin-right:-.6em}
@@ -1495,12 +1516,12 @@ function mpPanel(){
        <div class="sec">${chip('menu-back','Volver')}</div>`;
   }else if(m.step==='host'){
     h=`<div class="hint">${esc(m.status)}</div>${err}${m.code?codeBlock(true):''}
-      ${m.code?`<div class="sec">${chip('mp-scan','Escanear respuesta','con la cámara',{data:'data-t="answer"'})} ${chip('mp-scan-file','Leer respuesta desde foto','sube una imagen',{data:'data-t="answer"'})}</div>${paste.replace('Pega aquí el código','Pega aquí la respuesta de tu amigo')}
+      ${m.code?`<div class="sec">${chip('mp-scan','Escanear respuesta','con la cámara',{data:'data-t="answer"'})}</div>${paste.replace('Pega aquí el código','Pega aquí la respuesta de tu amigo')}
        <button class="big" data-act="mp-go">Conectar</button>`:''}
        <div class="sec">${chip('menu-back','Cancelar')}</div>`;
   }else if(m.step==='join'){
      h=`<div class="hint">${esc(m.status)}</div>${err}
-       <div class="sec">${chip('mp-scan','Escanear QR','con la cámara',{data:'data-t="offer"'})} ${chip('mp-scan-file','Leer QR desde foto','sube una imagen',{data:'data-t="offer"'})}</div>${paste}
+       <div class="sec">${chip('mp-scan','Escanear QR','con la cámara',{data:'data-t="offer"'})}</div>${paste}
        <button class="big" data-act="mp-go">Continuar</button>
        <div class="sec">${chip('menu-back','Cancelar')}</div>`;
   }else if(m.step==='answer'){
