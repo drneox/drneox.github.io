@@ -18,6 +18,34 @@
   --ph:#f5a524;--mal:#ef4444;--ddos:#3b82f6;--sql:#a855f7;--good:#34d399;--bad:#ef4444;--cyan:#22d3ee;--cs:40px;
   color-scheme:dark;box-sizing:border-box;
 }
+
+// Decodifica un QR desde un archivo de imagen (input type=file).
+function scanQRFromFile(cb){
+  let inp=document.getElementById('mp-scan-file');
+  if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='mp-scan-file';inp.style.display='none';document.body.appendChild(inp)}
+  inp.value='';
+  inp.onchange=async function(){
+    const f=this.files && this.files[0];
+    if(!f){cb(null);return}
+    try{
+      const img = new Image();
+      const url = URL.createObjectURL(f);
+      await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src=url});
+      // try BarcodeDetector first
+      if(window.BarcodeDetector){
+        try{
+          const det=new BarcodeDetector({formats:['qr_code']});
+          const resArr=await det.detect(img);
+          if(resArr&&resArr.length){URL.revokeObjectURL(url);cb(resArr[0].rawValue);return}
+        }catch(e){}
+      }
+      // fallback to canvas + jsQR
+      const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;const cx=c.getContext('2d');cx.drawImage(img,0,0);
+      try{const im=cx.getImageData(0,0,c.width,c.height);const q=jsQR(im.data,im.width,im.height);URL.revokeObjectURL(url);if(q){cb(q.data);return}else{cb(null);return}}catch(e){URL.revokeObjectURL(url);cb(null);return}
+    }catch(e){cb(null);return}
+  };
+  inp.click();
+}
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
 body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.35 ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
@@ -1097,6 +1125,7 @@ function onAct(d){
     case 'mp-host':grabNick();mpHostCreate(d.r);break;
     case 'mp-join':grabNick();G.mp.step='join';G.mp.paste='';G.mp.err='';G.mp.status='Escanea el QR de tu amigo o pega su código.';render();break;
     case 'mp-scan':scanQR(txt=>{if(d.t==='answer')mpHostFinish(txt);else mpJoin(txt)});break;
+    case 'mp-scan-file':scanQRFromFile(txt=>{if(d.t==='answer')mpHostFinish(txt);else mpJoin(txt)});break;
     case 'mp-go':{const inp=$('#paste'),txt=(inp?inp.value:G.mp.paste)||G.mp.paste;if(G.mp.step==='host')mpHostFinish(txt);else mpJoin(txt);break}
     case 'mp-copy':copyText(G.mp.code,'código');break;
     case 'mp-share':try{const isHost=G.mp.step==='host';navigator.share(isHost?{text:G.mp.code,url:location.origin+location.pathname+'?j='+encodeURIComponent(G.mp.code)}:{text:G.mp.code}).catch(()=>{})}catch(e){}break;
@@ -1463,12 +1492,12 @@ function mpPanel(){
        <div class="sec">${chip('menu-back','Volver')}</div>`;
   }else if(m.step==='host'){
     h=`<div class="hint">${esc(m.status)}</div>${err}${m.code?codeBlock(true):''}
-       ${m.code?`<div class="sec">${chip('mp-scan','Escanear respuesta','con la cámara',{data:'data-t="answer"'})}</div>${paste.replace('Pega aquí el código','Pega aquí la respuesta de tu amigo')}
+      ${m.code?`<div class="sec">${chip('mp-scan','Escanear respuesta','con la cámara',{data:'data-t="answer"'})} ${chip('mp-scan-file','Leer respuesta desde foto','sube una imagen',{data:'data-t="answer"'})}</div>${paste.replace('Pega aquí el código','Pega aquí la respuesta de tu amigo')}
        <button class="big" data-act="mp-go">Conectar</button>`:''}
        <div class="sec">${chip('menu-back','Cancelar')}</div>`;
   }else if(m.step==='join'){
-    h=`<div class="hint">${esc(m.status)}</div>${err}
-       <div class="sec">${chip('mp-scan','Escanear QR','con la cámara',{data:'data-t="offer"'})}</div>${paste}
+     h=`<div class="hint">${esc(m.status)}</div>${err}
+       <div class="sec">${chip('mp-scan','Escanear QR','con la cámara',{data:'data-t="offer"'})} ${chip('mp-scan-file','Leer QR desde foto','sube una imagen',{data:'data-t="offer"'})}</div>${paste}
        <button class="big" data-act="mp-go">Continuar</button>
        <div class="sec">${chip('menu-back','Cancelar')}</div>`;
   }else if(m.step==='answer'){
@@ -1477,7 +1506,9 @@ function mpPanel(){
   return h;
 }
 
-const ICE={iceServers:[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}]};
+// ICE servers: STUN only (no TURN). The app will try direct P2P via STUN/ICE.
+// If you later want a TURN relay, add its entry here (but the user requested to remove TURN).
+const ICE = { iceServers: [{ urls: ['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302'] }] };
 const SD_SECS=30;
 const NET={
   pc:null,dc:null,rid:1,pending:{},q:Promise.resolve(),
