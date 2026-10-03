@@ -285,7 +285,7 @@ textarea,input{width:100%;background:var(--panel2);color:var(--ink);border:2px s
     </div>
   </div>
 </div>
-<div id="scanov"><video id="scanvid" playsinline muted></video><div class="scanmsg">Apunta al código QR</div><button class="big" id="scancancel">Cancelar</button></div>
+<div id="scanov"><video id="scanvid" playsinline muted></video><div class="scanmsg">Apunta al código QR</div><div style="display:flex;gap:8px;align-items:center"><button class="big" id="scanfilebtn">Galería</button><button class="big" id="scancancel">Cancelar</button></div></div>
 <div id="dangerfx"></div>
 <div id="overlay"><div class="box"><div id="winfx"></div><h2 id="ot"></h2><p id="op"></p><p id="rmst" class="hint"></p><button class="big" id="rmbtn" data-act="rematch" style="display:none;margin-bottom:8px">Jugar de nuevo</button><button class="big" id="rstbtn" data-act="restart">Reiniciar</button></div></div>
 
@@ -1458,6 +1458,9 @@ async function scanQR(cb){
   let on=true;
   const stop=()=>{on=false;stream.getTracks().forEach(t=>t.stop());ov.classList.remove('on')};
   $('#scancancel').onclick=stop;
+  // botón de Galería dentro del visor
+  const scanFileBtn=$('#scanfilebtn');
+  if(scanFileBtn){scanFileBtn.onclick=()=>{scanQRFromFile(txt=>{if(txt&&txt.indexOf('CW1:')>=0){stop();cb(txt)}else{setLog('No se detectó un QR válido en la imagen.',1)}})}}
   const tick=async()=>{
     if(!on)return;
     if(v.readyState>=2&&v.videoWidth){
