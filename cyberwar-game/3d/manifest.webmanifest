@@ -1,0 +1,32 @@
+{
+  "name": "Cyberwar 3D",
+  "short_name": "Cyberwar 3D",
+  "description": "Juego de ciberseguridad por turnos en arena 3D. Defiende tu red o ataca la del rival; solo o con un amigo por QR.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1186ff",
+  "theme_color": "#0a1730",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

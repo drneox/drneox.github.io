@@ -38,8 +38,6 @@ header.compact .mid b{display:none}
 .phav .ic{width:20px;height:20px}
 .spr{display:block;position:relative}
 .spr svg{display:block;animation:bob 1.6s ease-in-out infinite}
-/* Ensure sprites are vertically centered and use a consistent container height */
-.tduel .spr{display:flex;align-items:center;justify-content:center;height:110px;z-index:2}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 #sentinel.lunge{animation:lungeR .32s ease-out}
 #root.lunge{animation:lungeL .32s ease-out}
@@ -198,11 +196,11 @@ textarea,input{width:100%;background:var(--panel2);color:var(--ink);border:2px s
 #tboot .ln .warn2{color:var(--mal)}
 #tmain{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;display:flex;flex-direction:column;gap:12px}
 #tmain.on{opacity:1;transform:none}
-  .tduel{display:flex;align-items:center;justify-content:center;gap:26px}
+.tduel{display:flex;align-items:flex-end;justify-content:center;gap:26px}
 .tspr.bl.lunge{animation:lungeR .32s ease-out}
 .tspr.rd.lunge{animation:lungeL .32s ease-out}
 .tvs{color:var(--ph);font-weight:700;font-size:13px;letter-spacing:.2em;animation:pulse 1.2s steps(2) infinite;padding-bottom:18px}
-.ttitle{margin:0;font-size:clamp(34px,11vw,52px);letter-spacing:.14em;line-height:1;font-weight:700;text-shadow:3px 3px 0 #2a2650;position:relative;z-index:3}
+.ttitle{margin:0;font-size:clamp(34px,11vw,52px);letter-spacing:.14em;line-height:1;font-weight:700;text-shadow:3px 3px 0 #2a2650}
 .ttitle span{color:var(--cyan)}
 .ttitle.tglitch{animation:glitch .5s steps(1)}
 .tsub{color:var(--dim);font-size:15px;letter-spacing:.6em;margin-right:-.6em}
@@ -259,7 +257,7 @@ textarea,input{width:100%;background:var(--panel2);color:var(--ink);border:2px s
     </div>
   </div>
 </div>
-<div id="scanov"><video id="scanvid" playsinline muted></video><div class="scanmsg">Apunta al código QR</div><div style="display:flex;gap:8px;align-items:center"><button class="big" id="scanfilebtn">Galería</button><button class="big" id="scancancel">Cancelar</button></div></div>
+<div id="scanov"><video id="scanvid" playsinline muted></video><div class="scanmsg">Apunta al código QR</div><button class="big" id="scancancel">Cancelar</button></div>
 <div id="dangerfx"></div>
 <div id="overlay"><div class="box"><div id="winfx"></div><h2 id="ot"></h2><p id="op"></p><p id="rmst" class="hint"></p><button class="big" id="rmbtn" data-act="rematch" style="display:none;margin-bottom:8px">Jugar de nuevo</button><button class="big" id="rstbtn" data-act="restart">Reiniciar</button></div></div>
 
@@ -1099,7 +1097,6 @@ function onAct(d){
     case 'mp-host':grabNick();mpHostCreate(d.r);break;
     case 'mp-join':grabNick();G.mp.step='join';G.mp.paste='';G.mp.err='';G.mp.status='Escanea el QR de tu amigo o pega su código.';render();break;
     case 'mp-scan':scanQR(txt=>{if(d.t==='answer')mpHostFinish(txt);else mpJoin(txt)});break;
-    case 'mp-scan-file':scanQRFromFile(txt=>{if(d.t==='answer')mpHostFinish(txt);else mpJoin(txt)});break;
     case 'mp-go':{const inp=$('#paste'),txt=(inp?inp.value:G.mp.paste)||G.mp.paste;if(G.mp.step==='host')mpHostFinish(txt);else mpJoin(txt);break}
     case 'mp-copy':copyText(G.mp.code,'código');break;
     case 'mp-share':try{const isHost=G.mp.step==='host';navigator.share(isHost?{text:G.mp.code,url:location.origin+location.pathname+'?j='+encodeURIComponent(G.mp.code)}:{text:G.mp.code}).catch(()=>{})}catch(e){}break;
@@ -1421,52 +1418,6 @@ function copyText(t,label){
   // 3) selección manual del cuadro visible que coincide con el texto
   manual();
 }
-// Decodifica un QR desde un archivo de imagen (input type=file).
-function scanQRFromFile(cb){
-  let inp=document.getElementById('mp-scan-file');
-  if(!inp){
-    inp=document.createElement('input');
-    inp.type='file';
-    inp.accept='image/*';
-    inp.id='mp-scan-file';
-    // Avoid display:none: some mobile browsers block programmatic click on hidden inputs.
-    inp.style.cssText='position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;z-index:1000;pointer-events:auto';
-    document.body.appendChild(inp);
-  }
-  inp.value='';
-  inp.onchange=async function(){
-    setLog('Procesando imagen...',0);render();
-    const f=this.files && this.files[0];
-    if(!f){cb(null);return}
-    try{
-      const img = new Image();
-      const url = URL.createObjectURL(f);
-      await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src=url});
-      // try BarcodeDetector first
-      if(window.BarcodeDetector){
-        try{
-          const det=new BarcodeDetector({formats:['qr_code']});
-          const resArr=await det.detect(img);
-          if(resArr&&resArr.length){URL.revokeObjectURL(url);cb(resArr[0].rawValue);return}
-        }catch(e){}
-      }
-      // fallback to canvas + jsQR
-      const c=document.createElement('canvas');
-      c.width=img.naturalWidth||img.width;
-      c.height=img.naturalHeight||img.height;
-      const cx=c.getContext('2d',{willReadFrequently:true});
-      cx.drawImage(img,0,0,c.width,c.height);
-      try{
-        const im=cx.getImageData(0,0,c.width,c.height);
-        const q=window.jsQR?jsQR(im.data,im.width,im.height):null;
-        URL.revokeObjectURL(url);
-        if(q){cb(q.data);return}else{setLog('No detecté QR en la imagen.',1);render();cb(null);return}
-      }catch(e){URL.revokeObjectURL(url);setLog('Error leyendo la imagen.',1);render();cb(null);return}
-    }catch(e){setLog('Error procesando la imagen.',1);render();cb(null);return}
-  };
-  // trigger file picker
-  try{inp.click()}catch(e){setLog('No pude abrir la galería desde aquí.',1);render();}
-}
 async function scanQR(cb){
   const ov=$('#scanov'),v=$('#scanvid');
   let stream;
@@ -1478,9 +1429,6 @@ async function scanQR(cb){
   let on=true;
   const stop=()=>{on=false;stream.getTracks().forEach(t=>t.stop());ov.classList.remove('on')};
   $('#scancancel').onclick=stop;
-  // botón de Galería dentro del visor
-  const scanFileBtn=$('#scanfilebtn');
-  if(scanFileBtn){scanFileBtn.onclick=()=>{scanQRFromFile(txt=>{if(txt&&txt.indexOf('CW1:')>=0){stop();cb(txt)}else{setLog('No se detectó un QR válido en la imagen.',1)}})}}
   const tick=async()=>{
     if(!on)return;
     if(v.readyState>=2&&v.videoWidth){
@@ -1515,11 +1463,11 @@ function mpPanel(){
        <div class="sec">${chip('menu-back','Volver')}</div>`;
   }else if(m.step==='host'){
     h=`<div class="hint">${esc(m.status)}</div>${err}${m.code?codeBlock(true):''}
-      ${m.code?`<div class="sec">${chip('mp-scan','Escanear respuesta','con la cámara',{data:'data-t="answer"'})}</div>${paste.replace('Pega aquí el código','Pega aquí la respuesta de tu amigo')}
+       ${m.code?`<div class="sec">${chip('mp-scan','Escanear respuesta','con la cámara',{data:'data-t="answer"'})}</div>${paste.replace('Pega aquí el código','Pega aquí la respuesta de tu amigo')}
        <button class="big" data-act="mp-go">Conectar</button>`:''}
        <div class="sec">${chip('menu-back','Cancelar')}</div>`;
   }else if(m.step==='join'){
-     h=`<div class="hint">${esc(m.status)}</div>${err}
+    h=`<div class="hint">${esc(m.status)}</div>${err}
        <div class="sec">${chip('mp-scan','Escanear QR','con la cámara',{data:'data-t="offer"'})}</div>${paste}
        <button class="big" data-act="mp-go">Continuar</button>
        <div class="sec">${chip('menu-back','Cancelar')}</div>`;
@@ -1529,9 +1477,7 @@ function mpPanel(){
   return h;
 }
 
-// ICE servers: STUN only (no TURN). The app will try direct P2P via STUN/ICE.
-// If you later want a TURN relay, add its entry here (but the user requested to remove TURN).
-const ICE = { iceServers: [{ urls: ['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302'] }] };
+const ICE={iceServers:[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}]};
 const SD_SECS=30;
 const NET={
   pc:null,dc:null,rid:1,pending:{},q:Promise.resolve(),
