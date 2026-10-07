@@ -499,7 +499,7 @@ const GUITAR=(ctx,musOut,sfxOut)=>{
   const dbl=(out,midi,t,o)=>{note(out,midi,t,{...o,pan:-.7,det:.9975});note(out,midi,t,{...o,pan:.7,det:1.0025,vol:(o.vol==null?.5:o.vol)*.95})};
   const noiseHit=(dest,t,dur,vol,type,freq,q)=>{const s=ctx.createBufferSource();s.buffer=NB;const f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;if(q)f.Q.value=q;const g=ctx.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(f);f.connect(g);g.connect(dest);s.start(t,Math.random()*.5);s.stop(t+dur+.02)};
   const tone=(dest,f0,f1,t,dur,vol,type='sine')=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+dur);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(dest);o.start(t);o.stop(t+dur+.02)};
-  const kick=(d,t,v=.9)=>{tone(d,160,42,t,.15,v);noiseHit(d,t,.025,.2,'lowpass',2500)};
+  const kick=(d,t,v=.9)=>{tone(d,280,62,t,.18,v*2.2);tone(d,150,48,t,.22,v*1.4);noiseHit(d,t,.03,v*1.6,'bandpass',2400,1.0)};   // cuerpo + golpe seco (se oye también en celulares)
   const snare=(d,t,v=.55)=>{noiseHit(d,t,.2,v,'bandpass',2000,.7);tone(d,210,130,t,.09,v*.6,'triangle')};
   const hat=(d,t,v=.09,open=false)=>noiseHit(d,t,open?.2:.04,v,'highpass',7400);
   const crash=(d,t,v=.18)=>noiseHit(d,t,1.5,v,'highpass',4600);
@@ -513,7 +513,8 @@ const GUITAR=(ctx,musOut,sfxOut)=>{
   const GALLOP=[0,2,3,4,6,7,8,10,11,12,14,15];                                                  // galope: corchea + dos semicorcheas
   const HOOK=[[0,3,3],[3,2,1],[4,1,2],[6,2,1],[8,3,3],[11,2,1],[12,1,2],[14,0,2]];                // la tonada: arpegio tocado como gancho de guitarra principal
   const LV={
-    calm:  {riff:'rock',   g:.7,drum:.6, bass:.42, hook:0},     // menús y preparación: ya con empuje
+    calm:  {riff:'rock',   g:.42,drum:2,  bass:.4, hook:0},
+    nodrum:{riff:'rock',   g:.42,drum:0,  bass:.4, hook:0},     // menús y preparación: ya con empuje
     fight: {riff:'gallop', g:1,  drum:1,  bass:.55,hook:1},
     danger:{riff:'machine',g:1.05,drum:1.1,bass:.6, hook:2}
   };
@@ -539,8 +540,8 @@ const GUITAR=(ctx,musOut,sfxOut)=>{
     }
     // ---- batería ----
     const dr=l.drum;
-    if(mood==='calm'){
-      if(st===0||st===8||st===10)kick(d,t,.8*dr);
+    if(dr<=0){}else if(mood==='calm'){
+      if([0,6,8,10,14].includes(st))kick(d,t,(st===0||st===8?1:.72)*dr);
       if(st===4||st===12)snare(d,t,.5*dr);
       if(st%2===0)hat(d,t,.07*dr,st===14);
     }else{
@@ -549,8 +550,8 @@ const GUITAR=(ctx,musOut,sfxOut)=>{
       if(mood==='danger'&&st===10)snare(d,t,.22);
       if(mood==='danger'||st%2===0)hat(d,t,.07*dr,st===14);
     }
-    if(fillBar&&bar===3&&st>=12){[st===12?200:st===13?170:st===14?140:110].forEach(f=>tom(d,t,f,.55*dr));if(st===15)snare(d,t,.45)}
-    if(k%64===0)crash(d,t,.17);
+    if(dr>0&&fillBar&&bar===3&&st>=12){[st===12?200:st===13?170:st===14?140:110].forEach(f=>tom(d,t,f,.55*dr));if(st===15)snare(d,t,.45)}
+    if(dr>0&&k%64===0)crash(d,t,.17);
   }
   // victoria: carrera de solo ascendente + acorde final con crash y un chillido armónico
   function jingle(name,t){
