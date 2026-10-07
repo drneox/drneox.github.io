@@ -137,6 +137,7 @@ button:disabled{cursor:not-allowed}
 #banner.op{color:#ff9d9d}
 @keyframes ban{0%{opacity:0;transform:translateX(-80px) scale(.8)}18%{opacity:1;transform:none}75%{opacity:1}100%{opacity:0;transform:translateX(60px)}}
 #mixer{position:absolute;left:56px;top:8px;z-index:9;display:none;flex-direction:column;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(6,16,36,.94);border:2px solid #2a5ca8;font:12px var(--txt);color:#d9e8ff;min-width:176px}
+#vibnote{font:11px/1.35 var(--txt);color:#9db4d9;max-width:190px}
 #mixer.on{display:flex}#mixer label{display:flex;flex-direction:column;gap:4px}#mixer input{width:100%;accent-color:#ffc83d}
 #dragHint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:7;padding:6px 14px;border-radius:999px;background:rgba(6,16,36,.88);border:2px solid var(--intel);font:12px var(--txt);color:#cfeaff;pointer-events:none;opacity:0;transition:opacity .5s;white-space:nowrap}
 #dragHint.on{opacity:1}
@@ -278,7 +279,7 @@ button:disabled{cursor:not-allowed}
 #sdbar i{position:absolute;inset:0 auto 0 0;width:100%;background:linear-gradient(#7aa8ff,#3b62d6)}
 #sdbar b{position:relative;display:block;text-align:center;font-weight:400;font-size:12px;line-height:14px;text-shadow:0 1px 0 #000}
 #sdbar.low i{background:linear-gradient(#ff8a8a,#d41f2f)}
-#chatpop{position:absolute;left:56px;top:98px;z-index:8;display:none;gap:6px;padding:6px;border-radius:12px;background:rgba(6,16,36,.92);border:2px solid #2a5ca8;flex-wrap:wrap;max-width:220px}
+#chatpop{position:absolute;left:56px;top:190px;z-index:8;display:none;gap:6px;padding:6px;border-radius:12px;background:rgba(6,16,36,.92);border:2px solid #2a5ca8;flex-wrap:wrap;max-width:220px}
 #chatpop.on{display:flex}
 #chatpop button{font-size:22px;padding:3px 7px;border-radius:9px;border:2px solid #2a5ca8;background:#10284f}
 .sbtn.live{background:linear-gradient(#52e39a,#16a860);animation:vpulse 1.2s ease-in-out infinite}
@@ -312,7 +313,7 @@ button:disabled{cursor:not-allowed}
     <div id="labels"></div>
     <div id="floaters"></div>
     <div id="dangerfx"></div>
-    <div id="sndbar"><button class="sbtn" id="bsnd" data-act="snd" aria-label="Sonido">🔊</button><button class="sbtn" id="bmus" data-act="mus" aria-label="Música">🎵</button><button class="sbtn" id="bmix" data-act="mixer" aria-label="Mezclador de volumen">🎚️</button><button class="sbtn" id="bchat" data-act="chat-toggle" aria-label="Emotes" style="display:none">💬</button><button class="sbtn off" id="bvoice" data-act="voice" aria-label="Micrófono" style="display:none">🎙️</button><button class="sbtn" id="bspk" data-act="spk" aria-label="Voz del rival" style="display:none">🔊</button></div>
+    <div id="sndbar"><button class="sbtn" id="bsnd" data-act="snd" aria-label="Sonido">🔊</button><button class="sbtn" id="bmus" data-act="mus" aria-label="Música">🎵</button><button class="sbtn" id="bmix" data-act="mixer" aria-label="Mezclador de volumen">🎚️</button><button class="sbtn" id="bvib" data-act="vib" aria-label="Vibración" style="display:none">📳</button><button class="sbtn" id="bchat" data-act="chat-toggle" aria-label="Emotes" style="display:none">💬</button><button class="sbtn off" id="bvoice" data-act="voice" aria-label="Micrófono" style="display:none">🎙️</button><button class="sbtn" id="bspk" data-act="spk" aria-label="Voz del rival" style="display:none">🔊</button></div>
     <div id="viewbar">
       <button data-act="view" data-v="enemy" id="vEnemy" aria-label="Ver al rival">🏰</button>
       <button data-act="view" data-v="all" id="vAll" aria-label="Ver todo">🗺️</button>
@@ -321,7 +322,7 @@ button:disabled{cursor:not-allowed}
     <div id="banner"></div>
     <div id="dragHint">↕ Arrastra para mover la vista</div>
     <div id="chatpop"></div>
-    <div id="mixer"><label>🎵 Música<input type="range" id="rngM" min="0" max="100" step="1"></label><label>💥 Efectos<input type="range" id="rngS" min="0" max="100" step="1"></label></div>
+    <div id="mixer"><label>🎵 Música<input type="range" id="rngM" min="0" max="100" step="1"></label><label>💥 Efectos<input type="range" id="rngS" min="0" max="100" step="1"></label><div id="vibnote"></div></div>
     <audio id="vaudio" autoplay playsinline></audio>
   </div>
 
@@ -585,6 +586,41 @@ const GUITAR=(ctx,musOut,sfxOut)=>{
   return {step,jingle,pluck,BPS,fill,accent};
 };
 
+/* ---------- vibración ---------- */
+// Android: navigator.vibrate. iPhone (iOS 17.4+): Safari no tiene vibrate; solo hay un truco con un interruptor <input switch>
+// que da un toque háptico, pero SOLO si el elemento está visible (aunque sea transparente) y se activa dentro del toque del usuario.
+const VIB=(()=>{
+  let on=true;try{if(localStorage.getItem('cwg-vib')==='0')on=false}catch(e){}
+  const api=typeof navigator.vibrate==='function'&&navigator.maxTouchPoints>0;
+  const ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform));
+  let sw=false;try{sw=!!(window.CSS&&(CSS.supports('-webkit-appearance','switch')||CSS.supports('appearance','switch')))}catch(e){}
+  const iosOk=ios&&sw;
+  let lab=null,last=0;
+  function tick(){
+    try{
+      if(!lab){lab=document.createElement('label');lab.setAttribute('aria-hidden','true');lab.style.cssText='position:fixed;left:0;top:0;width:44px;height:26px;opacity:.01;pointer-events:none;z-index:-1';
+        const i=document.createElement('input');i.type='checkbox';i.setAttribute('switch','');lab.appendChild(i);document.body.appendChild(lab)}
+      lab.click();
+    }catch(e){}
+  }
+  const note=api?'Tu teléfono vibra con los golpes, los avisos y el fin de la partida.':iosOk?'iPhone: solo se puede vibrar al tocar la pantalla (Safari no deja hacerlo en otros momentos).':ios?'Tu iPhone necesita iOS 17.4 o superior para vibrar desde el navegador.':'Este dispositivo no permite vibrar desde el navegador.';
+  return {
+    supported:api||iosOk,note,
+    get on(){return on},
+    set(v){on=!!v;try{localStorage.setItem('cwg-vib',on?'1':'0')}catch(e){}},
+    // eventos del juego (golpes, turno…): en Android con patrón; en iPhone solo si caen dentro de un toque
+    pat(p){
+      if(!on)return;
+      if(api){try{navigator.vibrate(p)}catch(e){}return}
+      if(iosOk){const a=Array.isArray(p)?p:[p];let t=0;a.forEach((d,i)=>{if(i%2===0){if(t===0)tick();else setTimeout(tick,t)}t+=d})}
+    },
+    // toque físico del jugador: da una respuesta táctil breve (funciona en iPhone porque ocurre dentro del gesto)
+    tap(){
+      if(!on)return;const n=performance.now();if(n-last<70)return;last=n;
+      if(api){try{navigator.vibrate(8)}catch(e){}}else if(iosOk)tick();
+    }
+  };
+})();
 const mix=(()=>{try{const m=JSON.parse(localStorage.getItem('cwg3d-mix')||'{}');return {m:+m.m>=0?+m.m:1,s:+m.s>=0?+m.s:1}}catch(e){return {m:1,s:1}}})();
 const AU=(()=>{
   let ctx,master,sf,mg,limNode=null,duckG=null,fadeG=null,sfJ=null,timer=null,step=0,nextT=0,musicOn=true,sfxOn=true,el=null,E=null,mood='calm';
@@ -1822,6 +1858,7 @@ function fxPop(emoji,pos,bg,s=.8,dur=1500){
 }
 function impactFlourish(role,type,zero,tpos,toMe,r){
   const red=role==='red',heroP=heroOf(toMe?'op':'me').position.clone().add(V3(0,1.5,0));
+  if(toMe&&red&&type==='seize'&&!zero)VIB.pat([80,50,80,50,260]);   // ransomware sobre ti: golpe largo
   if(zero){fxCodeRain(tpos);fxPop('💀',tpos,'#1b0f33',1.1,1900);flashScreen('#22d3ee',.3);punch=Math.max(punch,.22);return}
   if(type==='block'){if(red){fxFlicker(r);floatText(tpos.clone().setY(1.2),'503','warn',120)}else fxStamp('DOMINIO INCAUTADO','#7fe6ff',tpos,1900);return}
   if(type==='trick'){if(red&&r.toAsset>0)fxCreds(tpos,heroP);return}
@@ -2338,6 +2375,7 @@ function showDragHint(){
   const h=$('#dragHint');h.classList.add('on');setTimeout(()=>h.classList.remove('on'),6000);
 }
 function startPlayerTurn(){
+  VIB.pat(45);
   G.deadline=(G.mp&&G.mp.sd)?Date.now()+SD_SECS*1000:0;
   G.tab='atk';G.cards=[drawCard(),drawCard()];G.sel=-1;G.inten=0;G.mode=null;G.expA=null;G.phase='player';G.busy=false;
   setFocus('enemy');
@@ -2368,6 +2406,8 @@ async function fxHit(side,i,type,r,zero,toMe){
   if(r.a&&r.absorbed){const rc=A3.get(r.a.uid),cr=rc&&rc.g.userData.ctrlRoot;if(cr)anim(420,k=>cr.scale.setScalar(1+.16*Math.sin(Math.PI*k)))}
   impactFlourish(toMe?G.op.role:G.role,type,!!zero||type==='zero',pos,toMe,r);
   hitReactions(toMe,r,!!zero||type==='zero');
+  if(toMe){VIB.pat(dec?[30,40,30,40,30]:r.dead?[90,50,90]:r.toAsset>0?[50]:[20]);if(!dec&&r.toAsset>0&&(zero||type==='zero'))VIB.pat([150,60,150])}
+  else if(r.dead)VIB.pat([40,30,40]);
   if(toMe&&r.toAsset>0&&!dec)hurtHero(heroOf('me'));
   if(!toMe&&r.toAsset>0)hurtHero(heroOf('op'));
 }
@@ -2403,7 +2443,7 @@ function checkEnd(){
 }
 function endGame(win,why){
   if(G.over)return;
-  G.over=true;G.phase='over';G.busy=true;AU.stopMusic();AU.sfx(win?'win':'lose');
+  G.over=true;G.phase='over';G.busy=true;AU.stopMusic();AU.sfx(win?'win':'lose');VIB.pat(win?[80,60,80,60,220]:[420]);
   const pts=G.kills*10+(win?Math.max(20,100-3*G.turn):0);
   render();
   const col=win?'#ffc83d':'#ef4444';
@@ -2631,6 +2671,7 @@ function renderHUD(){
   $('#mtAnon i').style.width=(role?G.anon/20*100:100)+'%';$('#anonv').textContent=role?G.anon:20;
   $('#mtRep').classList.toggle('low',!!role&&G.rep<=4);$('#mtAnon').classList.toggle('low',!!role&&G.anon<=6);
   const au=AU.state();$('#bsnd').classList.toggle('off',!au.s);$('#bmus').classList.toggle('off',!au.m);
+  const bv=$('#bvib');if(bv){bv.style.display=VIB.supported?'':'none';bv.classList.toggle('off',!VIB.on)}
   const live=!!(G.mp&&NET.dc&&NET.dc.readyState==='open'&&role&&G.phase!=='mp');
   $('#bchat').style.display=live?'':'none';$('#bvoice').style.display=live?'':'none';$('#bspk').style.display=live?'':'none';
   $('#bvoice').classList.toggle('off',!VO.mic);$('#bvoice').classList.toggle('live',VO.mic);$('#bvoice').textContent=VO.mic?'🎙️':'🎤';
@@ -2647,6 +2688,8 @@ function renderHUD(){
   const core=role&&!G.over?realOf(G.P).find(isCore):null;
   const danger=!!(core&&core.hp>0&&core.hp<=Math.ceil(core.max*.34));
   $('#dangerfx').className=danger?'on':'';
+  if(danger&&!G._danger)VIB.pat([120,80,120,80,240]);
+  G._danger=danger;
   AU.setMood(!role||['menu','mp','setup','wait'].includes(G.phase)?'calm':danger?'danger':'fight');
   // pista
   const hb=$('#hint');
@@ -2870,9 +2913,10 @@ function onAct(d){
   AU.init();
   if(d.act==='snd'){AU.setSfx(!AU.state().s);AU.sfx('click');render();return}
   if(d.act==='mus'){AU.setMus(!AU.state().m);render();return}
-  if(d.act==='mixer'){const mx=$('#mixer');mx.classList.toggle('on');$('#rngM').value=Math.round(mix.m*100);$('#rngS').value=Math.round(mix.s*100);return}
+  if(d.act==='vib'){VIB.set(!VIB.on);VIB.pat(40);render();return}
+  if(d.act==='mixer'){const mx=$('#mixer');mx.classList.toggle('on');$('#vibnote').textContent='📳 '+VIB.note;$('#rngM').value=Math.round(mix.m*100);$('#rngS').value=Math.round(mix.s*100);return}
   if(d.act==='view'){if(['enemy','all','own'].includes(d.v))setFocus(d.v);AU.sfx('click');return}
-  if(G.busy&&!['rematch','to-title','menu-back','chat-toggle','chat-emote','voice','spk','install','avatar'].includes(d.act))return;
+  if(G.busy&&!['rematch','to-title','menu-back','chat-toggle','chat-emote','voice','spk','install','avatar','vib','mixer'].includes(d.act))return;
   if(['card','inst','reinf','scan','insider','expand','honey','role','publish','canal','camp','restore'].includes(d.act))AU.sfx('select');
   else if(['int','cancel','orient','tab'].includes(d.act))AU.sfx('click');
   else if(d.act==='start')AU.sfx('start');
@@ -2934,7 +2978,7 @@ function onAct(d){
 }
 ['pointerdown','touchend'].forEach(ev=>document.addEventListener(ev,()=>AU.init(),{passive:true}));
 document.addEventListener('input',e=>{if(e.target.id==='rngM')AU.setVol('m',e.target.value/100);if(e.target.id==='rngS')AU.setVol('s',e.target.value/100)});
-document.addEventListener('click',e=>{
+document.addEventListener('click',e=>{if(e.target.closest('button,[data-act],canvas'))VIB.tap();
   const b=e.target.closest('[data-act]');
   if(b&&!b.disabled)onAct(b.dataset);
 });
