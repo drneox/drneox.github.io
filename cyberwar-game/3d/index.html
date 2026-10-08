@@ -108,6 +108,9 @@ button:disabled{cursor:not-allowed}
 .gp{position:fixed;z-index:61;pointer-events:none;font-size:20px;color:#ffd84a;text-shadow:-2px 0 #000,2px 0 #000,0 -2px #000,0 2px #000}
 #bars.broke .bar.f .tr{animation:brk .7s infinite;box-shadow:0 0 0 2px #ef4444}
 @keyframes brk{50%{box-shadow:0 0 0 2px #ef4444,0 0 14px #ef4444}}
+#coolbar{display:none;height:5px;border-radius:3px;background:#0a1a33;overflow:hidden;margin:0 0 5px}
+#coolbar.on{display:block}
+#coolbar i{display:block;height:100%;width:0;background:#22d3ee}
 #cyc{display:none;align-items:center;gap:8px;margin:0 0 5px;font-size:12px;color:#cfe3ff}
 #cyc.on{display:flex}
 #cyc .tr{flex:1;height:8px;border-radius:5px;background:#050d1c;box-shadow:0 0 0 1px rgba(255,255,255,.2);overflow:hidden}
@@ -165,6 +168,7 @@ button:disabled{cursor:not-allowed}
 .card .cost.f{background:linear-gradient(#f58cff,#a02ad0)}
 .card .cost.i{background:linear-gradient(#7af0ff,#0aa3c4);color:#033}
 .card .cost.p{background:linear-gradient(#ffb066,#e0452a)}
+.card .cost:not(.p):not(.i){clip-path:none;border-radius:50%;width:32px;height:32px;padding-top:0;font-weight:800;color:#5a3600;text-shadow:0 1px 0 rgba(255,255,255,.55);background:radial-gradient(circle at 35% 28%,#fff5b0,#ffc83d 46%,#c98a0a);border:2px solid #8a5a00;box-shadow:inset 0 0 0 2px rgba(255,255,255,.3),0 2px 0 rgba(0,0,0,.5)}
 .card.on{transform:translateY(-12px);box-shadow:0 0 0 3px #fff,0 0 18px var(--cc,#fff),0 4px 0 #050d1c}
 .card:active:not(:disabled){transform:translateY(-4px)}
 .card.dis{filter:grayscale(.85) brightness(.6)}
@@ -181,13 +185,13 @@ button:disabled{cursor:not-allowed}
 #bars{display:flex;flex-direction:column;gap:5px}
 .bar{display:flex;align-items:center;gap:6px}
 .bar .dr{flex:none;position:relative;width:30px;height:32px;display:grid;place-items:center;font-size:16px;padding-top:7px;text-shadow:0 2px 0 rgba(0,0,0,.55);clip-path:path("M15 0 C15 0 29 14 29 21 C29 27 23 32 15 32 C7 32 1 27 1 21 C1 14 15 0 15 0 Z");margin:-6px 0}
-.bar.f .dr{background:linear-gradient(#f58cff,#a02ad0)}
+.bar.f .dr{clip-path:none;border-radius:50%;width:34px;height:34px;padding-top:0;margin:-7px 0;font-weight:800;color:#5a3600;text-shadow:0 1px 0 rgba(255,255,255,.55);background:radial-gradient(circle at 35% 28%,#fff5b0,#ffc83d 46%,#c98a0a);border:2px solid #8a5a00;box-shadow:inset 0 0 0 2px rgba(255,255,255,.3),0 2px 0 rgba(0,0,0,.5)}
 .bar.i .dr{background:linear-gradient(#7af0ff,#0aa3c4);color:#033}
 .bar .tr{position:relative;flex:1;height:17px;border-radius:9px;background:#050d1c;border:2px solid #050d1c;box-shadow:0 0 0 1px rgba(255,255,255,.2);overflow:hidden}
 .bar .tr i{position:absolute;inset:0 auto 0 0;width:0;transition:width .4s}
-.bar.f .tr i{background:linear-gradient(#f58cff,#b02fe0)}
+.bar.f .tr i{background:linear-gradient(#ffe27a,#e0a313)}
 .bar.i .tr i{background:linear-gradient(#7af0ff,#0aa3c4)}
-.bar .tr u{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/15 - 2px),rgba(0,0,0,.55) calc(100%/15 - 2px) calc(100%/15))}
+.bar .tr u{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/20 - 2px),rgba(0,0,0,.55) calc(100%/20 - 2px) calc(100%/20))}
 .bar .nm{flex:none;min-width:64px;font-size:11px;color:#bcd2f5;text-align:right}
 
 /* ---------- pantallas superpuestas ---------- */
@@ -253,6 +257,19 @@ button:disabled{cursor:not-allowed}
 .achip.on{border-color:var(--gold);background:linear-gradient(#5a4a1a,#10284f);box-shadow:0 0 0 2px #fff,0 0 14px var(--gold)}
 .mlab2,.mlab{font:12px var(--txt);color:#c8dbfa}
 .mlab2{margin-bottom:4px}
+.optcard{width:100%;max-width:440px;display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:14px;background:rgba(20,50,100,.45);border:2px solid #2a5ca8;margin-bottom:12px}
+.optcard .olab{font:12px var(--txt);color:#c8dbfa;margin-top:2px}
+.seg{display:flex;gap:6px}
+.shint{font:11.5px/1.3 var(--txt);color:#9fb8e6;min-height:30px}
+.sw{display:flex;gap:10px;align-items:center;text-align:left;background:none;border:0;padding:2px 0;color:#c8dbfa;font:11.5px/1.3 var(--txt);cursor:pointer}
+.sw i{flex:none;width:42px;height:24px;border-radius:999px;background:#13264a;border:2px solid #2a5ca8;position:relative}
+.sw i::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#7e97c4;transition:.2s}
+.sw.on i{background:#1f8f55;border-color:#34d399}
+.sw.on i::after{left:20px;background:#fff}
+.sw b{display:block;font:13px var(--txt);font-weight:400;color:#fff}
+.sbtn{flex:1;padding:8px 6px;border-radius:12px;background:rgba(20,50,100,.55);border:2px solid #2a5ca8;color:#e1ecff;font:13px var(--txt);cursor:pointer;display:flex;flex-direction:column;gap:2px;align-items:center}
+.sbtn small{font-size:10px;color:#9fb8e6}
+.sbtn.on{border-color:#ffc83d;background:rgba(255,200,61,.18);color:#fff}
 #mpov{justify-content:flex-start;overflow-y:auto;background:rgba(4,10,24,.96);padding-top:calc(16px + env(safe-area-inset-top,0px))}
 #mpov h2{margin-bottom:10px}
 #mpbody{width:100%;max-width:440px;display:flex;flex-direction:column;gap:10px;margin:auto 0}
@@ -328,6 +345,7 @@ button:disabled{cursor:not-allowed}
     <div id="trayTop"></div>
     <div id="hand"></div>
     <div id="cyc"><span>⏱ Tiempo real · próximo ingreso</span><div class="tr"><i></i></div></div>
+    <div id="coolbar"><i></i></div>
     <div id="bars">
       <div class="bar f"><div class="dr" id="fv">0</div><div class="tr"><i id="fbar"></i><u></u></div><div class="nm">Recursos <span id="finc"></span></div></div>
     </div>
@@ -347,16 +365,15 @@ button:disabled{cursor:not-allowed}
 
   <div class="ov off" id="roleov">
     <h2>Elige tu bando</h2>
-    <p class="sub">Juegas contra la IA. Cada turno haces una sola acción: ataca, defiende, crece o investiga.</p>
+    <p class="sub">Juegas contra la IA.</p>
     <div class="mlab2">Tu avatar (vale para cualquier bando)</div>
     <div id="avrowRole"></div>
+    <div class="mlab2">Opciones de partida</div>
+    <div class="optcard" id="optsAI"></div>
+    <div class="mlab2">Elige tu bando para empezar</div>
     <div class="roles">
       <button class="role" data-act="role" data-r="blue" style="--rc:#3b82f6"><div class="sp" id="spBlue"></div><b>Defensor</b></button>
       <button class="role" data-act="role" data-r="red" style="--rc:#ef4444"><div class="sp" id="spRed"></div><b>Adversario</b></button>
-    </div>
-    <div class="opts">
-      <label class="chk"><input type="checkbox" id="nt"><span><b style="font-weight:400">Tiempo real (sin turnos):</b> el rival actúa y los recursos llegan por ciclos, tú ataca cuando quieras.</span></label>
-      <label class="chk"><input type="checkbox" id="tot"><span><b style="font-weight:400">Modo Resistencia:</b> perder el activo central no termina la partida; solo pierdes si te destruyen todos los activos.</span></label>
     </div>
     <button class="lnk" style="background:none;border:0" data-act="role-back">← Volver</button>
   </div>
@@ -409,7 +426,7 @@ const CTRL={
   c_block:{ab:'CDN',counter:'block',cost:3,hp:6,max:9,blue:'CDN + rate limit',red:'Rotación de dominios',e:'☁️'},
   c_trick:{ab:'AWR',counter:'trick',cost:3,hp:6,max:9,blue:'Capacitación + EDR',red:'Bots redundantes',e:'🧠'},
   c_seize:{ab:'WAF',counter:'seize',cost:4,hp:7,max:11,blue:'WAF',red:'Hosting a prueba de balas',e:'🧱'},
-  c_univ:{ab:'BKP',counter:'*',cost:5,hp:5,max:8,blue:'Backup aislado',red:'Réplica del C2',e:'💾'}
+  c_univ:{ab:'BKP',counter:'*',cost:6,hp:5,max:8,blue:'Backup aislado',red:'Réplica del C2',e:'💾'}
 };
 const CTRL_RAB={c_block:'ROT',c_trick:'BOT',c_seize:'BPH',c_univ:'REP'};
 const ctrlName=(k,role)=>CTRL[k][role]||CTRL[k].ab;
@@ -424,12 +441,33 @@ const BLUE_ASSETS=[['BD','Base de datos',12,3],['SV','Canal',CANAL_HP,2],['EP','
 const RED_ASSETS=[['C2','Servidor C2',9,3],['BN1','Botnet',5,2],['BV','Bóveda de datos',8,2],['PH','Campaña de phishing',CAMP_HP,1]];
 const MAX_CANAL=3,MAX_CAMP=3,CANAL_COST=4,CAMP_COST=4,ANON0=20;
 const ZERO_P=.05;
+const DIFFS={
+  easy:  {n:'Fácil',  sub:'comete errores',   weak:.3, cov:.2, mnt:.2, rebuy:.1, focus:0,  zero:.02, intMax:0, dmgCap:5, noOpen:true,  rtEvery:2, rtMs:5000, start:-2, srcWant:1, rebuildSrc:.3, shield:.1, lossMul:1,  inc:0},
+  normal:{n:'Normal', sub:'equilibrada',      weak:.75,cov:.5, mnt:.6, rebuy:.3, focus:.25,zero:.05, intMax:2, dmgCap:7, noOpen:false, rtEvery:1, rtMs:5000, start:0,  srcWant:1, rebuildSrc:.7, shield:.5, lossMul:1,  inc:0},
+  hard:  {n:'Difícil',sub:'va por tus ingresos',weak:.95,cov:.85,mnt:1,  rebuy:.6, focus:.7, zero:.1,  intMax:3, dmgCap:7, noOpen:false, rtEvery:1, rtMs:4000, start:2,  srcWant:2, rebuildSrc:1,  shield:.9, lossMul:.5, inc:1}
+};
+const diffSaved=()=>{try{return localStorage.getItem('cwg3d-diff')}catch(e){return null}};
+const DIFF=()=>DIFFS[(G&&G.diff)||diffSaved()]||DIFFS.normal;
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const PACES=[['turns','Turnos','una acción por turno'],['sd','Muerte súbita','30 s por turno'],['rt','Tiempo real','sin turnos']];
+const PACE_HINT={turns:'Una acción por turno: ataca, defiende, crece o investiga.',sd:'30 s por turno; si no juegas a tiempo, pasas el turno.',rt:'Sin turnos: los recursos llegan por ciclos y actúas cuando quieras. La IA actúa cada ciclo.'};
+const hintOf=(pace,mp)=>mp&&pace==='rt'?'Sin turnos: cada uno recibe sus recursos por ciclos y actúa cuando quiera, con 3 s de enfriamiento entre acciones.':PACE_HINT[pace];
+const paceOf=mp=>{const m=mp?G.mp:null;if(m)return m.turnless?'rt':m.sd?'sd':'turns';const v=(G&&G.pace)||lsGet('cwg3d-pace');return PACE_HINT[v]?v:'turns'};
+const totOf=mp=>mp?!!(G.mp&&G.mp.tot):(G&&G.totPick!==undefined?!!G.totPick:lsGet('cwg3d-tot')==='1');
+function optsHTML(mp){
+  const pace=paceOf(mp),cur=(G&&G.diff)||diffSaved()||'normal';
+  let h=`<div class="olab">Ritmo</div><div class="seg">${PACES.map(([k,n,sub])=>`<button class="sbtn${k===pace?' on':''}" data-act="pace" data-v="${k}">${n}<small>${sub}</small></button>`).join('')}</div><div class="shint">${hintOf(pace,mp)}</div>`;
+  if(!mp)h+=`<div class="olab">Dificultad de la IA</div><div class="seg">${Object.keys(DIFFS).map(k=>`<button class="sbtn${k===cur?' on':''}" data-act="diff" data-d="${k}">${DIFFS[k].n}<small>${DIFFS[k].sub}</small></button>`).join('')}</div>`;
+  h+=`<button class="sw${totOf(mp)?' on':''}" data-act="tot-toggle"><i></i><span><b>Resistencia</b>perder el activo central no termina la partida; solo pierdes si te destruyen todos los activos.</span></button>`;
+  return h;
+}
 const $=s=>document.querySelector(s);
 const baseId=id=>/^BN\d$/.test(id)?'BN':id;
 const rnd=n=>Math.floor(Math.random()*n);
 const ri=(a,b)=>a+rnd(b-a+1);
 const pick=a=>a[rnd(a.length)];
-const cap15=v=>Math.min(15,v);
+const capR=v=>Math.min(20,v);
 const nm=i=>String.fromCharCode(65+i%N)+(Math.floor(i/N)+1);
 const reduce=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 const sleep=ms=>new Promise(r=>setTimeout(r,reduce?Math.min(ms,40):ms));
@@ -862,8 +900,8 @@ const assetIncome=a=>isNatPub(a)?3+(a.cells.length-a.base):0;
 // perder una fuente de ingresos duele más que perder cualquier otro activo
 // caer en un honeypot cuesta recursos al atacante y se los da al defensor
 const HONEY_PRIZE=3;
-const honeyTrap=(att,def)=>{const p=Math.min(att.budget,HONEY_PRIZE);att.budget-=p;def.budget=cap15(def.budget+HONEY_PRIZE);return p};
-const assetLoss=(S,a)=>{const l=isNatPub(a)?5:3,p=Math.min(S.budget,l);S.budget-=p;return p};
+const honeyTrap=(att,def)=>{const p=Math.min(att.budget,HONEY_PRIZE);att.budget-=p;def.budget=capR(def.budget+HONEY_PRIZE);return p};
+const assetLoss=(S,a,mul=1)=>{const l=Math.max(1,Math.round((isNatPub(a)?5:3)*mul)),p=Math.min(S.budget,l);S.budget-=p;return p};
 function income(B){let b=0;liveReal(B).forEach(a=>{b+=assetIncome(a)});return b}
 function trace(B){
   const cs=[];liveReal(B).forEach(a=>a.cells.forEach(j=>{if(!B[j].seenA)cs.push(j)}));
@@ -883,6 +921,7 @@ function impact(B,i,dmg,type,ign){
   c.seenE=true;c.seenC=true;
   let rem=dmg;
   r.hadCtrl=a.ctrls.length>0;
+  const hadBkp=!ign&&a.ctrls.some(k=>k.k==='c_univ');
   if(!ign&&a.ctrls.length){
     const score=k=>k.type===type?2:k.k==='c_univ'?1:0;
     const ord=[...a.ctrls].sort((x,y)=>score(y)-score(x));
@@ -898,7 +937,11 @@ function impact(B,i,dmg,type,ign){
     a.ctrls=a.ctrls.filter(k=>k.hp>0);
   }
   r.toAsset=Math.min(rem,a.hp);a.hp-=r.toAsset;
-  if(a.hp<=0){r.dead=true;a.ctrls=[];reveal(B,a)}
+  if(a.hp<=0){
+    if(hadBkp){ // el backup restaura el activo una vez, con la mitad de su vida
+      a.hp=Math.ceil(a.max/2);a.ctrls=a.ctrls.filter(k=>k.k!=='c_univ');r.revived=true;
+    }else{r.dead=true;a.ctrls=[];reveal(B,a)}
+  }
   return r;
 }
 const opName=()=>G.mp?G.mp.opNick:(AV_NAMES[G.aiAvatar]||AV_NAMES[opAvatar()]);
@@ -909,7 +952,7 @@ function describe(byHuman,tn,dmg,i,r,ign,B){
   if(ign&&r.hadCtrl)s+='Ignoró los controles. ';
   else if(r.absorbed)s+=`${r.used.join('+')} absorbió ${r.absorbed}${r.broke.length?` y cayó ${r.broke.join(', ')}`:''}. `;
   if(!r.toAsset)return s+'Ataque bloqueado.';
-  return s+`${label} −${r.toAsset}${r.dead?', destruido':''}.`;
+  return s+`${label} −${r.toAsset}${r.revived?' y cayó, pero el backup lo restauró':r.dead?', destruido':''}.`;
 }
 const assetInfo=a=>`${a.decoy?'Honeypot':a.name}: ${a.hp}/${a.max} HP, ${a.cells.length} celda${a.cells.length===1?'':'s'}. ${a.ctrls.length?a.ctrls.map(k=>`${ctrlName(k.k,ownerRole(a))} ${k.hp}/${k.max}`).join(', '):'Sin controles'}.`;
 const lbl=a=>a.decoy?'HN':baseId(a.id);
@@ -2374,10 +2417,10 @@ function newGame(){
 }
 function chooseRole(role){
   const opRole=role==='blue'?'red':'blue';
-  G.turnless=$('#nt').checked;G.tot=$('#tot').checked;
+  {const pc=paceOf(false);G.turnless=pc==='rt';G.sd=pc==='sd';G.tot=totOf(false)}
   G.role=role;
   G.me={role,budget:role==='blue'?10:6,zero:false,blocked:false};
-  G.op={role:opRole,budget:opRole==='blue'?10:6,zero:false,blocked:false};
+  G.op={role:opRole,budget:Math.max(0,(opRole==='blue'?10:6)+DIFF().start),zero:false,blocked:false};
   G.A=mkBoard();
   ASSETS_OF(opRole).forEach(d=>placeRandom(G.A,d,false));
   const ra=realOf(G.A);ra.filter(isNatPub).forEach(a=>markPub(G.A,a));
@@ -2398,15 +2441,35 @@ function showDragHint(){
 }
 function startPlayerTurn(){
   VIB.pat(45);
-  G.deadline=(G.mp&&G.mp.sd)?Date.now()+SD_SECS*1000:0;
+  G.deadline=(G.mp?G.mp.sd:G.sd)?Date.now()+SD_SECS*1000:0;
   G.tab='atk';G.cards=[drawCard(),drawCard()];G.sel=-1;G.inten=0;G.mode=null;G.expA=null;G.phase='player';G.busy=false;
   setFocus('enemy');
-  banner('TU TURNO','me');showDragHint();
+  if(!rtAny())banner('TU TURNO','me');
+  showDragHint();
 }
 function setLog(m,w){G.log=m;G.warn=!!w;if(w===1)AU.sfx('error')}
 function banner(txt,cls){const b=$('#banner');b.textContent=txt;b.className='';void b.offsetWidth;b.className='show '+cls}
 
 const fxHold=(type,zero)=>reduce?40:(zero||type==='zero'?2100:({block:1500,trick:1600,seize:3000})[type]||1500);
+// el activo se desploma y se reconstruye desde el backup
+async function fxRevive(side,a){
+  const rec=A3.get(a.uid);if(!rec)return;
+  const g=rec.g,team=side==='p'?G.role:G.op.role,mp0=g.position.clone();
+  const rel=a.cells.map(j=>{const p=cellPos(side,j);return {x:p.x-mp0.x,z:p.z-mp0.z}});
+  const rub=buildRubble(team,rel,a.uid);rub.position.copy(mp0);assetGroup.add(rub);
+  g.visible=false;
+  const top=mp0.clone().setY(1.1);
+  floatText(top,'💾 Restaurando…','gain');AU.sfx('scan');
+  burst3(mp0.clone().setY(.4),'#9aa0b4',14,2.4);
+  await sleep(850);
+  assetGroup.remove(rub);
+  g.visible=true;g.scale.set(1,.02,1);
+  shock(mp0.clone().setY(.1),0x22d3ee,3.4);shock(mp0.clone().setY(.1),0xa8f4ff,2.2);
+  burst3(mp0.clone().setY(.6),'#22d3ee',24,3.2);flash3(mp0.clone().setY(.8),'#22d3ee',2.4);
+  AU.sfx('reinforce');setTimeout(()=>AU.sfx('install'),180);
+  anim(800,k=>{g.scale.y=Math.max(.02,easeBack(k));if(k>=1)g.scale.y=1});
+  floatText(top,'✔ Restaurado','gain',500);
+}
 async function fxHit(side,i,type,r,zero,toMe){
   const pos=cellPos(side,i);pos.y=.35;
   const col=colorOf(type);
@@ -2445,15 +2508,17 @@ async function flyAttack(attackerMine,side,i,type,zero){
   await attackTravel(role,type,zero||type==='zero',from,to.clone().setY(.5));
 }
 
+const repWho=()=>G.role==='blue'?'Tu reputación':'La reputación del Defensor';
+const repWhy=()=>G.role==='blue'?'Tu reputación llegó a 0: perdiste.':'La reputación del Defensor llegó a 0: ganaste.';
 function repHit(defRole,r,ign,decoy){
-  if(defRole==='red'&&r.a&&!r.a.decoy&&r.dead&&r.a.id==='PH'){G.rep=Math.min(20,G.rep+1);return ' El Defensor recupera 1 de reputación al proteger a las víctimas.'}
+  if(defRole==='red'&&r.a&&!r.a.decoy&&r.dead&&r.a.id==='PH'){G.rep=Math.min(20,G.rep+1);return G.role==='blue'?' Recuperas 1 de reputación al proteger a las víctimas.':' El Defensor recupera 1 de reputación al proteger a las víctimas.'}
   if(defRole!=='blue'||!r.a||decoy||r.a.decoy)return '';
-  if(r.dead&&r.a.pub){G.rep=Math.max(0,G.rep-1);return ' La reputación del Defensor cae 1 por perder un activo público.'}
-  if(r.toAsset===0&&!ign){G.rep=Math.min(20,G.rep+1);return ' El Defensor gana 1 de reputación por bloquear el ataque.'}
+  if(r.dead&&r.a.pub){G.rep=Math.max(0,G.rep-1);return ` ${repWho()} cae 1 por perder un activo público.`}
+  if(r.toAsset===0&&!ign){G.rep=Math.min(20,G.rep+1);return G.role==='blue'?' Ganas 1 de reputación por bloquear el ataque.':' El Defensor gana 1 de reputación por bloquear el ataque.'}
   return '';
 }
 function repEnd(){
-  if(G.rep<=0){endGame(G.role==='red','La reputación del Defensor llegó a 0.');return true}
+  if(G.rep<=0){endGame(G.role==='red',repWhy());return true}
   if(G.anon<=0){endGame(G.role==='blue',G.role==='blue'?'Identificaste al atacante: su anonimato llegó a 0 y entregaste la evidencia.':'El Defensor te identificó: tu anonimato llegó a 0.');return true}
   return false;
 }
@@ -2566,17 +2631,34 @@ let _incPending=false;
 async function incomeShow(){
   if(!_incPending||!G||G.over)return;
   _incPending=false;
-  if(!G.mp)setFocus('own');
+  if(!G.mp&&!rtOn())setFocus('own');
   fxIncome();
   await sleep(rts(1700+Math.min(6,liveReal(G.P).length)*120));
 }
 
 /* ---------- quiebra: sin ingresos ni recursos, con un turno de gracia ---------- */
+const RT_GRACE=30000;   // en tiempo real, la quiebra da 30 s de gracia
 function bkCheck(S,B){
   const bad=S.budget<=0&&!liveReal(B).some(isNatPub);
-  if(!bad){S.broke=0;return false}
-  if(!S.broke){S.broke=G.turn;return false}
+  if(!bad){S.broke=0;S.brokeAt=0;return false}
+  if(!S.broke){S.broke=G.turn;S.brokeAt=Date.now();return false}
+  if(rtAny())return Date.now()-S.brokeAt>=RT_GRACE;
   return S.broke<G.turn;
+}
+function bkResolve(q){
+  if(!q.length)return false;
+  const yo=q.some(x=>x[2]);
+  if(yo&&G.mp)NET.send({t:'brk'});
+  endGame(!yo,yo?'Quiebra: te quedaste sin fuentes de ingreso ni recursos.':`${opName()} quebró: sin fuentes de ingreso ni recursos.`);
+  return true;
+}
+function bkRT(){
+  const q=(G.mp?[[G.me,G.P,1]]:[[G.me,G.P,1],[G.op,G.A,0]]).filter(([S,B])=>bkCheck(S,B));
+  if(bkResolve(q))return;
+  const sp=$('#cyc span');if(!sp)return;
+  const left=G.me.broke?Math.max(0,Math.ceil((RT_GRACE-(Date.now()-G.me.brokeAt))/1000)):0;
+  const t=left?`⚠ Quiebra en ${left} s: consigue recursos`:'⏱ Tiempo real · próximo ingreso';
+  if(sp.textContent!==t)sp.textContent=t;
 }
 function bkUpdate(){
   if(!G||!G.role||G.over||!['player','ai'].includes(G.phase))return;
@@ -2595,18 +2677,12 @@ function endRound(){
   if(drain){
     G.rep=Math.max(0,G.rep-drain);
     note=` Reputación −${drain}${ph?` (${ph} campaña${ph>1?'s':''} activa${ph>1?'s':''})`:''}${down?` (${down} canal${down>1?'es':''} caído${down>1?'s':''})`:''}.`;
-    if(G.rep<=0){endGame(G.role==='red','La reputación del Defensor llegó a 0.');return false}
+    if(G.rep<=0){endGame(G.role==='red',repWhy());return false}
   }
   if(G.anon<=0){repEnd();return false}
   G.lastInc=income(G.P)+(G.me.blocked?1:0);G._blk=G.me.blocked?1:0;
-  (G.mp?[[G.me,G.P]]:[[G.me,G.P],[G.op,G.A]]).forEach(([S,B])=>{S.budget=cap15(S.budget+income(B)+(S.blocked?1:0));S.blocked=false});
-  const quebrados=(G.mp?[[G.me,G.P,1]]:[[G.me,G.P,1],[G.op,G.A,0]]).filter(([S,B])=>bkCheck(S,B));
-  if(quebrados.length){
-    const yo=quebrados.some(q=>q[2]);
-    if(yo&&G.mp)NET.send({t:'brk'});
-    endGame(!yo,yo?'Quiebra: te quedaste sin fuentes de ingreso ni recursos.':`${opName()} quebró: sin fuentes de ingreso ni recursos.`);
-    return false;
-  }
+  (G.mp?[[G.me,G.P]]:[[G.me,G.P],[G.op,G.A]]).forEach(([S,B])=>{S.budget=capR(S.budget+income(B)+(S.blocked?1:0)+((S===G.op&&!G.mp&&liveReal(B).some(isNatPub))?DIFF().inc:0));S.blocked=false});
+  if(bkResolve((G.mp?[[G.me,G.P,1]]:[[G.me,G.P,1],[G.op,G.A,0]]).filter(([S,B])=>bkCheck(S,B))))return false;
   const worn=[];
   (G.mp?[G.P]:[G.P,G.A]).forEach((B,ix)=>{wearControls(B,B===G.P).forEach(w=>{if(B===G.P)worn.push(w)})});
   if(worn.length)note+=` Se agotó${worn.length>1?'ron':''} ${worn.map(w=>ctrlAb(w.k.k,G.role)).join(', ')}: reinstala o refuerza.`;
@@ -2615,9 +2691,13 @@ function endRound(){
   return true;
 }
 async function afterHuman(kind){
+  if(G.mp&&G.mp.turnless){
+    G.acting=false;G.mode=null;G.expA=null;if(kind==='attack'&&G.cards[G.sel])G.cards[G.sel]=drawCard();G.sel=-1;G.phase='player';
+    mpCool();render();return;
+  }
   if(G.mp){NET.send({t:'done',kind:kind||'pass'});mpAfterMine();return}
   if(isTurnless()){
-    G.busy=false;G.mode=null;G.expA=null;G.phase='player';
+    G.busy=false;G.mode=null;G.expA=null;if(kind==='attack'&&G.cards[G.sel])G.cards[G.sel]=drawCard();G.sel=-1;G.phase='player';
     setLog(kind==='pass'?'Tiempo real: pasas, el reloj sigue corriendo.':'Acción aplicada. El reloj sigue corriendo.');
     render();
     return;
@@ -2638,45 +2718,83 @@ async function afterHuman(kind){
 }
 
 /* ---------- tiempo real (sin turnos contra la IA) ---------- */
-const RT_CYC=5000;
+const rtCyc=()=>DIFF().rtMs;
+const RT_ECON=6;   // la IA actúa cada ciclo; los ingresos llegan cada 6 ciclos (~30 s)
 const rts=ms=>rtOn()?Math.round(ms*.45):ms;
 const rtOn=()=>!!(G&&G.turnless&&!G.mp&&G.role&&G.rt);
+// tiempo real con un amigo: cada teléfono lleva su propio reloj económico y hay 3 s de enfriamiento entre acciones
+const MP_CYC=30000,MP_COOL=3000;
+const mpRT=()=>!!(G&&G.mp&&G.mp.turnless&&G.role&&G.rt);
+const rtAny=()=>rtOn()||mpRT();
+function mpCool(){
+  G.cooling=true;G.busy=true;
+  const cb=$('#coolbar i');
+  if(cb){cb.style.transition='none';cb.style.width='100%';requestAnimationFrame(()=>requestAnimationFrame(()=>{cb.style.transition=`width ${MP_COOL}ms linear`;cb.style.width='0%'}))}
+  setTimeout(()=>{G.cooling=false;if(!G.defending&&!G.acting)G.busy=false;render()},MP_COOL);
+}
 function rtStart(){G.rt={t:0,n:0,wait:0};}
+// en tiempo real la IA actúa sin congelar tu interfaz: tú sigues jugando mientras ella ataca
 async function rtCycle(){
-  G.busy=true;G.mode=null;G.expA=null;G.sel=-1;G.phase='ai';
-  G.rt.n++;
-  if(G.rt.n%2===0){
-    if(!endRound())return;
-    await incomeShow();
-    if(G.over)return;
-  }
-  await aiTurn();
+  G.aiAct=true;const f0=focus;
+  try{
+    G.rt.n++;
+    if(G.rt.n%RT_ECON===0){
+      if(!endRound())return;
+      incomeShow();
+    }
+    if(G.rt.n%DIFF().rtEvery===0)await aiTurn();
+  }finally{G.aiAct=false}
   if(G.over)return;
-  G.cards=[drawCard(),drawCard()];G.tab='atk';G.phase='player';G.busy=false;
-  setFocus('enemy');
+  if(focus!==f0)setFocus(f0);
   render();
 }
 setInterval(()=>{
-  if(!rtOn()||G.over||document.hidden||G.phase!=='player')return;
-  G.rt.t=Math.min(RT_CYC,G.rt.t+200);
-  const k=((G.rt.n%2)*RT_CYC+G.rt.t)/(2*RT_CYC);
-  const bi=$('#cyc i');if(bi)bi.style.width=(k*100).toFixed(1)+'%';
-  if(G.rt.t>=RT_CYC&&!G.busy){
-    if(G.mode&&G.rt.wait<12){G.rt.wait++;return}
-    G.rt.t=0;G.rt.wait=0;rtCycle();
+  if(G&&rtAny()&&!G.over&&!document.hidden&&G.role){bkUpdate();bkRT();if(G.over)return}
+  if(G&&mpRT()&&!G.over&&!document.hidden&&G.phase==='player'){
+    G.rt.t=Math.min(MP_CYC,G.rt.t+200);
+    const bi=$('#cyc i');if(bi)bi.style.width=(G.rt.t/MP_CYC*100).toFixed(1)+'%';
+    if(G.rt.t>=MP_CYC){
+      G.rt.t=0;G.rt.n++;
+      if(endRound()){incomeShow();render()}
+    }
+    return;
   }
+  if(!rtOn()||G.over||document.hidden||G.phase!=='player'||G.aiAct)return;
+  G.rt.t=Math.min(rtCyc(),G.rt.t+200);
+  const k=((G.rt.n%RT_ECON)*rtCyc()+G.rt.t)/(RT_ECON*rtCyc());
+  const bi=$('#cyc i');if(bi)bi.style.width=(k*100).toFixed(1)+'%';
+  if(G.rt.t>=rtCyc()){G.rt.t=0;rtCycle()}
 },200);
 
 /* ---------- IA ---------- */
 function aiDecide(){
   const S=G.op,BS=G.A,BT=G.P;
   // mantenimiento: refuerza el control que está por agotarse
-  if(S.budget>=2&&Math.random()<.6){
+  const D=DIFF();
+  const srcs=liveReal(BS).filter(isNatPub);
+  const reserve=srcs.length<D.srcWant?4:0,canSpend=S.budget>reserve;
+  // 1) reconstruir las fuentes de ingreso si le quedan pocas
+  if(srcs.length<D.srcWant&&Math.random()<D.rebuildSrc){
+    if(S.role==='red'){
+      if(campsLive(BS)<MAX_CAMP&&S.budget>=CAMP_COST){const cs=randomSpot(BS,1);if(cs){S.budget-=CAMP_COST;launchCamp(BS,cs[0]);return {kind:'build',msg:`${opName()} lanzó una nueva campaña de phishing.`}}}
+    }else{
+      const down=canalsOf(BS).filter(a=>a.hp<=0);
+      if(down.length&&S.budget>=restoreCost(down[0])){S.budget-=restoreCost(down[0]);restoreCanal(BS,down[0]);return {kind:'build',msg:`${opName()} restauró ${down[0].name} desde backup.`}}
+      if(canalsOf(BS).filter(a=>a.hp>0).length<MAX_CANAL&&S.budget>=CANAL_COST){const na=placeRandom(BS,['SV','Canal',CANAL_HP,2],false);if(na){markPub(BS,na);S.budget-=CANAL_COST;return {kind:'build',msg:`${opName()} abre un canal nuevo.`}}}
+    }
+  }
+  // 2) blindar las fuentes con el control que les corresponde
+  const bareSrc=srcs.find(a=>!a.ctrls.some(k=>CTRL[k.k].counter===WEAK[baseAsset(a.id)]));
+  if(bareSrc&&Math.random()<D.shield){
+    const k=Object.keys(CTRL).find(x=>CTRL[x].counter===WEAK[baseAsset(bareSrc.id)]);
+    if(k&&S.budget>=CTRL[k].cost&&!canCtrl(bareSrc,k)){S.budget-=CTRL[k].cost;bareSrc.ctrls.push(mkCtrl(k));return {kind:'build',msg:`${opName()} refuerza sus defensas.`}}
+  }
+  if(S.budget>=2&&Math.random()<D.mnt){
     let low=null;realOf(BS).forEach(a=>{if(a.hp>0)a.ctrls.forEach(k=>{if(k.hp<=2&&(!low||k.hp<low.k.hp))low={a,k}})});
     if(low){S.budget-=2;low.k.hp=Math.min(low.k.max,low.k.hp+3);return {kind:'build',msg:`${opName()} da mantenimiento a sus defensas.`}}
   }
   // reinstala controles cuando un activo se quedó sin protección
-  if(S.budget>=CTRL.c_block.cost&&Math.random()<.3){
+  if(S.budget>=CTRL.c_block.cost&&Math.random()<D.rebuy){
     const bare=liveReal(BS).filter(a=>!a.ctrls.length&&WEAK[baseAsset(a.id)]);
     if(bare.length){
       const a=pick(bare),k=Object.keys(CTRL).find(x=>CTRL[x].counter===WEAK[baseAsset(a.id)]);
@@ -2698,26 +2816,26 @@ function aiDecide(){
     const opts=[k,'c_univ'].filter(x=>x&&!canCtrl(lh.a,x)&&S.budget>=CTRL[x].cost);
     if(opts.length){const x=opts[0];S.budget-=CTRL[x].cost;lh.a.ctrls.push(mkCtrl(x));return {kind:'build',msg:`${opName()} refuerza sus defensas.`}}
   }
-  if(Math.random()<.2){
+  if(canSpend&&Math.random()<.2){
     const cand=liveReal(BS).filter(a=>(S.role==='red'?a.id.startsWith('BN'):!isCore(a))&&a.cells.length<3&&expandTargets(BS,a).length&&S.budget>=expCost(a));
     if(cand.length){
       const a=pick(cand);S.budget-=expCost(a);const noisy=expand(BS,a,pick(expandTargets(BS,a))).noisy;
       return {kind:'build',msg:noisy?`${opName()} amplía un activo y hace ruido: detectaste una de sus celdas.`:`${opName()} amplía su infraestructura.`};
     }
   }
-  if(Math.random()<.1&&decoysOf(BS).length<HONEY.max&&S.budget>=HONEY.cost&&placeRandom(BS,HN_DEF,true)){
+  if(canSpend&&Math.random()<.1&&decoysOf(BS).length<HONEY.max&&S.budget>=HONEY.cost&&placeRandom(BS,HN_DEF,true)){
     S.budget-=HONEY.cost;return {kind:'build',msg:`${opName()} trabaja en su infraestructura.`};
   }
   const known=[];
   assetsOf(BT).forEach(a=>{if(a.hp>0&&!honeyKnown(BT,a))a.cells.forEach(j=>{if(vis(BT[j]))known.push(j)})});
   const onlyPub=known.every(j=>BT[j].asset.pub);
   if(!known.length||(onlyPub&&Math.random()<.25)){
-    const sizes=SCAN_SIZES.filter(s=>S.budget>=SCAN[s]);
+    const sizes=SCAN_SIZES.filter(s=>S.budget-reserve>=SCAN[s]);
     if(sizes.length&&Math.random()<.5){
       const s=pick(sizes);S.budget-=SCAN[s];const at=rnd(N*N);doScan(BT,at,s);
       return {kind:'intel',msg:`${opName()} sondea tu red.`,scanAt:at};
     }
-    if(S.budget>=4&&Math.random()<.3){
+    if(S.budget-reserve>=4&&Math.random()<.3){
       S.budget-=4;const j=rnd(N*N),a=BT[j].asset;BT[j].seenC=true;if(a&&a.hp>0)reveal(BT,a);
       return {kind:'intel',msg:(S.role==='blue'?`${opName()} analizó tu red con su SOC.`:`${opName()} consiguió información interna sobre ti.`)+(S.role==='blue'&&a&&a.hp>0&&!a.decoy?anonHit(''):'')};
     }
@@ -2727,11 +2845,12 @@ function aiDecide(){
     const core=realOf(BS).find(a=>a.id==='BD');
     if(core&&core.hp>0&&!core.ctrls.some(k=>k.k==='c_seize')&&S.budget>=CTRL.c_seize.cost&&Math.random()<.35){S.budget-=CTRL.c_seize.cost;core.ctrls.push(mkCtrl('c_seize'));return {kind:'build',msg:`${opName()} refuerza sus defensas.`}}
     const phs=[];assetsOf(BT).forEach(a=>{if(a.id==='PH'&&a.hp>0)a.cells.forEach(j=>{if(vis(BT[j]))phs.push(j)})});
-    if(phs.length&&Math.random()<.8){const tt=pick(phs);return {kind:'attack',i:tt,type:'block',zero:false,inten:ri(0,Math.min(2,Math.max(0,S.budget-5)))}}
+    if(phs.length&&Math.random()<.8){const tt=pick(phs);return {kind:'attack',i:tt,type:'block',zero:false,inten:ri(0,Math.min(D.intMax,Math.max(0,S.budget-5-reserve)))}}
   }
   if(known.length){
     const as=[...new Set(known.map(j=>BT[j].asset))];
-    const a=Math.random()<.6?as.sort((x,y)=>x.hp-y.hp)[0]:pick(as);
+    const src=as.filter(isNatPub);
+    const a=(src.length&&Math.random()<D.focus)?pick(src):Math.random()<.6?as.sort((x,y)=>x.hp-y.hp)[0]:pick(as);
     t=pick(a.cells.filter(j=>vis(BT[j])));
   }else{
     const fresh=[...BT.keys()].filter(j=>!BT[j].hit);
@@ -2741,33 +2860,34 @@ function aiDecide(){
   const ta=BT[t].asset;
   if(ta&&(vis(BT[t]))){
     const eff=WEAK[baseAsset(ta.id)];
-    if(eff&&Math.random()<.75)type=eff;
-    if(ta.ctrls.length&&ta.cells.some(j=>visC(BT[j]))&&Math.random()<.5){
+    if(eff&&Math.random()<D.weak)type=eff;
+    if(ta.ctrls.length&&ta.cells.some(j=>visC(BT[j]))&&Math.random()<D.cov){
       const cov=ta.ctrls.map(k=>k.type);
       if(cov.includes(type)){const others=TK.filter(x=>!cov.includes(x));if(others.length)type=pick(others)}
     }
   }
-  if(Math.random()<ZERO_P)return {kind:'attack',i:t,type:'zero',zero:true,inten:ri(0,Math.min(2,Math.max(0,S.budget-5)))};
-  return {kind:'attack',i:t,type,zero:false,inten:ri(0,Math.min(2,Math.max(0,S.budget-5)))};
+  if(Math.random()<D.zero)return {kind:'attack',i:t,type:'zero',zero:true,inten:ri(0,Math.min(D.intMax,Math.max(0,S.budget-5-reserve)))};
+  return {kind:'attack',i:t,type,zero:false,inten:ri(0,Math.min(D.intMax,Math.max(0,S.budget-5-reserve)))};
 }
 async function aiTurn(){
   const S=G.op;
-  G.busy=true;G.mode=null;G.expA=null;G.phase='ai';
-  setFocus('all');banner('TURNO DE '+opName().toUpperCase(),'op');render();
+  if(!rtOn()){G.busy=true;G.mode=null;G.expA=null;G.phase='ai';setFocus('all');banner('TURNO DE '+opName().toUpperCase(),'op')}
+  render();
   await sleep(rts(1100));
-  const p=aiDecide();
+  const p0=aiDecide();
+  const p=(DIFF().noOpen&&G.turn<=1&&p0.kind==='attack')?{kind:'build',msg:`${opName()} observa tu red.`}:p0;
   if(p.kind==='attack'){
     let dmg;const ign=!!p.zero;
-    if(p.zero)dmg=7+p.inten;else dmg=Math.min(7,4+Math.floor(G.turn/2))+p.inten;
+    if(p.zero)dmg=7+p.inten;else dmg=Math.min(DIFF().dmgCap,4+Math.floor(G.turn/2))+p.inten;
     S.budget=Math.max(0,S.budget-p.inten);
     await flyAttack(false,'p',p.i,p.type,p.zero);
     const r=impact(G.P,p.i,dmg,p.type,ign);
     let extra='';
     const decoy=!!(r.a&&r.a.decoy);
     if(decoy){const j=trace(G.A);if(j>=0)fxTrace(wpos('p',p.i,.8),wpos('a',j,.8));extra=j>=0?` ${opName()} cayó en tu honeypot: rastreaste ${nm(j)} de su infraestructura.`:` ${opName()} cayó en tu honeypot.`;if(G.me.role==='blue')extra+=anonHit('');const lp=honeyTrap(S,G.me);extra+=` ${opName()} pierde ${lp} recursos y tú ganas ${HONEY_PRIZE}.`}
-    else if(r.dead&&r.a.id==='PH'&&S.role==='blue'){S.budget=cap15(S.budget+2);extra=' Tu campaña de phishing cayó.'+anonHit('El Defensor recolectó evidencia.')}
+    else if(r.dead&&r.a.id==='PH'&&S.role==='blue'){S.budget=capR(S.budget+2);extra=' Tu campaña de phishing cayó.'+anonHit('El Defensor recolectó evidencia.')}
     else if(r.dead){
-      S.budget=cap15(S.budget+2);
+      S.budget=capR(S.budget+2);
       if(r.a.id==='PH')extra=' Tu campaña de phishing cayó.';
     }
     if(r.dead&&!decoy){G.lost++;const pl=assetLoss(G.me,r.a);if(pl)extra+=` Pierdes ${pl} recursos.`}
@@ -2775,9 +2895,9 @@ async function aiTurn(){
     extra+=repHit(G.me.role,r,ign,decoy);
     setLog(describe(false,atkName(S.role,p.type),dmg,p.i,r,ign,G.P)+extra);
     render();hitSound(r);
-    fxHit('p',p.i,p.type,r,p.zero,true);
+    fxHit('p',p.i,p.type,r,p.zero,true);if(r.revived)setTimeout(()=>fxRevive('p',r.a),700);
     if(decoy)setTimeout(()=>AU.sfx('trap'),350);else if(G.me.blocked&&r.absorbed)setTimeout(()=>AU.sfx('block'),300);
-    await sleep(rts(fxHold(p.type,p.zero)));
+    await sleep(rts(fxHold(p.type,p.zero)+(r.revived?2000:0)));
     if(checkEnd()||repEnd())return;
   }else{
     const h=heroOf('op');
@@ -2830,7 +2950,7 @@ const card=(act,o)=>`<button class="card${o.on?' on':''}${o.dis?' dis':''}${o.cl
 function renderHUD(){
   const role=G.role;
   bkUpdate();
-  $('#turn').textContent=(role?(G.phase==='setup'?'Preparación':`${role==='blue'?'Defensor':'Adversario'} · ${rtOn()?'ciclo':'turno'} ${G.turn}${isTotal()?' · Resistencia':''}`):'Cyberwar 3D')+' · BETA';
+  $('#turn').textContent=(role?(G.phase==='setup'?'Preparación':`${role==='blue'?'Defensor':'Adversario'} · ${rtAny()?'ciclo':'turno'} ${G.turn}${isTotal()?' · Resistencia':''}${G.mp?'':' · IA '+DIFF().n}`):'Cyberwar 3D')+' · BETA';
   const mine=role||'blue',theirs=mine==='blue'?'red':'blue';
   const mpOn=!!(G.mp&&G.mp.opNick&&role);
   setAv($('#avMe'),myAvatar());
@@ -2851,12 +2971,13 @@ function renderHUD(){
   $('#bspk').classList.toggle('off',!VO.spk);$('#bspk').textContent=VO.spk?'🔊':'🔇';
   const cp=$('#chatpop');cp.className=G.chatOpen&&live?'on':'';if(G.chatOpen&&live)cp.innerHTML=EMOTES.map(e=>`<button data-act="chat-emote" data-e="${e}">${e}</button>`).join('');
   const lg=$('#toast');lg.textContent=G.log||'';lg.className=G.warn?'warn':'';
-  const cy=$('#cyc');if(cy)cy.classList.toggle('on',rtOn()&&G.phase!=='setup'&&!G.over);
+  const cb2=$('#coolbar');if(cb2)cb2.classList.toggle('on',mpRT()&&G.phase!=='setup'&&!G.over);
+  const cy=$('#cyc');if(cy)cy.classList.toggle('on',rtAny()&&G.phase!=='setup'&&!G.over);
   const bb=$('#bars');if(bb)bb.classList.toggle('broke',!!(G.me&&G.me.broke));
   // barras de elixir
   if(G.me){
-    $('#fv').textContent=G.me.budget;$('#fbar').style.width=(G.me.budget/15*100)+'%';
-    const inc=income(G.P);$('#finc').textContent=`+${inc}/${rtOn()?'ciclo':'t'}`;
+    $('#fv').textContent=G.me.budget;$('#fbar').style.width=(G.me.budget/20*100)+'%';
+    const inc=income(G.P);$('#finc').textContent=`+${inc}/${rtAny()?'ciclo':'t'}`;
   }
   // peligro
   const core=role&&!G.over?realOf(G.P).find(isCore):null;
@@ -2898,12 +3019,12 @@ function renderTray(){
   }else{
     const dis=G.busy||G.phase!=='player',me=G.me,tab=['atk','def','grow','intel'].includes(G.tab)?G.tab:'atk';
     top=[['atk','⚔️ Atacar'],['def','🛡️ Defender'],['grow','🏗️ Crecer'],['intel','🔍 Investigar']].map(([k,n])=>`<button class="tab${tab===k?' on':''}" data-act="tab" data-t="${k}" ${dis?'disabled':''}>${n}</button>`).join('')
-      +`<button class="endb" data-act="end" ${dis?'disabled':''}>${dis?'…':rtOn()?'Esperar':'Pasar<br>turno'}</button>`;
+      +`<button class="endb" data-act="end" ${dis?'disabled':''}>${dis?'…':rtAny()?'Esperar':'Pasar<br>turno'}</button>`;
     if(tab==='atk'){
       hand=G.cards.map((c,i)=>card('card',{art:c.type==='zero'?'☢️':TYPES[c.type].e,name:atkName(G.role,c.type),sub:c.type==='zero'?'ignora controles':TYPES[c.type].n,cost:c.power,ck:'p',on:G.sel===i,dis,col:colorOf(c.type),data:`data-i="${i}"`})).join('')
         +`<div class="card step${dis?' dis':''}" style="--cc:#22d3ee"><span class="cost">${G.inten}</span><span class="art">⚡</span><span class="cn">Intensidad</span><span class="sb"><u data-act="int" data-d="-1" class="${dis||G.inten<=0?'d':''}">−</u><b>+${G.inten}</b><u data-act="int" data-d="1" class="${dis||G.inten>=3||me.budget<=G.inten?'d':''}">+</u></span><span class="cs">1 recurso por punto</span></div>`;
     }else if(tab==='def'){
-      hand=Object.keys(CTRL).map(k=>{const c=CTRL[k];return card('inst',{art:c.e,name:ctrlAb(k,G.role),sub:c.counter==='*'?'todos':TYPES[c.counter].n,cost:c.cost,on:G.mode==='inst:'+k,dis:dis||me.budget<c.cost,col:c.counter==='*'?'#22d3ee':TYPES[c.counter].c,data:`data-k="${k}"`})}).join('')
+      hand=Object.keys(CTRL).map(k=>{const c=CTRL[k];return card('inst',{art:c.e,name:ctrlAb(k,G.role),sub:c.counter==='*'?'todos · revive 1 vez':TYPES[c.counter].n,cost:c.cost,on:G.mode==='inst:'+k,dis:dis||me.budget<c.cost,col:c.counter==='*'?'#22d3ee':TYPES[c.counter].c,data:`data-k="${k}"`})}).join('')
         +card('reinf',{art:'🔧',name:'Reforzar',sub:'+3 HP a un control',cost:2,on:G.mode==='reinf',dis:dis||me.budget<2,col:'#34d399'});
     }else if(tab==='grow'){
       hand=card('expand',{art:'🏗️',name:'Expandir',sub:'+1 celda · +3 HP',cost:'3+',on:G.mode==='expand',dis:dis||me.budget<3,col:'#ffc83d'})
@@ -2922,6 +3043,7 @@ function renderTray(){
 }
 function render(){
   renderHUD();renderTray();renderMP();sync3D();
+  const oc=$('#optsAI');if(oc){const h=optsHTML(false);if(oc._h!==h){oc._h=h;oc.innerHTML=h}}
   const ar=$('#avrowRole'),ak='r'+G.avatar;if(ar&&ar.dataset.k!==ak){ar.dataset.k=ak;ar.innerHTML=avatarRow(G.avatar)}
 }
 
@@ -3056,17 +3178,17 @@ async function doAttack(i,zero){
   if(r.a){
     if(r.a.decoy){const jt=trace(G.P);if(jt>=0)fxTrace(wpos('a',i,.8),wpos('p',jt,.8));if(G.op.role==='blue')extra+=anonHit('Tu ataque cayó en un honeypot del Defensor.');const lp=honeyTrap(me,G.op);extra+=` Pierdes ${lp} recursos y ${opName()} gana ${HONEY_PRIZE}.`}
     else if(r.dead){
-      me.budget=cap15(me.budget+2);G.kills++;
+      me.budget=capR(me.budget+2);G.kills++;
       extra=r.a.id==='PH'?' Takedown: la campaña cae.'+anonHit('Recolectaste evidencia.'):' +2 de recursos por botín.';
-      {const pl=assetLoss(G.op,r.a);if(pl)extra+=` ${opName()} pierde ${pl} recursos.`}
+      {const pl=assetLoss(G.op,r.a,DIFF().lossMul);if(pl)extra+=` ${opName()} pierde ${pl} recursos.`}
     }else if(!zero)G.aiLastHit={a:r.a,type};
   }
   extra+=repHit(G.op.role,r,zero,false);
   setLog(describe(true,atkName(G.role,type),dmg,i,r,zero,G.A)+extra);
   render();hitSound(r);
-  fxHit('a',i,type,r,zero,false);
+  fxHit('a',i,type,r,zero,false);if(r.revived)setTimeout(()=>fxRevive('a',r.a),700);
   if(r.a&&!r.a.decoy&&r.dead)floatText(cellPos('a',i).setY(.9),'+2 🧠','gain',700);
-  await sleep(fxHold(type,zero));
+  await sleep(fxHold(type,zero)+(r.revived?2000:0));
   if(checkEnd()||repEnd())return;
   afterHuman('attack');
 }
@@ -3100,6 +3222,9 @@ function onAct(d){
   switch(d.act){
     case 'title-start':{$('#title').classList.add('off');$('#roleov').classList.remove('off');G.picking=true;placeHeroes();render();AU.sfx('start');break}
     case 'role-back':{$('#roleov').classList.add('off');$('#title').classList.remove('off');G.picking=false;placeHeroes();render();break}
+    case 'diff':if(DIFFS[d.d]){G.diff=d.d;lsSet('cwg3d-diff',d.d);render()}break;
+    case 'pace':if(PACE_HINT[d.v]){if(G.mp&&G.phase==='mp'){G.mp.turnless=d.v==='rt';G.mp.sd=d.v==='sd'}else{G.pace=d.v;lsSet('cwg3d-pace',d.v)}render()}break;
+    case 'tot-toggle':if(G.mp&&G.phase==='mp')G.mp.tot=!G.mp.tot;else{G.totPick=!totOf(false);lsSet('cwg3d-tot',G.totPick?'1':'0')}render();break;
     case 'role':chooseRole(d.r);break;
     case 'rematch':{
       if(G.mp){mpRematch();break}
@@ -3108,12 +3233,14 @@ function onAct(d){
     case 'avatar':if(AV_LIST.includes(d.a)){AVATAR=d.a;AVATAR_PICKED=true;G.avatar=d.a;try{localStorage.setItem('cwg-avatar3d',d.a)}catch(e){}placeHeroes();render()}break;
     case 'install':INST.run();break;
     case 'menu-mp':{$('#title').classList.add('off');G.picking=true;G.phase='mp';G.mp={step:'menu',nick:getNick(),opNick:'',status:'',code:'',paste:'',err:''};placeHeroes();render();break}
-    case 'mp-host':grabNick();mpHostCreate(d.r);break;
-    case 'mp-join':grabNick();G.mp.step='join';G.mp.paste='';G.mp.err='';G.mp.status='Escanea el QR de tu amigo o pega su código.';render();break;
+    case 'mp-host':grabNick();mpHostCreate(d.r||(Math.random()<.5?'blue':'red'));break;
+    case 'mp-join':grabNick();G.mp.step='join';G.mp.paste='';G.mp.err='';G.mp.status='Escanea el QR de tu amigo (con la cámara o desde una imagen que te envió).';render();break;
     case 'mp-scan':scanQR(txt=>{if(d.t==='answer')mpHostFinish(txt);else mpJoin(txt)});break;
+    case 'mp-save':qrSave();break;
+    case 'mp-share':qrShare();break;
+    case 'mp-file':scanQRFromFile(txt=>{if(txt&&txt.indexOf('CW1:')>=0){if(d.t==='answer')mpHostFinish(txt);else mpJoin(txt)}else if(txt!==null){setLog('Esa imagen no tiene un QR de Cyberwar.',1);render()}});break;
     case 'mp-go':{const inp=$('#paste'),txt=(inp?inp.value:G.mp.paste)||G.mp.paste;if(G.mp.step==='host')mpHostFinish(txt);else mpJoin(txt);break}
     case 'mp-copy':copyText(G.mp.code,'código');break;
-    case 'mp-share':try{const isHost=G.mp.step==='host';navigator.share(isHost?{text:G.mp.code,url:location.origin+location.pathname+'?j='+encodeURIComponent(G.mp.code)}:{text:G.mp.code}).catch(()=>{})}catch(e){}break;
     case 'mp-copylink':copyText(location.origin+location.pathname+'?j='+encodeURIComponent(G.mp.code),'link');break;
     case 'chat-toggle':G.chatOpen=!G.chatOpen;render();break;
     case 'chat-emote':if(EMOTES.includes(d.e)){sendEmote(d.e);G.chatOpen=false;render()}break;
@@ -3191,6 +3318,34 @@ function unpackSDP(code,type){
   (o.c||[]).forEach(l=>{const [f,pr,ip,port,ty]=l.split(' ');sdp.push(`a=candidate:${f} 1 udp ${pr} ${ip} ${port} typ ${ty}${ty==='host'?'':' raddr 0.0.0.0 rport 0'}`)});
   sdp.push('a=end-of-candidates');
   return {desc:{type,sdp:sdp.join('\r\n')+'\r\n'},meta:o};
+}
+// QR como imagen PNG: se prepara de antemano para poder compartirla dentro del gesto del usuario
+const QRC={code:null,file:null};
+function qrCanvas(text){
+  if(!window.qrcode||!text)return null;
+  const q=qrcode(0,'L');q.addData(text);q.make();
+  const n=q.getModuleCount(),S=Math.max(4,Math.floor(900/(n+8))),M=4*S,W=n*S+2*M,cap=36;
+  const cv=document.createElement('canvas');cv.width=W;cv.height=W+cap;
+  const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,cv.width,cv.height);cx.fillStyle='#000';
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))cx.fillRect(M+c*S,M+r*S,S,S);
+  cx.fillStyle='#222';cx.font='bold 18px sans-serif';cx.textAlign='center';cx.fillText('Cyberwar 3D · ábrelo en Unirme',W/2,W+cap-12);
+  return cv;
+}
+function qrPrep(code){
+  if(!code||QRC.code===code)return;
+  QRC.code=code;QRC.file=null;
+  try{const cv=qrCanvas(code);if(cv)cv.toBlob(b=>{if(b&&QRC.code===code)QRC.file=new File([b],'cyberwar-qr.png',{type:'image/png'})},'image/png')}catch(e){}
+}
+function qrSave(){
+  const f=QRC.file;if(!f){setLog('Preparando la imagen… intenta de nuevo.',1);render();return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);
+  setLog('Imagen del QR guardada. Pásasela a tu amigo.');render();
+}
+function qrShare(){
+  const f=QRC.file;if(!f){setLog('Preparando la imagen… intenta de nuevo.',1);render();return}
+  if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'Cyberwar 3D',text:'Escanea este QR en Cyberwar 3D → Unirme'}).catch(()=>{})}
+  else qrSave();
 }
 function qrSVG(text){
   if(!window.qrcode||!text)return '';
@@ -3277,7 +3432,7 @@ async function scanQR(cb){
   const ov=$('#scanov'),v=$('#scanvid');
   let stream;
   try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}})}
-  catch(e){setLog('No pude abrir la cámara aquí. Copia y pega el código, o escanéalo con la cámara del teléfono y cópialo.',1);render();return}
+  catch(e){setLog('No pude abrir la cámara: elige la imagen del QR desde tu galería.',1);render();scanQRFromFile(txt=>{if(txt&&txt.indexOf('CW1:')>=0)cb(txt);else if(txt!==null){setLog('Esa imagen no tiene un QR de Cyberwar.',1);render()}});return}
   ov.classList.add('on');v.srcObject=stream;try{await v.play()}catch(e){}
   const det=window.BarcodeDetector?new window.BarcodeDetector({formats:['qr_code']}):null;
   const cv=document.createElement('canvas'),cx=cv.getContext('2d',{willReadFrequently:true});
@@ -3390,34 +3545,24 @@ function mpPanel(){
   const m=G.mp;let h='';
   const iceLine=m.ice&&m.ice!=='new'?`<div class="mhint" style="color:${m.ice==='failed'?'#ff8a8a':'#9fe8ff'}">Estado de la conexión: ${ICE_TXT[m.ice]||m.ice}${m.ice==='failed'?'<br>Suele pasar si están en redes distintas (wifi y datos) o en un wifi de invitados que aísla los teléfonos. Prueben con ambos en el mismo wifi, o con uno compartiendo datos al otro.':''}</div>`:'';
   const err=m.err?`<div class="mhint" style="color:#ff8a8a">${esc(m.err)}</div>`:'';
-  const paste=`<textarea id="paste" rows="3" placeholder="Pega aquí el código">${esc(m.paste||'')}</textarea>`;
-  const linkOf=c=>location.origin+location.pathname+'?j='+encodeURIComponent(c);
-  const codeBlock=(withLink)=>`${qrSVG(m.code)}<textarea class="code" readonly rows="3">${esc(m.code)}</textarea>
-    <div class="msec">${chip('mp-copy','Copiar código')}${navigator.share?chip('mp-share','Enviar'):''}</div>
-    ${withLink?`<div class="mhint">O comparte este link; tu amigo lo abre y se une solo, sin escanear ni pegar nada.</div>
-    <textarea class="code linkta" readonly rows="2">${esc(linkOf(m.code))}</textarea>
-    <div class="msec">${chip('mp-copylink','Copiar link')}</div>`:''}`;
+  const qrBlock=()=>{qrPrep(m.code);return `${qrSVG(m.code)}<div class="msec">${chip('mp-save','Guardar imagen','descargar el QR')}${chip('mp-share','Compartir imagen','WhatsApp, etc.')}</div>`};
+  const readers=t=>`<div class="msec">${chip('mp-scan','Escanear código','cámara o galería',{data:`data-t="${t}"`})}</div>`;
   if(m.step==='menu'){
     h=`<div class="mhint">Cada jugador usa su teléfono. Se conectan con un código QR, sin servidor. Mejor con ambos en el mismo wifi.</div>
        <label class="mlab">Tu nickname <input id="nick" maxlength="14" value="${esc(m.nick)}" placeholder="Jugador"></label>
        <div class="mlab" style="text-align:center">Tu avatar</div>${avatarRow(G.avatar)}
-       <label class="chk"><input type="checkbox" id="mnt" ${m.turnless?'checked':''}><span>Modo sin turnos: cada acción se ejecuta sin alternar turnos.</span></label>
-       <label class="chk"><input type="checkbox" id="mtot" ${m.tot?'checked':''}><span>Modo Resistencia al crear la sala: perder el activo central no termina la partida; solo pierdes si te destruyen todos los activos.</span></label>
-       <label class="chk"><input type="checkbox" id="msd" ${m.sd?'checked':''}><span>Muerte súbita al crear la sala: ${SD_SECS} s por turno; si no juegas a tiempo, se pasa el turno.</span></label>
-       <div class="msec">${chip('mp-host','Crear como Defensor','tú defiendes',{data:'data-r="blue"'})}${chip('mp-host','Crear como Adversario','tú atacas',{data:'data-r="red"'})}${chip('mp-join','Unirme','tengo un código')}</div>
+       <div class="mlab2" style="text-align:center">Opciones de partida</div><div class="optcard">${optsHTML(true)}</div>
+       <div class="mhint">Si creas la sala, tu bando se sortea; tu amigo juega el otro.</div>
+       <div class="msec">${chip('mp-host','Crear sala','sorteo de bando')}${chip('mp-join','Unirme','tengo un QR')}</div>
        <div class="msec">${chip('menu-back','← Volver')}</div>`;
   }else if(m.step==='host'){
-    h=`<div class="mhint">${esc(m.status)}</div>${err}${iceLine}${m.code?codeBlock(true):''}
-      ${m.code?`<div class="msec">${chip('mp-scan','Escanear respuesta','con la cámara',{data:'data-t="answer"'})}</div>${paste.replace('Pega aquí el código','Pega aquí la respuesta de tu amigo')}
-       <button class="btn sm" data-act="mp-go">Conectar</button>`:''}
+    h=`<div class="mhint">${esc(m.status)}</div>${err}${iceLine}${m.code?qrBlock()+`<div class="mhint">Cuando tu amigo te devuelva su QR de respuesta, escanéalo aquí:</div>`+readers('answer'):''}
        <div class="msec">${chip('menu-back','Cancelar')}</div>`;
   }else if(m.step==='join'){
-    h=`<div class="mhint">${esc(m.status)}</div>${err}
-       <div class="msec">${chip('mp-scan','Escanear QR','con la cámara',{data:'data-t="offer"'})}</div>${paste}
-       <button class="btn sm" data-act="mp-go">Continuar</button>
+    h=`<div class="mhint">${esc(m.status)}</div>${err}${readers('offer')}
        <div class="msec">${chip('menu-back','Cancelar')}</div>`;
   }else if(m.step==='answer'){
-    h=`<div class="mhint">${esc(m.status)}</div>${err}${iceLine}${codeBlock(false)}<div class="msec">${chip('menu-back','Cancelar')}</div>`;
+    h=`<div class="mhint">${esc(m.status)}</div>${err}${iceLine}${qrBlock()}<div class="msec">${chip('menu-back','Cancelar')}</div>`;
   }
   return h;
 }
@@ -3440,14 +3585,14 @@ async function mpHostCreate(role){
     NET.attach(pc.createDataChannel('cwg'));
     await pc.setLocalDescription(await pc.createOffer());
     await gather(pc);
-    G.mp.code=packSDP(pc.localDescription.sdp,{n:G.mp.nick||'Jugador',r:role,sd:G.mp.sd?1:0,t:G.mp.tot?1:0,nt:G.mp.turnless?1:0,a:G.avatar});
-    G.mp.status='Muestra este QR a tu amigo (o envíale el código). Luego escanea o pega la respuesta que te dé.'+(G.mp.sd?` Muerte súbita activada: ${SD_SECS} s por turno.`:'')+(G.mp.tot?' Modo Resistencia activado.':'');
+    G.mp.code=packSDP(pc.localDescription.sdp,{n:G.mp.nick||'Jugador',r:role,sd:(G.mp.sd&&!G.mp.turnless)?1:0,t:G.mp.tot?1:0,nt:G.mp.turnless?1:0,a:G.avatar});
+    G.mp.status=`Serás el ${role==='blue'?'Defensor':'Adversario'}. Muestra este QR a tu amigo, o guárdalo / compártelo como imagen. Luego lee el QR de respuesta que te devuelva.`+(G.mp.sd?` Muerte súbita activada: ${SD_SECS} s por turno.`:'')+(G.mp.tot?' Modo Resistencia activado.':'');
   }catch(e){G.mp.err='Este navegador no permite conexiones directas. Prueba con Chrome o Safari actualizados.'}
   render();
 }
 async function mpJoin(text){
   let u;
-  try{u=unpackSDP(text,'offer')}catch(e){G.mp.err='Ese código no es válido. Cópialo completo.';render();return}
+  try{u=unpackSDP(text,'offer')}catch(e){G.mp.err='Ese QR no es válido. Prueba con otra imagen o escanéalo de nuevo.';render();return}
   G.mp.err='';G.mp.polite=true;G.mp.role=u.meta.r==='blue'?'red':'blue';G.mp.opNick=u.meta.n||'Amigo';G.mp.sd=!!u.meta.sd;G.mp.tot=!!u.meta.t;G.mp.turnless=!!u.meta.nt||!!G.mp.turnless;G.mp.opAvatar=AV_LIST.includes(u.meta.a)?u.meta.a:'glitch';
   G.mp.status='Conectando…';render();
   try{
@@ -3459,13 +3604,13 @@ async function mpJoin(text){
     await gather(pc);
     G.mp.code=packSDP(pc.localDescription.sdp,{n:G.mp.nick||'Jugador',a:G.avatar});
     G.mp.step='answer';
-    G.mp.status=`Jugarás como ${G.mp.role==='blue'?'Defensor':'Adversario'} contra ${G.mp.opNick}. Muéstrale este QR (o envía el código) a tu amigo; la partida empieza sola al conectar.${G.mp.sd?` Muerte súbita: ${SD_SECS} s por turno.`:''}${G.mp.tot?' Modo Resistencia.':''}`;
-  }catch(e){G.mp.err='No pude usar ese código. Pídele a tu amigo que cree uno nuevo.'}
+    G.mp.status=`Jugarás como ${G.mp.role==='blue'?'Defensor':'Adversario'} contra ${G.mp.opNick}. Muéstrale este QR (o compártelo como imagen) a tu amigo; la partida empieza sola al conectar.${G.mp.sd?` Muerte súbita: ${SD_SECS} s por turno.`:''}${G.mp.tot?' Modo Resistencia.':''}`;
+  }catch(e){G.mp.err='No pude usar ese QR. Pídele a tu amigo que cree uno nuevo.'}
   render();
 }
 async function mpHostFinish(text){
   let u;
-  try{u=unpackSDP(text,'answer')}catch(e){G.mp.err='Ese código no es válido. Cópialo completo.';render();return}
+  try{u=unpackSDP(text,'answer')}catch(e){G.mp.err='Ese QR no es válido. Prueba con otra imagen o escanéalo de nuevo.';render();return}
   G.mp.err='';G.mp.opNick=u.meta.n||'Amigo';G.mp.opAvatar=AV_LIST.includes(u.meta.a)?u.meta.a:'glitch';G.mp.status='Conectando…';render();
   try{
     await NET.pc.setRemoteDescription(u.desc);
@@ -3486,7 +3631,7 @@ function mpConnected(role,opNick){
 function mpOpen(){if(NET.pc)voiceInit(NET.pc);if(G.phase!=='mp')return;mpConnected(G.mp.role,G.mp.opNick||'Amigo');AU.sfx('start');render()}
 function sdTick(){
   const bar=$('#sdbar');if(!bar)return;
-  const on=!!(G.mp&&G.mp.sd&&G.deadline&&G.phase==='player'&&!G.over);
+  const on=!!((G.mp?G.mp.sd:G.sd)&&G.deadline&&G.phase==='player'&&!G.over);
   if(!on){if(bar.className)bar.className='';return}
   const ms=Math.max(0,G.deadline-Date.now()),left=Math.ceil(ms/1000);
   bar.className='on'+(left<=10?' low':'');
@@ -3538,7 +3683,8 @@ function mpReady(){
   if(G.opReady)mpBegin();else{G.phase='wait';setLog(`Esperando a ${G.mp.opNick}…`);render()}
 }
 function mpBegin(){
-  G.turn=1;G.busy=false;
+  G.turn=1;G.busy=false;G.acting=false;G.defending=false;G.cooling=false;
+  if(G.mp.turnless){rtStart();startPlayerTurn();setLog('Tiempo real: ataca, defiende o investiga cuando quieras (3 s de enfriamiento entre acciones).');render();return}
   if(G.role==='blue'){startPlayerTurn();setLog('Empiezas tú. Una acción por turno: ataca, defiende, crece o investiga.')}
   else{G.phase='ai';G.busy=true;setFocus('all');setLog('El Defensor abre la partida.')}
   render();
@@ -3589,36 +3735,38 @@ async function mpHandle(m){
   }
 }
 async function mpOnAtk(m){
-  G.busy=true;
+  const f0=focus;
+  if(G.mp.turnless)G.defending=true;else G.busy=true;
   await flyAttack(false,'p',m.i,m.type,m.type==='zero');
   const r=impact(G.P,m.i,m.dmg,m.type,m.ign);
   const decoy=!!(r.a&&r.a.decoy);
   let an='';
   if(r.dead&&r.a&&r.a.id==='PH'&&G.role==='red')an=anonHit('El Defensor recolectó evidencia de tu campaña.');
   if(decoy&&G.role==='blue')an=anonHit('');
-  if(decoy)G.me.budget=cap15(G.me.budget+HONEY_PRIZE);
+  if(decoy)G.me.budget=capR(G.me.budget+HONEY_PRIZE);
   if(r.dead&&!decoy){G.lost++;const pl=assetLoss(G.me,r.a);if(pl)an+=` Pierdes ${pl} recursos.`}
   G.me.blocked=!!(r.a&&!decoy&&r.toAsset===0&&!m.ign);
   const rn=repHit(G.role,r,m.ign,decoy)+an;
   setLog(describe(false,atkName(G.op.role,m.type),m.dmg,m.i,r,m.ign,G.P)+(decoy?` ${opName()} cayó en tu honeypot: ganas ${HONEY_PRIZE} recursos.`:'')+rn);
   render();hitSound(r);
-  fxHit('p',m.i,m.type,r,m.type==='zero',true);
+  fxHit('p',m.i,m.type,r,m.type==='zero',true);if(r.revived)setTimeout(()=>fxRevive('p',r.a),700);
   if(decoy)setTimeout(()=>AU.sfx('trap'),350);else if(G.me.blocked&&r.absorbed)setTimeout(()=>AU.sfx('block'),300);
   const cells=[descCell(G.P,m.i)];
-  if(r.dead)r.a.cells.forEach(j=>{if(j!==m.i)cells.push(descCell(G.P,j))});
+  if(r.dead||r.revived)r.a.cells.forEach(j=>{if(j!==m.i)cells.push(descCell(G.P,j))});
   const lost=boardDead(G.P);
-  NET.send({t:'rep',rid:m.rid,res:{had:!!r.a,hadCtrl:r.hadCtrl,absorbed:r.absorbed,toAsset:r.toAsset,dead:r.dead,used:r.used,broke:r.broke,decoy},cells,lost});
-  await sleep(fxHold(m.type,m.type==='zero'));
+  NET.send({t:'rep',rid:m.rid,res:{had:!!r.a,hadCtrl:r.hadCtrl,absorbed:r.absorbed,toAsset:r.toAsset,dead:r.dead,revived:!!r.revived,used:r.used,broke:r.broke,decoy},cells,lost});
+  await sleep(fxHold(m.type,m.type==='zero')+(r.revived?2000:0));
   if(lost){endGame(false,endWhy(false));return}
   if(repEnd())return;
-  G.busy=true;render();
+  if(G.mp.turnless){G.defending=false;if(focus!==f0&&!G.acting)setFocus(f0)}else G.busy=true;
+  render();
 }
 async function mpAttack(i,zero){
   const me=G.me,card=G.cards[G.sel];
   if(!card){setLog('Elige primero una carta.',1);render();return}
   const type=card.type,cost=G.inten;
   if(me.budget<cost){setLog('No tienes recursos para esa intensidad.',1);render();return}
-  G.busy=true;G.mode=null;me.budget-=cost;
+  G.busy=true;G.acting=true;G.mode=null;me.budget-=cost;
   const dmg=card.power+G.inten;G.inten=0;
   render();
   let rep;
@@ -3627,27 +3775,27 @@ async function mpAttack(i,zero){
   mergeCells(rep.cells);
   const res=rep.res,a=G.A[i].asset;
   G.A[i].hit=true;
-  const r={a:res.had?a:null,hadCtrl:res.hadCtrl,absorbed:res.absorbed,toAsset:res.toAsset,dead:res.dead,used:res.used,broke:res.broke};
+  const r={a:res.had?a:null,hadCtrl:res.hadCtrl,absorbed:res.absorbed,toAsset:res.toAsset,dead:res.dead,revived:!!res.revived,used:res.used,broke:res.broke};
   let extra='';
   if(res.had){
     if(res.decoy){const j=trace(G.P);if(j>=0){NET.send({t:'trace',cells:[descCell(G.P,j)]});fxTrace(wpos('a',i,.8),wpos('p',j,.8))}if(G.role==='red')extra+=anonHit('Tu ataque cayó en un honeypot del Defensor.');const lp=Math.min(me.budget,HONEY_PRIZE);me.budget-=lp;extra+=` Pierdes ${lp} recursos y ${opName()} gana ${HONEY_PRIZE}.`}
     else if(res.dead){
-      G.kills++;me.budget=cap15(me.budget+2);
+      G.kills++;me.budget=capR(me.budget+2);
       if(a&&a.id==='PH'&&G.role==='blue')extra=' Takedown: la campaña cae.'+anonHit('Recolectaste evidencia.');else extra=' +2 de recursos por botín.';
     }
   }
   extra+=repHit(G.op.role,r,zero,!!res.decoy);
   setLog(describe(true,atkName(G.role,type),dmg,i,r,zero,G.A)+extra);
   render();hitSound(r);
-  fxHit('a',i,type,r,zero,false);
-  await sleep(fxHold(type,zero));
+  fxHit('a',i,type,r,zero,false);if(r.revived)setTimeout(()=>fxRevive('a',r.a),700);
+  await sleep(fxHold(type,zero)+(r.revived?2000:0));
   if(rep.lost){endGame(true,endWhy(true));return}
   if(repEnd())return;
   afterHuman('attack');
 }
 async function mpScan(i,s){
   const me=G.me;
-  G.busy=true;G.mode=null;me.budget-=SCAN[s];AU.sfx('scan');render();
+  G.busy=true;G.acting=true;G.mode=null;me.budget-=SCAN[s];AU.sfx('scan');render();
   let rep;try{rep=await NET.call({t:'scan',i,s})}catch(e){mpClosed();return}
   mergeCells(rep.cells);
   {const sc=areaS(i,s);await fxScan('a',sc,sc.filter(j=>G.A[j].asset&&G.A[j].asset.hp>0&&vis(G.A[j])))}
@@ -3657,9 +3805,9 @@ async function mpScan(i,s){
 const insMsg=a=>`${insName(G.role)} descubrió un activo en ${nm(a.cells[0])}: ${a.decoy?'es un honeypot, no un activo real.':assetInfo(a)}`+(G.role==='blue'&&!a.decoy?anonHit(''):'');
 async function mpInsider(){
   const me=G.me;
-  G.busy=true;G.mode=null;me.budget-=4;AU.sfx('insider');render();
+  G.busy=true;G.acting=true;G.mode=null;me.budget-=4;AU.sfx('insider');render();
   let rep;try{rep=await NET.call({t:'ins'})}catch(e){mpClosed();return}
-  if(rep.none){me.budget+=4;G.busy=false;setLog(`${insName(G.role)}: no queda ningún activo por descubrir.`,1);render();return}
+  if(rep.none){me.budget+=4;G.busy=false;G.acting=false;setLog(`${insName(G.role)}: no queda ningún activo por descubrir.`,1);render();return}
   await fxInsider(rep.cells.map(d=>d.i),G.role);
   mergeCells(rep.cells);
   const a=G.A[rep.i]&&G.A[rep.i].asset;
@@ -3765,7 +3913,6 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
   const regSW=()=>navigator.serviceWorker.register('sw.js',{scope:'./'}).catch(()=>{});
   if(document.readyState==='complete')regSW();else window.addEventListener('load',regSW);
 }
-document.addEventListener('change',e=>{if(!G.mp)return;if(e.target.id==='msd')G.mp.sd=e.target.checked;if(e.target.id==='mtot')G.mp.tot=e.target.checked;if(e.target.id==='mnt')G.mp.turnless=e.target.checked});
 document.addEventListener('input',e=>{if(!G.mp)return;if(e.target.id==='paste')G.mp.paste=e.target.value;if(e.target.id==='nick')G.mp.nick=e.target.value});
 document.addEventListener('focusin',e=>{if(e.target.classList&&e.target.classList.contains('code'))e.target.select()});
 
