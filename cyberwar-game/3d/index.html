@@ -70,6 +70,8 @@ button:disabled{cursor:not-allowed}
 .mid{text-align:center;display:flex;flex-direction:column;gap:4px;align-items:center}
 #turn{font-size:12px;color:#d9e8ff;text-shadow:0 2px 0 rgba(0,0,0,.5);letter-spacing:.04em}
 .meters{display:flex;gap:6px}
+.meters.swap{flex-direction:row-reverse}
+.mt.mine{box-shadow:0 0 0 2px #ffc83d}
 .mt{position:relative;width:62px;height:19px;background:#050d1c;border:2px solid #050d1c;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.18)}
 .mt i{position:absolute;inset:0 auto 0 0;width:100%;transition:width .5s,background .3s}
 .mt.rep i{background:linear-gradient(#6fb6ff,#2a6fe0)}
@@ -358,7 +360,6 @@ button:disabled{cursor:not-allowed}
       <button class="btn alt" data-act="menu-mp">CON UN AMIGO · QR</button>
       <button class="btn inst" id="instbtn" data-act="install" style="display:none">📲 INSTALAR APP</button>
       <div id="insthint" style="display:none">En iPhone: toca Compartir y luego «Añadir a pantalla de inicio».</div>
-      <a class="lnk" href="../">← Versión clásica</a>
       <div class="credit">Creado por <a href="https://carlosganoza.com" target="_blank" rel="noopener">Carlos Ganoza</a> · carlosganoza.com</div>
     </div>
   </div>
@@ -388,7 +389,6 @@ button:disabled{cursor:not-allowed}
       <div class="why" id="rmst"></div>
       <button class="btn gold" id="rmbtn" style="font-size:22px" data-act="rematch">JUGAR DE NUEVO</button>
       <button class="btn sm" data-act="to-title">Menú principal</button>
-      <a class="lnk" href="../">Versión clásica</a>
       <div class="credit">Creado por <a href="https://carlosganoza.com" target="_blank" rel="noopener">Carlos Ganoza</a></div>
     </div>
   </div>
@@ -407,7 +407,7 @@ let THREE;
 try{
   THREE=await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js');
 }catch(err){
-  document.getElementById('loading').innerHTML='No se pudo cargar el motor 3D (Three.js). Revisa tu conexión y recarga.<br><br><a href="../">Jugar la versión clásica</a>';
+  document.getElementById('loading').innerHTML='No se pudo cargar el motor 3D (Three.js). Revisa tu conexión y recarga.<br><br><a href="">Reintentar</a>';
   throw err;
 }
 
@@ -2962,6 +2962,11 @@ function renderHUD(){
   $('#crMe').title='Activos del rival que has comprometido (🔓)';$('#crOp').title='Tus activos que el rival ha comprometido (🔓)';
   $('#mtRep i').style.width=(role?G.rep/20*100:100)+'%';$('#repv').textContent=role?G.rep:20;
   $('#mtAnon i').style.width=(role?G.anon/20*100:100)+'%';$('#anonv').textContent=role?G.anon:20;
+  // tu barra va del lado de tu avatar (izquierda): reputación si defiendes, anonimato si atacas
+  $('.meters').classList.toggle('swap',role==='red');
+  $('#mtRep').classList.toggle('mine',role==='blue');$('#mtAnon').classList.toggle('mine',role==='red');
+  $('#mtRep').title=role==='blue'?'Tu reputación: si llega a 0, pierdes':role==='red'?'Reputación del Defensor: si llega a 0, ganas':'Reputación del Defensor';
+  $('#mtAnon').title=role==='red'?'Tu anonimato: si llega a 0, pierdes':role==='blue'?'Anonimato del Adversario: si llega a 0, ganas':'Anonimato del Adversario';
   $('#mtRep').classList.toggle('low',!!role&&G.rep<=4);$('#mtAnon').classList.toggle('low',!!role&&G.anon<=6);
   const au=AU.state();$('#bsnd').classList.toggle('off',!au.s);$('#bmus').classList.toggle('off',!au.m);
   const bv=$('#bvib');if(bv){bv.style.display=VIB.supported?'':'none';bv.classList.toggle('off',!VIB.on)}
